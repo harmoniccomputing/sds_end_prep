@@ -1,0 +1,91 @@
+{
+  "gapminder_classic": {
+    "file": "gapminder_classic.csv",
+    "source": "gapminder Python package v0.1",
+    "url": "https://pypi.org/project/gapminder/",
+    "original": "https://www.gapminder.org/data/",
+    "description": "Classic 142-country dataset: country, continent, year, lifeExp, pop, gdpPercap"
+  },
+  "wb_gdp_per_capita_ppp": {
+    "file": "wb_gdp_per_capita_ppp.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "NY.GDP.PCAP.PP.KD",
+    "url": "https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD",
+    "description": "GDP per capita, PPP (constant 2017 international dollars)"
+  },
+  "wb_life_expectancy": {
+    "file": "wb_life_expectancy.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SP.DYN.LE00.IN",
+    "url": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+    "description": "Life expectancy at birth, total (years)"
+  },
+  "wb_population": {
+    "file": "wb_population.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SP.POP.TOTL",
+    "url": "https://data.worldbank.org/indicator/SP.POP.TOTL",
+    "description": "Population, total"
+  },
+  "wb_fertility_rate": {
+    "file": "wb_fertility_rate.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SP.DYN.TFRT.IN",
+    "url": "https://data.worldbank.org/indicator/SP.DYN.TFRT.IN",
+    "description": "Fertility rate, total (births per woman)"
+  },
+  "wb_child_mortality": {
+    "file": "wb_child_mortality.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SH.DYN.MORT",
+    "url": "https://data.worldbank.org/indicator/SH.DYN.MORT",
+    "description": "Under-5 mortality rate (per 1,000 live births)"
+  },
+  "wb_birth_rate": {
+    "file": "wb_birth_rate.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SP.DYN.CBRT.IN",
+    "url": "https://data.worldbank.org/indicator/SP.DYN.CBRT.IN",
+    "description": "Birth rate, crude (per 1,000 people)"
+  },
+  "wb_death_rate": {
+    "file": "wb_death_rate.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SP.DYN.CDRT.IN",
+    "url": "https://data.worldbank.org/indicator/SP.DYN.CDRT.IN",
+    "description": "Death rate, crude (per 1,000 people)"
+  },
+  "wb_health_expenditure_pc": {
+    "file": "wb_health_expenditure_pc.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SH.XPD.CHEX.PC.CD",
+    "url": "https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD",
+    "description": "Current health expenditure per capita (current US dollars)"
+  },
+  "wb_literacy_rate": {
+    "file": "wb_literacy_rate.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SE.ADT.LITR.ZS",
+    "url": "https://data.worldbank.org/indicator/SE.ADT.LITR.ZS",
+    "description": "Literacy rate, adult total (% ages 15+)"
+  },
+  "wb_gini_index": {
+    "file": "wb_gini_index.csv",
+    "source": "World Bank Open Data (wbgapi)",
+    "indicator": "SI.POV.GINI",
+    "url": "https://data.worldbank.org/indicator/SI.POV.GINI",
+    "description": "Gini index (World Bank estimate)"
+  },
+  "wb_country_metadata": {
+    "file": "wb_country_metadata.csv",
+    "source": "World Bank economy metadata (wbgapi)",
+    "url": "https://data.worldbank.org/country",
+    "description": "Country metadata: region, income level, lending type, coordinates"
+  },
+  "gm_entities": {
+    "file": "gm_entities.csv",
+    "source": "Gapminder Systema Globalis (GitHub)",
+    "url": "https://github.com/open-numbers/ddf--gapminder--systema_globalis",
+    "description": "Country entities with Gapminder region and group mappings"
+  }
+}

@@ -1,0 +1,28 @@
+name,region,lat,lon,area_km2,bleaching_events_since_1998,last_mass_bleaching,reef_health,threat_level
+Great Barrier Reef,Pacific,-18.29,147.7,344400,7,2024,Declining,Critical
+Coral Sea (N),Pacific,-15.5,149.0,12000,5,2024,Declining,High
+Mesoamerican Reef,Caribbean,17.5,-87.5,1000,6,2023,Poor,Critical
+Florida Keys,Caribbean,24.6,-81.6,1600,8,2023,Poor,Critical
+US Virgin Islands,Caribbean,18.3,-64.8,120,5,2023,Declining,High
+Bahamas,Caribbean,24.5,-76.0,3150,4,2023,Declining,High
+Cuba Reefs,Caribbean,21.5,-79.5,3020,3,2023,Fair,Medium
+Raja Ampat,Coral Triangle,-0.5,130.5,9600,3,2024,Fair,Medium
+Banda Sea,Coral Triangle,-5.0,128.0,4200,3,2024,Fair,Medium
+Sulawesi Reefs,Coral Triangle,-2.0,121.0,6800,4,2024,Declining,High
+Philippines Reefs,Coral Triangle,10.0,124.0,26000,5,2024,Declining,High
+Papua New Guinea,Coral Triangle,-5.5,150.0,13840,3,2024,Fair,Medium
+Maldives,Indian Ocean,3.2,73.2,8920,6,2024,Declining,Critical
+Chagos Archipelago,Indian Ocean,-6.0,72.0,3600,4,2024,Fair,Medium
+Seychelles,Indian Ocean,-4.7,55.5,1690,5,2024,Declining,High
+Madagascar (W),Indian Ocean,-15.0,46.0,2230,3,2024,Fair,Medium
+Tanzania Coast,Indian Ocean,-7.0,39.5,3580,4,2024,Declining,High
+Andaman & Nicobar,Indian Ocean,11.5,92.7,960,4,2024,Declining,High
+Red Sea (N),Red Sea,27.0,34.5,3800,2,2024,Good,Low
+Red Sea (S),Red Sea,18.0,39.0,2100,3,2024,Fair,Medium
+Fiji Reefs,Pacific,-17.8,178.0,3869,4,2024,Declining,High
+French Polynesia,Pacific,-17.5,-149.5,6200,3,2024,Fair,Medium
+Hawaii Reefs,Pacific,20.0,-156.0,1660,5,2023,Declining,High
+Palau,Pacific,7.5,134.5,630,3,2024,Fair,Medium
+Samoa/Tonga,Pacific,-14.0,-171.0,890,3,2024,Fair,Medium
+New Caledonia,Pacific,-22.0,166.0,4537,4,2024,Declining,High
+Okinawa Reefs,Pacific,26.5,127.8,800,4,2024,Declining,High

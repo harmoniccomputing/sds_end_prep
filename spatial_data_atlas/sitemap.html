@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Vishakha Agrawal">
+<title>Site Index | Spatial Data Visualization Atlas</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080B13;color:#c0c8d4;font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif}
+a{color:#00D5E0;text-decoration:none}a:hover{text-decoration:underline}
+
+.page-header{text-align:center;padding:36px 20px 16px;border-bottom:1px solid #1a2233}
+.page-header h1{font-family:'Playfair Display',Georgia,serif;color:#F0F4F8;font-size:2rem;margin-bottom:6px}
+.page-header .byline{color:#64748B;font-size:.82rem;margin-bottom:10px}
+.page-header .stats{color:#94A3B8;font-size:.88rem}
+.page-header .stats b{color:#FFD700;font-family:'Playfair Display',serif;font-size:1.1rem}
+
+.nav-bar{display:flex;gap:12px;justify-content:center;padding:14px 20px;border-bottom:1px solid #1a2233;flex-wrap:wrap}
+.nav-bar a{font-size:.82rem;color:#94A3B8;border:1px solid #1a2233;padding:5px 14px;border-radius:4px;transition:all .2s}
+.nav-bar a:hover{border-color:#00D5E0;color:#00D5E0;text-decoration:none}
+
+.toc{max-width:1100px;margin:20px auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.toc-link{font-size:.78rem;padding:5px 14px;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid #1a2233;color:#94A3B8;transition:all .2s;display:flex;align-items:center;gap:6px}
+.toc-link:hover{border-color:var(--gc);color:var(--gc);text-decoration:none;background:rgba(0,213,224,.04)}
+.toc-count{font-size:.65rem;background:#1a2233;padding:1px 6px;border-radius:10px}
+
+.search-row{text-align:center;margin:16px auto;max-width:500px;padding:0 20px}
+.search-row input{width:100%;background:#0D1117;border:1px solid #1a2233;color:#F0F4F8;padding:10px 18px;border-radius:6px;font-size:.88rem;font-family:inherit}
+.search-row input:focus{outline:none;border-color:#00D5E0}
+
+.content{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+
+.section{margin:28px 0}
+.section h2{font-family:'Playfair Display',Georgia,serif;color:#F0F4F8;font-size:1.15rem;padding:8px 0;margin-bottom:10px;border-bottom:2px solid;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+.chart-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.chart-table th{text-align:left;color:#64748B;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border-bottom:1px solid #1a2233}
+.chart-table td{padding:8px 10px;border-bottom:1px solid rgba(26,34,51,.5);vertical-align:top}
+.chart-table tr:hover{background:rgba(0,213,224,.02)}
+.chart-table tr:target{background:rgba(255,215,0,.06);outline:1px solid rgba(255,215,0,.15)}
+
+.col-num{font-family:'Playfair Display',serif;font-weight:700;font-size:.95rem;width:40px;white-space:nowrap}
+.col-title{font-weight:600;color:#F0F4F8;min-width:180px}
+.col-title a{color:#F0F4F8}
+.col-title a:hover{color:#00D5E0}
+.col-desc{color:#7B8CA3;font-size:.78rem;line-height:1.5}
+.col-type{width:120px;white-space:nowrap}
+.type-badge{font-size:.65rem;padding:2px 8px;border-radius:12px;background:rgba(0,213,224,.06);border:1px solid rgba(0,213,224,.12);color:var(--tc)}
+.col-link{width:60px;text-align:right;white-space:nowrap}
+.open-link{font-size:.78rem;font-weight:600}
+
+.footer{text-align:center;padding:20px;color:#4a5568;font-size:.75rem;border-top:1px solid #1a2233;margin-top:30px}
+
+@media(max-width:768px){
+    .col-desc,.col-type{display:none}
+    .chart-table td,.chart-table th{padding:6px}
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+<h1>Site Index</h1>
+<div class="byline">By Vishakha Agrawal | Lab for Spatial Informatics, IIIT Hyderabad</div>
+<div class="stats"><b>84</b> charts in <b>13</b> topic groups. Every chart is deep-linked and directly accessible.</div>
+</div>
+
+<div class="nav-bar">
+<a href="index.html">&larr; Dashboard</a>
+<a href="chart_index.html">Chart Index (cards)</a>
+<a href="guided_tour.html">&#9654; Guided Tour</a>
+</div>
+
+<div class="toc">
+<a href="#g-global-development-dynamics" class="toc-link" style="--gc:#00D5E0">Global Development Dynamics <span class="toc-count">6</span></a>
+<a href="#g-corals---oceans" class="toc-link" style="--gc:#0099CC">Corals & Oceans <span class="toc-count">3</span></a>
+<a href="#g-people" class="toc-link" style="--gc:#B088F9">People <span class="toc-count">3</span></a>
+<a href="#g-poverty" class="toc-link" style="--gc:#FF8C00">Poverty <span class="toc-count">2</span></a>
+<a href="#g-technology" class="toc-link" style="--gc:#7CFC00">Technology <span class="toc-count">3</span></a>
+<a href="#g-money---trade" class="toc-link" style="--gc:#FFD700">Money & Trade <span class="toc-count">3</span></a>
+<a href="#g-environment" class="toc-link" style="--gc:#2ECC71">Environment <span class="toc-count">3</span></a>
+<a href="#g-geo-variable-analysis" class="toc-link" style="--gc:#00D5E0">Geo-Variable Analysis <span class="toc-count">15</span></a>
+<a href="#g-india-elections-2024" class="toc-link" style="--gc:#FF5872">India Elections 2024 <span class="toc-count">12</span></a>
+<a href="#g-3d-immersive" class="toc-link" style="--gc:#B088F9">3D Immersive <span class="toc-count">14</span></a>
+<a href="#g-animated-temporal" class="toc-link" style="--gc:#FF5872">Animated Temporal <span class="toc-count">6</span></a>
+<a href="#g-delimitation---fiscal" class="toc-link" style="--gc:#FFD700">Delimitation & Fiscal <span class="toc-count">10</span></a>
+<a href="#g-synchronized-multi-view" class="toc-link" style="--gc:#00D5E0">Synchronized Multi-View <span class="toc-count">4</span></a>
+
+</div>
+
+<div class="search-row">
+<input type="text" id="q" placeholder="Search by title, type, or topic..." oninput="filter(this.value)">
+</div>
+
+<div class="content" id="content">
+
+<div class="section" id="g-global-development-dynamics">
+<h2 style="border-color:#00D5E0"><span class="dot" style="background:#00D5E0"></span>Global Development Dynamics</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-01">
+<td class="col-num" style="color:#00D5E0">#01</td>
+<td class="col-title"><a href="01_gdp_vs_life_expectancy.html">GDP vs Life Expectancy</a></td>
+<td class="col-desc">Animated bubble chart, 199 countries, 1990-2023</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Animated Bubble</span></td>
+<td class="col-link"><a href="01_gdp_vs_life_expectancy.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-02">
+<td class="col-num" style="color:#00D5E0">#02</td>
+<td class="col-title"><a href="02_fertility_vs_life_expectancy.html">Fertility vs Life Expectancy</a></td>
+<td class="col-desc">Animated bubble chart, demographic transition</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Animated Bubble</span></td>
+<td class="col-link"><a href="02_fertility_vs_life_expectancy.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-03">
+<td class="col-num" style="color:#00D5E0">#03</td>
+<td class="col-title"><a href="03_child_mortality_vs_gdp.html">Child Mortality vs GDP</a></td>
+<td class="col-desc">Animated scatter, inverse relationship</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Animated Scatter</span></td>
+<td class="col-link"><a href="03_child_mortality_vs_gdp.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-04">
+<td class="col-num" style="color:#00D5E0">#04</td>
+<td class="col-title"><a href="04_country_trajectories.html">Country Development Trajectories</a></td>
+<td class="col-desc">Spaghetti plot, 30-year paths</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Line Plot</span></td>
+<td class="col-link"><a href="04_country_trajectories.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-05">
+<td class="col-num" style="color:#00D5E0">#05</td>
+<td class="col-title"><a href="05_continental_trends.html">Continental Development Trends</a></td>
+<td class="col-desc">Area/line chart, continental averages</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Area Chart</span></td>
+<td class="col-link"><a href="05_continental_trends.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-06">
+<td class="col-num" style="color:#00D5E0">#06</td>
+<td class="col-title"><a href="06_income_distribution_shift.html">Income Distribution Shift</a></td>
+<td class="col-desc">Animated histogram, twin peaks collapse</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Animated Histogram</span></td>
+<td class="col-link"><a href="06_income_distribution_shift.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-corals---oceans">
+<h2 style="border-color:#0099CC"><span class="dot" style="background:#0099CC"></span>Corals & Oceans</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-07">
+<td class="col-num" style="color:#0099CC">#07</td>
+<td class="col-title"><a href="07_coral_bleaching_map.html">Coral Bleaching Risk Map</a></td>
+<td class="col-desc">Choropleth, thermal stress index</td>
+<td class="col-type"><span class="type-badge" style="--tc:#0099CC">Choropleth</span></td>
+<td class="col-link"><a href="07_coral_bleaching_map.html" class="open-link" style="color:#0099CC">Open &rarr;</a></td>
+</tr>
+<tr id="chart-08">
+<td class="col-num" style="color:#0099CC">#08</td>
+<td class="col-title"><a href="08_ocean_sst_anomaly.html">Ocean SST Anomaly Map</a></td>
+<td class="col-desc">World map, temperature anomalies</td>
+<td class="col-type"><span class="type-badge" style="--tc:#0099CC">Choropleth</span></td>
+<td class="col-link"><a href="08_ocean_sst_anomaly.html" class="open-link" style="color:#0099CC">Open &rarr;</a></td>
+</tr>
+<tr id="chart-57">
+<td class="col-num" style="color:#0099CC">#57</td>
+<td class="col-title"><a href="57_coral_temporal_pulse.html">Coral Bleaching Temporal Pulse</a></td>
+<td class="col-desc">Animated, El Nino events</td>
+<td class="col-type"><span class="type-badge" style="--tc:#0099CC">Animated Temporal</span></td>
+<td class="col-link"><a href="57_coral_temporal_pulse.html" class="open-link" style="color:#0099CC">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-people">
+<h2 style="border-color:#B088F9"><span class="dot" style="background:#B088F9"></span>People</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-09">
+<td class="col-num" style="color:#B088F9">#09</td>
+<td class="col-title"><a href="09_urbanization_choropleth.html">Global Urbanization Rates</a></td>
+<td class="col-desc">Choropleth, urban population %</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">Choropleth</span></td>
+<td class="col-link"><a href="09_urbanization_choropleth.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-10">
+<td class="col-num" style="color:#B088F9">#10</td>
+<td class="col-title"><a href="10_slum_population_map.html">Slum Population Distribution</a></td>
+<td class="col-desc">Choropleth, slum % of urban pop</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">Choropleth</span></td>
+<td class="col-link"><a href="10_slum_population_map.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-58">
+<td class="col-num" style="color:#B088F9">#58</td>
+<td class="col-title"><a href="58_animated_inequality.html">Animated Global Inequality</a></td>
+<td class="col-desc">Animated Gini evolution</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">Animated Scatter</span></td>
+<td class="col-link"><a href="58_animated_inequality.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-poverty">
+<h2 style="border-color:#FF8C00"><span class="dot" style="background:#FF8C00"></span>Poverty</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-11">
+<td class="col-num" style="color:#FF8C00">#11</td>
+<td class="col-title"><a href="11_extreme_poverty_map.html">Extreme Poverty ($2.15/day)</a></td>
+<td class="col-desc">Choropleth, poverty headcount ratio</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF8C00">Choropleth</span></td>
+<td class="col-link"><a href="11_extreme_poverty_map.html" class="open-link" style="color:#FF8C00">Open &rarr;</a></td>
+</tr>
+<tr id="chart-12">
+<td class="col-num" style="color:#FF8C00">#12</td>
+<td class="col-title"><a href="12_gini_inequality_map.html">GINI Inequality Map</a></td>
+<td class="col-desc">Choropleth, Gini coefficient</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF8C00">Choropleth</span></td>
+<td class="col-link"><a href="12_gini_inequality_map.html" class="open-link" style="color:#FF8C00">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-technology">
+<h2 style="border-color:#7CFC00"><span class="dot" style="background:#7CFC00"></span>Technology</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-13">
+<td class="col-num" style="color:#7CFC00">#13</td>
+<td class="col-title"><a href="13_internet_usage_choropleth.html">Internet Penetration Rates</a></td>
+<td class="col-desc">Choropleth, internet users %</td>
+<td class="col-type"><span class="type-badge" style="--tc:#7CFC00">Choropleth</span></td>
+<td class="col-link"><a href="13_internet_usage_choropleth.html" class="open-link" style="color:#7CFC00">Open &rarr;</a></td>
+</tr>
+<tr id="chart-14">
+<td class="col-num" style="color:#7CFC00">#14</td>
+<td class="col-title"><a href="14_electricity_access_map.html">Electricity Access Map</a></td>
+<td class="col-desc">Choropleth, electricity access %</td>
+<td class="col-type"><span class="type-badge" style="--tc:#7CFC00">Choropleth</span></td>
+<td class="col-link"><a href="14_electricity_access_map.html" class="open-link" style="color:#7CFC00">Open &rarr;</a></td>
+</tr>
+<tr id="chart-15">
+<td class="col-num" style="color:#7CFC00">#15</td>
+<td class="col-title"><a href="15_mobile_subscriptions_map.html">Mobile Phone Subscriptions</a></td>
+<td class="col-desc">Choropleth, subscriptions per 100</td>
+<td class="col-type"><span class="type-badge" style="--tc:#7CFC00">Choropleth</span></td>
+<td class="col-link"><a href="15_mobile_subscriptions_map.html" class="open-link" style="color:#7CFC00">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-money---trade">
+<h2 style="border-color:#FFD700"><span class="dot" style="background:#FFD700"></span>Money & Trade</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-16">
+<td class="col-num" style="color:#FFD700">#16</td>
+<td class="col-title"><a href="16_gdp_per_capita_map.html">GDP per Capita World Map</a></td>
+<td class="col-desc">Choropleth, GDP PPP</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Choropleth</span></td>
+<td class="col-link"><a href="16_gdp_per_capita_map.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-17">
+<td class="col-num" style="color:#FFD700">#17</td>
+<td class="col-title"><a href="17_trade_openness_map.html">Trade Openness Index</a></td>
+<td class="col-desc">Choropleth, (exports+imports)/GDP</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Choropleth</span></td>
+<td class="col-link"><a href="17_trade_openness_map.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-18">
+<td class="col-num" style="color:#FFD700">#18</td>
+<td class="col-title"><a href="18_remittances_map.html">Remittances as % of GDP</a></td>
+<td class="col-desc">Choropleth, diaspora remittances</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Choropleth</span></td>
+<td class="col-link"><a href="18_remittances_map.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-environment">
+<h2 style="border-color:#2ECC71"><span class="dot" style="background:#2ECC71"></span>Environment</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-19">
+<td class="col-num" style="color:#2ECC71">#19</td>
+<td class="col-title"><a href="19_forest_cover_map.html">Forest Cover Percentage</a></td>
+<td class="col-desc">Choropleth, forest area %</td>
+<td class="col-type"><span class="type-badge" style="--tc:#2ECC71">Choropleth</span></td>
+<td class="col-link"><a href="19_forest_cover_map.html" class="open-link" style="color:#2ECC71">Open &rarr;</a></td>
+</tr>
+<tr id="chart-20">
+<td class="col-num" style="color:#2ECC71">#20</td>
+<td class="col-title"><a href="20_renewable_energy_map.html">Renewable Energy Share</a></td>
+<td class="col-desc">Choropleth, renewable %</td>
+<td class="col-type"><span class="type-badge" style="--tc:#2ECC71">Choropleth</span></td>
+<td class="col-link"><a href="20_renewable_energy_map.html" class="open-link" style="color:#2ECC71">Open &rarr;</a></td>
+</tr>
+<tr id="chart-21">
+<td class="col-num" style="color:#2ECC71">#21</td>
+<td class="col-title"><a href="21_water_stress_map.html">Water Stress Index</a></td>
+<td class="col-desc">Choropleth, water stress levels</td>
+<td class="col-type"><span class="type-badge" style="--tc:#2ECC71">Choropleth</span></td>
+<td class="col-link"><a href="21_water_stress_map.html" class="open-link" style="color:#2ECC71">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-geo-variable-analysis">
+<h2 style="border-color:#00D5E0"><span class="dot" style="background:#00D5E0"></span>Geo-Variable Analysis</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-22">
+<td class="col-num" style="color:#00D5E0">#22</td>
+<td class="col-title"><a href="22_bubble_map_gdp_health.html">GDP-Health Bubble Map</a></td>
+<td class="col-desc">Proportional symbol map</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Bubble Map</span></td>
+<td class="col-link"><a href="22_bubble_map_gdp_health.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-23">
+<td class="col-num" style="color:#00D5E0">#23</td>
+<td class="col-title"><a href="23_latitude_vs_gdp.html">Latitude vs GDP per Capita</a></td>
+<td class="col-desc">Scatter, latitude hypothesis test</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="23_latitude_vs_gdp.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-24">
+<td class="col-num" style="color:#00D5E0">#24</td>
+<td class="col-title"><a href="24_megacity_distance_vs_lifeexp.html">Megacity Distance vs Life Expectancy</a></td>
+<td class="col-desc">Scatter, proximity hypothesis</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="24_megacity_distance_vs_lifeexp.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-25">
+<td class="col-num" style="color:#00D5E0">#25</td>
+<td class="col-title"><a href="25_latitude_vs_child_mortality.html">Latitude vs Child Mortality</a></td>
+<td class="col-desc">Scatter, tropical mortality</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="25_latitude_vs_child_mortality.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-26">
+<td class="col-num" style="color:#00D5E0">#26</td>
+<td class="col-title"><a href="26_conflict_vs_development.html">Conflict vs Development</a></td>
+<td class="col-desc">Scatter, conflict intensity vs HDI</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="26_conflict_vs_development.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-27">
+<td class="col-num" style="color:#00D5E0">#27</td>
+<td class="col-title"><a href="27_landlocked_vs_coastal.html">Landlocked vs Coastal Nations</a></td>
+<td class="col-desc">Box/bar comparison</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Box/Bar</span></td>
+<td class="col-link"><a href="27_landlocked_vs_coastal.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-28">
+<td class="col-num" style="color:#00D5E0">#28</td>
+<td class="col-title"><a href="28_digital_divide_latitude.html">Digital Divide by Latitude</a></td>
+<td class="col-desc">Scatter, internet vs latitude</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="28_digital_divide_latitude.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-29">
+<td class="col-num" style="color:#00D5E0">#29</td>
+<td class="col-title"><a href="29_fertility_by_climate.html">Fertility by Climate Zone</a></td>
+<td class="col-desc">Scatter/box, Koppen zones</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="29_fertility_by_climate.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-30">
+<td class="col-num" style="color:#00D5E0">#30</td>
+<td class="col-title"><a href="30_urbanization_vs_renewable.html">Urbanization vs Renewable Energy</a></td>
+<td class="col-desc">Scatter, non-linear relationship</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="30_urbanization_vs_renewable.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-31">
+<td class="col-num" style="color:#00D5E0">#31</td>
+<td class="col-title"><a href="31_water_stress_latitude.html">Water Stress by Latitude</a></td>
+<td class="col-desc">Scatter, Hadley cell pattern</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="31_water_stress_latitude.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-32">
+<td class="col-num" style="color:#00D5E0">#32</td>
+<td class="col-title"><a href="32_physicians_latitude.html">Physicians per 1000 by Latitude</a></td>
+<td class="col-desc">Scatter, Cuba outlier</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="32_physicians_latitude.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-33">
+<td class="col-num" style="color:#00D5E0">#33</td>
+<td class="col-title"><a href="33_education_megacity_distance.html">Education vs Megacity Distance</a></td>
+<td class="col-desc">Scatter, knowledge diffusion</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="33_education_megacity_distance.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-34">
+<td class="col-num" style="color:#00D5E0">#34</td>
+<td class="col-title"><a href="34_trade_longitude.html">Trade Openness by Longitude</a></td>
+<td class="col-desc">Scatter, Eurasian trade belt</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="34_trade_longitude.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-35">
+<td class="col-num" style="color:#00D5E0">#35</td>
+<td class="col-title"><a href="35_maternal_mortality_forest.html">Maternal Mortality vs Forest Cover</a></td>
+<td class="col-desc">Scatter, remoteness proxy</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="35_maternal_mortality_forest.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-36">
+<td class="col-num" style="color:#00D5E0">#36</td>
+<td class="col-title"><a href="36_remittances_latitude.html">Remittances by Latitude</a></td>
+<td class="col-desc">Scatter, migration corridors</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Scatter Plot</span></td>
+<td class="col-link"><a href="36_remittances_latitude.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-india-elections-2024">
+<h2 style="border-color:#FF5872"><span class="dot" style="background:#FF5872"></span>India Elections 2024</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-37">
+<td class="col-num" style="color:#FF5872">#37</td>
+<td class="col-title"><a href="37_india_lisa_clusters.html">LISA Clusters (Voter Turnout)</a></td>
+<td class="col-desc">Spatial autocorrelation map, Moran's I=0.642</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">LISA Map</span></td>
+<td class="col-link"><a href="37_india_lisa_clusters.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-38">
+<td class="col-num" style="color:#FF5872">#38</td>
+<td class="col-title"><a href="38_india_area_outcomes.html">Constituency Area vs Outcomes</a></td>
+<td class="col-desc">Scatter, area-turnout correlation</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="38_india_area_outcomes.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-39">
+<td class="col-num" style="color:#FF5872">#39</td>
+<td class="col-title"><a href="39_india_moran_scatterplot.html">Moran Scatterplot</a></td>
+<td class="col-desc">Spatial lag vs value, quadrants</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="39_india_moran_scatterplot.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-40">
+<td class="col-num" style="color:#FF5872">#40</td>
+<td class="col-title"><a href="40_india_turnout_swing.html">Turnout vs Swing Analysis</a></td>
+<td class="col-desc">Scatter, mobilization hypothesis</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="40_india_turnout_swing.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-41">
+<td class="col-num" style="color:#FF5872">#41</td>
+<td class="col-title"><a href="41_india_distance_delhi_margin.html">Distance from Delhi vs Margin</a></td>
+<td class="col-desc">Scatter, Delhi distance hypothesis</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="41_india_distance_delhi_margin.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-46">
+<td class="col-num" style="color:#FF5872">#46</td>
+<td class="col-title"><a href="46_women_area_hypothesis.html">Women Candidates vs Area</a></td>
+<td class="col-desc">Scatter, area-gender test</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="46_women_area_hypothesis.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-48">
+<td class="col-num" style="color:#FF5872">#48</td>
+<td class="col-title"><a href="48_alliance_lisa_women.html">Alliance LISA & Women Analysis</a></td>
+<td class="col-desc">Multi-panel LISA + gender</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Multi-Panel</span></td>
+<td class="col-link"><a href="48_alliance_lisa_women.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-65">
+<td class="col-num" style="color:#FF5872">#65</td>
+<td class="col-title"><a href="65_silence_map.html">The Silence Map</a></td>
+<td class="col-desc">Choropleth, 152 zero-women constituencies</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Choropleth</span></td>
+<td class="col-link"><a href="65_silence_map.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-66">
+<td class="col-num" style="color:#FF5872">#66</td>
+<td class="col-title"><a href="66_the_gauntlet.html">The Gauntlet (Women Funnel)</a></td>
+<td class="col-desc">Funnel, 458 to 74 women</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Funnel</span></td>
+<td class="col-link"><a href="66_the_gauntlet.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-67">
+<td class="col-num" style="color:#FF5872">#67</td>
+<td class="col-title"><a href="67_gender_gap_electorate.html">Gender Gap in Electorate</a></td>
+<td class="col-desc">Bar/scatter, male-female voter gap</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Bar/Scatter</span></td>
+<td class="col-link"><a href="67_gender_gap_electorate.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-68">
+<td class="col-num" style="color:#FF5872">#68</td>
+<td class="col-title"><a href="68_deposit_forfeiture.html">Deposit Forfeiture Analysis</a></td>
+<td class="col-desc">Scatter, forfeiture predictors</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Scatter Plot</span></td>
+<td class="col-link"><a href="68_deposit_forfeiture.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-69">
+<td class="col-num" style="color:#FF5872">#69</td>
+<td class="col-title"><a href="69_state_scoreboard.html">State Gender Scoreboard</a></td>
+<td class="col-desc">Heatmap, multi-dimensional ranking</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Heatmap</span></td>
+<td class="col-link"><a href="69_state_scoreboard.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-3d-immersive">
+<h2 style="border-color:#B088F9"><span class="dot" style="background:#B088F9"></span>3D Immersive</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-42">
+<td class="col-num" style="color:#B088F9">#42</td>
+<td class="col-title"><a href="42_india_political_cylinder.html">India Political Cylinder</a></td>
+<td class="col-desc">3D cylindrical projection, Three.js</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="42_india_political_cylinder.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-43">
+<td class="col-num" style="color:#B088F9">#43</td>
+<td class="col-title"><a href="43_development_globe.html">Development Globe</a></td>
+<td class="col-desc">3D interactive globe, GDP extrusion</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="43_development_globe.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-44">
+<td class="col-num" style="color:#B088F9">#44</td>
+<td class="col-title"><a href="44_democracy_helix.html">Democracy-Development Helix</a></td>
+<td class="col-desc">3D DNA-like double helix</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="44_democracy_helix.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-45">
+<td class="col-num" style="color:#B088F9">#45</td>
+<td class="col-title"><a href="45_continental_dev_space.html">Continental Development Space</a></td>
+<td class="col-desc">3D scatter, GDP-health-education</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Plotly)</span></td>
+<td class="col-link"><a href="45_continental_dev_space.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-47">
+<td class="col-num" style="color:#B088F9">#47</td>
+<td class="col-title"><a href="47_3d_extruded_india.html">3D Extruded India Map</a></td>
+<td class="col-desc">3D bar map, switchable metrics</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="47_3d_extruded_india.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-55">
+<td class="col-num" style="color:#B088F9">#55</td>
+<td class="col-title"><a href="55_india_party_flip_3d.html">India Party Flip 3D</a></td>
+<td class="col-desc">3D flip visualization, pulsing rings</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="55_india_party_flip_3d.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-56">
+<td class="col-num" style="color:#B088F9">#56</td>
+<td class="col-title"><a href="56_development_spiral.html">Development Spiral</a></td>
+<td class="col-desc">3D spiral, GDP-health-time</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="56_development_spiral.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-59">
+<td class="col-num" style="color:#B088F9">#59</td>
+<td class="col-title"><a href="59_india_dev_terrain.html">India Development Terrain</a></td>
+<td class="col-desc">3D terrain, switchable metrics</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="59_india_dev_terrain.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-60">
+<td class="col-num" style="color:#B088F9">#60</td>
+<td class="col-title"><a href="60_india_food_geography_3d.html">India Food Geography 3D</a></td>
+<td class="col-desc">3D crop production landscape</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Plotly)</span></td>
+<td class="col-link"><a href="60_india_food_geography_3d.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-61">
+<td class="col-num" style="color:#B088F9">#61</td>
+<td class="col-title"><a href="61_literacy_gender_helix.html">Literacy-Gender Helix</a></td>
+<td class="col-desc">3D helix, male vs female literacy</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="61_literacy_gender_helix.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-62">
+<td class="col-num" style="color:#B088F9">#62</td>
+<td class="col-title"><a href="62_constituency_aurora.html">Constituency Aurora</a></td>
+<td class="col-desc">3D particle field, data art</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Three.js)</span></td>
+<td class="col-link"><a href="62_constituency_aurora.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-63">
+<td class="col-num" style="color:#B088F9">#63</td>
+<td class="col-title"><a href="63_india_socioeconomic_3d.html">India Socioeconomic Landscape 3D</a></td>
+<td class="col-desc">3D scatter, literacy-GDP-HDI</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Plotly)</span></td>
+<td class="col-link"><a href="63_india_socioeconomic_3d.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-64">
+<td class="col-num" style="color:#B088F9">#64</td>
+<td class="col-title"><a href="64_gender_development_3d.html">Gender-Development 3D Surface</a></td>
+<td class="col-desc">3D surface, gender-dev interaction</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Plotly)</span></td>
+<td class="col-link"><a href="64_gender_development_3d.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+<tr id="chart-70">
+<td class="col-num" style="color:#B088F9">#70</td>
+<td class="col-title"><a href="70_women_candidature_3d.html">Women Candidature 3D Landscape</a></td>
+<td class="col-desc">3D terrain, women candidature</td>
+<td class="col-type"><span class="type-badge" style="--tc:#B088F9">3D (Plotly)</span></td>
+<td class="col-link"><a href="70_women_candidature_3d.html" class="open-link" style="color:#B088F9">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-animated-temporal">
+<h2 style="border-color:#FF5872"><span class="dot" style="background:#FF5872"></span>Animated Temporal</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-49">
+<td class="col-num" style="color:#FF5872">#49</td>
+<td class="col-title"><a href="49_gdp_bar_race.html">GDP Bar Chart Race</a></td>
+<td class="col-desc">Animated bar race, top 15, 1992-2022</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated Bar Race</span></td>
+<td class="col-link"><a href="49_gdp_bar_race.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-50">
+<td class="col-num" style="color:#FF5872">#50</td>
+<td class="col-title"><a href="50_india_electoral_swing.html">India Electoral Swing Animation</a></td>
+<td class="col-desc">Animated constituency map</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated Map</span></td>
+<td class="col-link"><a href="50_india_electoral_swing.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-51">
+<td class="col-num" style="color:#FF5872">#51</td>
+<td class="col-title"><a href="51_fertility_collapse.html">Fertility Rate Collapse</a></td>
+<td class="col-desc">Animated scatter, TFR decline</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated Scatter</span></td>
+<td class="col-link"><a href="51_fertility_collapse.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-52">
+<td class="col-num" style="color:#FF5872">#52</td>
+<td class="col-title"><a href="52_mortality_plunge.html">Child Mortality Plunge</a></td>
+<td class="col-desc">Animated scatter, mortality decline</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated Scatter</span></td>
+<td class="col-link"><a href="52_mortality_plunge.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-53">
+<td class="col-num" style="color:#FF5872">#53</td>
+<td class="col-title"><a href="53_convergence_race.html">Economic Convergence Race</a></td>
+<td class="col-desc">Animated, catch-up hypothesis</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated Scatter</span></td>
+<td class="col-link"><a href="53_convergence_race.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+<tr id="chart-54">
+<td class="col-num" style="color:#FF5872">#54</td>
+<td class="col-title"><a href="54_women_lisa_fixed.html">Women LISA Spatial Animation</a></td>
+<td class="col-desc">Animated LISA, women candidature</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FF5872">Animated LISA</span></td>
+<td class="col-link"><a href="54_women_lisa_fixed.html" class="open-link" style="color:#FF5872">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-delimitation---fiscal">
+<h2 style="border-color:#FFD700"><span class="dot" style="background:#FFD700"></span>Delimitation & Fiscal</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-71">
+<td class="col-num" style="color:#FFD700">#71</td>
+<td class="col-title"><a href="71_delimitation_simulator.html">Delimitation Seat Simulator</a></td>
+<td class="col-desc">Interactive, Webster/Sainte-Lague</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Interactive</span></td>
+<td class="col-link"><a href="71_delimitation_simulator.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-72">
+<td class="col-num" style="color:#FFD700">#72</td>
+<td class="col-title"><a href="72_fiscal_returns.html">Fiscal Returns by State</a></td>
+<td class="col-desc">Scatter, contribution vs receipts</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Scatter Plot</span></td>
+<td class="col-link"><a href="72_fiscal_returns.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-73">
+<td class="col-num" style="color:#FFD700">#73</td>
+<td class="col-title"><a href="73_reservation_simulator.html">Reservation Impact Simulator</a></td>
+<td class="col-desc">Interactive slider, women quotas</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Interactive</span></td>
+<td class="col-link"><a href="73_reservation_simulator.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-74">
+<td class="col-num" style="color:#FFD700">#74</td>
+<td class="col-title"><a href="74_moran_criteria_explorer.html">Multi-Criteria Moran Explorer</a></td>
+<td class="col-desc">Interactive, Moran's I comparison</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Interactive</span></td>
+<td class="col-link"><a href="74_moran_criteria_explorer.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-75">
+<td class="col-num" style="color:#FFD700">#75</td>
+<td class="col-title"><a href="75_punishment_value_3d.html">Demographic Punishment Value 3D</a></td>
+<td class="col-desc">3D surface, population-fertility-seats</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">3D (Plotly)</span></td>
+<td class="col-link"><a href="75_punishment_value_3d.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-76">
+<td class="col-num" style="color:#FFD700">#76</td>
+<td class="col-title"><a href="76_representation_inequality.html">Representation Inequality (Lorenz)</a></td>
+<td class="col-desc">Lorenz curve, interactive slider</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Interactive</span></td>
+<td class="col-link"><a href="76_representation_inequality.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-77">
+<td class="col-num" style="color:#FFD700">#77</td>
+<td class="col-title"><a href="77_fiscal_spine.html">Fiscal Spine Chart</a></td>
+<td class="col-desc">Diverging bar, south-to-north</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Bar Chart</span></td>
+<td class="col-link"><a href="77_fiscal_spine.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-78">
+<td class="col-num" style="color:#FFD700">#78</td>
+<td class="col-title"><a href="78_representation_treemap.html">Representation Treemap</a></td>
+<td class="col-desc">Treemap, seats by state</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Treemap</span></td>
+<td class="col-link"><a href="78_representation_treemap.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-79">
+<td class="col-num" style="color:#FFD700">#79</td>
+<td class="col-title"><a href="79_fiscal_gender_bubble.html">Fiscal-Gender Nexus Bubble</a></td>
+<td class="col-desc">Bubble, fiscal x gender x development</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Bubble Chart</span></td>
+<td class="col-link"><a href="79_fiscal_gender_bubble.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+<tr id="chart-80">
+<td class="col-num" style="color:#FFD700">#80</td>
+<td class="col-title"><a href="80_constituency_clustering.html">Constituency Clustering (k-Means)</a></td>
+<td class="col-desc">Color map, 5 natural clusters</td>
+<td class="col-type"><span class="type-badge" style="--tc:#FFD700">Scatter Plot</span></td>
+<td class="col-link"><a href="80_constituency_clustering.html" class="open-link" style="color:#FFD700">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="g-synchronized-multi-view">
+<h2 style="border-color:#00D5E0"><span class="dot" style="background:#00D5E0"></span>Synchronized Multi-View</h2>
+<table class="chart-table">
+<thead><tr><th>#</th><th>Chart Title</th><th>Description</th><th>Type</th><th></th></tr></thead>
+<tbody><tr id="chart-81">
+<td class="col-num" style="color:#00D5E0">#81</td>
+<td class="col-title"><a href="81_quad_panel_sync.html">Four Lenses: Global Development</a></td>
+<td class="col-desc">Quad-panel sync, year slider 1990-2023</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Quad-Panel Sync</span></td>
+<td class="col-link"><a href="81_quad_panel_sync.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-82">
+<td class="col-num" style="color:#00D5E0">#82</td>
+<td class="col-title"><a href="82_health_environment_sync.html">Health-Environment Nexus</a></td>
+<td class="col-desc">Quad-panel sync, aridity-mortality</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Quad-Panel Sync</span></td>
+<td class="col-link"><a href="82_health_environment_sync.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-83">
+<td class="col-num" style="color:#00D5E0">#83</td>
+<td class="col-title"><a href="83_tech_inequality_sync.html">Technology-Inequality Divergence</a></td>
+<td class="col-desc">Quad-panel sync, digital divide</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Quad-Panel Sync</span></td>
+<td class="col-link"><a href="83_tech_inequality_sync.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+<tr id="chart-84">
+<td class="col-num" style="color:#00D5E0">#84</td>
+<td class="col-title"><a href="84_india_threshold_sync.html">India Electoral Threshold Explorer</a></td>
+<td class="col-desc">Quad-panel sync, turnout threshold</td>
+<td class="col-type"><span class="type-badge" style="--tc:#00D5E0">Quad-Panel Sync</span></td>
+<td class="col-link"><a href="84_india_threshold_sync.html" class="open-link" style="color:#00D5E0">Open &rarr;</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+<div class="footer">
+Spatial &amp; Geographical Data Visualization Atlas. All links are relative. Permalink to any chart using <code>#chart-NN</code> anchors.
+</div>
+
+<script>
+function filter(q) {
+    q = q.toLowerCase().trim();
+    document.querySelectorAll('.chart-table tr').forEach(tr => {
+        if (tr.closest('thead')) return;
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+    document.querySelectorAll('.section').forEach(sec => {
+        const visible = sec.querySelectorAll('tbody tr[style=""], tbody tr:not([style])');
+        let any = false;
+        sec.querySelectorAll('tbody tr').forEach(tr => { if (tr.style.display !== 'none') any = true; });
+        sec.style.display = any ? '' : 'none';
+    });
+}
+// Highlight row if hash target
+if (window.location.hash) {
+    const el = document.querySelector(window.location.hash);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+</script>
+</body>
+</html>
