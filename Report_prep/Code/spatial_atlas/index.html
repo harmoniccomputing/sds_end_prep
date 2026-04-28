@@ -1,0 +1,839 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta name="author" content="Vishakha Agrawal"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spatial Data Visualization Atlas | India Electoral Geography</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#06080F;--bg2:#0D1117;--bg3:#161B26;--bg4:#1C2333;--bd:#21293A;--t1:#F0F3F8;--t2:#A0AEC0;--t3:#718096;--ac:#00D5E0;--pk:#FF5872;--saffron:#FF9933;--green:#138808;--gold:#FFD700;--warn:#FF4444}
+body{background:var(--bg);color:var(--t1);font-family:"Source Sans 3",system-ui,sans-serif;overflow-x:hidden}
+.hr{padding:2.5rem 2rem 1.8rem;text-align:center;background:linear-gradient(180deg,#0A0F1A,var(--bg));border-bottom:1px solid var(--bd);position:relative}
+.hr::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,213,224,.06),transparent);pointer-events:none}
+.hr *{position:relative;z-index:1}
+.hr h1{font-family:"Playfair Display",serif;font-size:clamp(1.6rem,3.2vw,2.6rem);font-weight:900;letter-spacing:-.03em}
+.hr h1 em{font-style:normal;color:var(--ac)}
+.hr .af{color:var(--t3);font-size:.8rem;margin-top:.3rem}
+.hr .su{color:var(--t2);margin-top:.4rem;font-size:.85rem;max-width:750px;margin-inline:auto;line-height:1.5}
+.ss{display:flex;justify-content:center;gap:2rem;margin-top:1rem;flex-wrap:wrap}
+.sv{font-family:"Playfair Display",serif;font-size:1.8rem;color:var(--ac)}.sl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}
+.tour-launch{display:inline-flex;align-items:center;gap:8px;margin-top:.8rem;background:transparent;border:2px solid var(--ac);color:var(--ac);padding:8px 24px;border-radius:50px;font-family:'Source Sans 3',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;letter-spacing:.03em;transition:all .3s ease}
+.tour-launch:hover{background:var(--ac);color:var(--bg);box-shadow:0 0 30px rgba(0,213,224,.25)}
+.tour-launch .tri{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.nv{display:flex;gap:1px;padding:0 .5rem;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100}
+.tb{background:none;border:none;padding:.7rem .7rem;color:var(--t3);font-family:inherit;font-size:.73rem;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.25rem}
+.tb:hover{color:var(--t1);background:var(--bg3)}
+.tb.active{color:var(--ac);border-bottom-color:var(--ac);background:var(--bg3)}
+.tb.hero-tab{font-size:.8rem;color:var(--gold)}
+.tb.hero-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(255,215,0,.06)}
+.ti{font-size:.85rem}.tc{font-size:.58rem;background:var(--bd);border-radius:99px;padding:.08rem .35rem;color:var(--t2);margin-left:.1rem}
+.tb.active .tc{background:var(--ac);color:var(--bg)}
+.tb.hero-tab.active .tc{background:var(--gold);color:var(--bg)}
+.mn{max-width:1440px;margin:0 auto;padding:1.2rem}
+.tp{display:none;flex-direction:column}
+.finding{margin-bottom:2rem;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg2)}
+.finding-header{padding:1.2rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;border-bottom:1px solid var(--bd);background:linear-gradient(135deg,rgba(0,213,224,.03),rgba(255,88,114,.03))}
+.finding-num{font-family:"Playfair Display",serif;font-size:2.5rem;font-weight:900;color:var(--ac);line-height:1;min-width:3rem}
+.finding-body h2{font-family:"Playfair Display",serif;font-size:1.15rem;line-height:1.3;margin-bottom:.3rem}
+.finding-body h2 .moran-badge{display:inline-block;background:rgba(0,213,224,.12);border:1px solid rgba(0,213,224,.3);color:var(--ac);padding:.1rem .5rem;border-radius:4px;font-size:.85rem;font-weight:700;margin-left:.4rem;font-family:"Source Sans 3",sans-serif}
+.finding-category{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.15rem .5rem;border-radius:3px;margin-bottom:.4rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
+.finding-hypothesis{font-size:.95rem;color:var(--gold);font-weight:600;line-height:1.4;margin-bottom:.3rem;padding:.5rem .7rem;background:rgba(255,215,0,.06);border-left:3px solid var(--gold);border-radius:0 4px 4px 0}
+.finding-verdict{font-size:.82rem;color:var(--t2);line-height:1.5}
+.finding-verdict strong{color:var(--t1)}
+.finding-vizlist{font-size:.7rem;color:var(--t3);margin-top:.3rem;font-style:italic}
+.finding-charts{padding:1rem 1.2rem}
+.spatial-proof{display:grid;grid-template-columns:1fr auto 1fr;gap:.6rem;align-items:center;margin:0 1rem 1rem;padding:.8rem;background:rgba(255,68,68,.04);border:1px solid rgba(255,68,68,.15);border-radius:8px}
+.proof-side{text-align:center}
+.proof-side .label{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:.2rem}
+.proof-side.aspatial .label{color:var(--warn)}
+.proof-side.spatial .label{color:var(--ac)}
+.proof-side p{font-size:.72rem;color:var(--t2);line-height:1.3}
+.proof-arrow{font-size:1.5rem;color:var(--gold)}
+@media(max-width:768px){.spatial-proof{grid-template-columns:1fr;}.proof-arrow{transform:rotate(90deg)}}
+.cg2{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.6rem}
+.cd{background:var(--bg3);border:1px solid var(--bd);border-radius:7px;cursor:pointer;transition:all .2s;display:flex;overflow:hidden;animation:fu .35s ease-out both}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cd:hover{background:var(--bg4);border-color:var(--ac);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,213,224,.06)}
+.cs{width:3px;flex-shrink:0;border-radius:7px 0 0 7px}
+.cb{padding:.7rem .9rem;flex:1;min-width:0}
+.ct{display:flex;align-items:center;gap:.4rem;margin-bottom:.15rem}
+.cn{font-family:"Playfair Display",serif;font-size:1.2rem;color:#2D3748;line-height:1}
+.cg{font-size:.55rem;font-weight:600;padding:.1rem .4rem;border-radius:99px;background:#00D5E015;color:var(--ac);border:1px solid #00D5E033;text-transform:uppercase;letter-spacing:.03em}
+.card-q{font-size:.68rem;color:var(--gold);font-weight:600;line-height:1.25;margin-bottom:.2rem;padding:.2rem .4rem;background:rgba(255,215,0,.06);border-radius:3px}
+.cd h3{font-size:.85rem;font-weight:700;line-height:1.25;margin-bottom:.15rem}
+.dp{font-size:.72rem;color:var(--t2);line-height:1.4}
+.card-a{font-size:.68rem;color:var(--ac);font-weight:600;line-height:1.25;margin-top:.25rem;padding:.2rem .4rem;background:rgba(0,213,224,.06);border-radius:3px}
+.ca{font-size:.68rem;color:var(--ac);margin-top:.2rem;opacity:0;transition:opacity .2s}
+.cd:hover .ca{opacity:1}
+.ph{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.pi{font-size:1.5rem;width:2.5rem;height:2.5rem;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.ph h2{font-family:"Playfair Display",serif;font-size:1.3rem}
+.pd{color:var(--t2);font-size:.82rem;margin-top:.15rem;line-height:1.4}
+.sf{margin-top:1.5rem;padding:1.2rem;background:var(--bg2);border:1px solid var(--bd);border-radius:8px}
+.sf h3{font-family:"Playfair Display",serif;margin-bottom:.6rem;font-size:1rem}
+.sf p{color:var(--t2);font-size:.72rem;line-height:1.8}
+.sf a{color:var(--ac);text-decoration:none}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
+.ov.sh{display:flex}
+.ov iframe{width:96vw;height:93vh;border:none;border-radius:8px;background:#fff}
+.xb{position:fixed;top:8px;right:14px;background:var(--pk);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;z-index:1001;display:flex;align-items:center;justify-content:center}
+.hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;margin:0 0 1.5rem}
+.hero-stat{text-align:center;padding:.8rem .5rem;background:var(--bg3);border:1px solid var(--bd);border-radius:8px}
+.hero-stat .num{font-family:"Playfair Display",serif;font-size:1.6rem;font-weight:900}
+.hero-stat .num.hot{color:#FF5872}.hero-stat .num.cool{color:var(--ac)}.hero-stat .num.gold{color:var(--gold)}.hero-stat .num.saffron{color:var(--saffron)}
+.hero-stat .lbl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:.15rem}
+.sub-section-title{font-family:'Playfair Display',serif;margin:1rem 0 .6rem;font-size:1rem;color:var(--t2)}
+.supp-box{margin-top:1.5rem;padding:.8rem 1rem;background:var(--bg3);border:1px solid var(--bd);border-radius:8px}
+@media(max-width:768px){.cg2{grid-template-columns:1fr}.finding-header{flex-direction:column}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<div class="hr">
+<h1>Spatial Data <em>Visualization Atlas</em></h1>
+<p class="af">Vishakha Agrawal, Malini Krishnan | Lab for Spatial Informatics, IIIT Hyderabad</p>
+<p class="su">89 interactive visualizations. India's 2024 Lok Sabha election analyzed through spatial autocorrelation, LISA decomposition, and geographic embedding. Plus global development, geo-variables, and 18 immersive 3D environments.</p>
+<div class="ss"><div><div class="sv">89</div><div class="sl">Charts</div></div><div><div class="sv">6</div><div class="sl">Findings</div></div><div><div class="sv">18</div><div class="sl">3D Scenes</div></div><div><div class="sv">8</div><div class="sl">Data Sources</div></div></div>
+<button class="tour-launch" onclick="window.location.href='guided_tour.html'"><span class="tri"></span> Take the Guided Tour</button>
+</div>
+<nav class="nv">
+<button class="tb hero-tab active" onclick="sw('india')" id="b-india"><span class="ti">&#127470;&#127475;</span><span class="tl">India: What Geography Reveals</span><span class="tc">42</span></button>
+<button class="tb" onclick="sw('global')" id="b-global"><span class="ti">&#127758;</span><span class="tl">Global Spatial Patterns</span><span class="tc">20</span></button>
+<button class="tb" onclick="sw('sync')" id="b-sync"><span class="ti">&#128260;</span><span class="tl">Synchronized Dashboards</span><span class="tc">4</span></button>
+<button class="tb" onclick="sw('almanac')" id="b-almanac"><span class="ti">&#128218;</span><span class="tl">The Almanac</span><span class="tc">23</span></button>
+</nav>
+<div class="mn"><div class="tp" id="p-india" style="display:flex;flex-direction:column">
+<div class="hero-stats">
+<div class="hero-stat"><div class="num hot">0.614</div><div class="lbl">Turnout Moran's I</div></div>
+<div class="hero-stat"><div class="num cool">0.113</div><div class="lbl">Women's I (near-random)</div></div>
+<div class="hero-stat"><div class="num saffron">0.369</div><div class="lbl">Alliance Moran's I</div></div>
+<div class="hero-stat"><div class="num gold">2.2x</div><div class="lbl">Participation vs Competition</div></div>
+<div class="hero-stat"><div class="num hot">57%</div><div class="lbl">Seats in LISA Clusters</div></div>
+<div class="hero-stat"><div class="num cool">119</div><div class="lbl">Zero-Women Constituencies</div></div>
+</div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">1</div><div class="finding-body">
+<span class="finding-category">Cluster Detection</span>
+<h2>Voter Turnout is Geographically Structured<span class="moran-badge">I = 0.614, p &lt; 0.001</span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: Does Tobler's First Law hold for democratic participation in India? Do nearby constituencies vote similarly, and if so, does this form contiguous geographic regions?</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>Yes, powerfully. 135 hot spots (South + NE) and 156 cold spots (Hindi heartland) account for 57% of all matched seats. Two contiguous high-turnout zones separated by one contiguous low-turnout belt. Policy can be spatially targeted.</div>
+<div class="finding-vizlist">Visualizations: Charts 90, 96, 37, 39, 85, 88, 47, 84</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>Histogram: turnout is roughly normal, mean 65.8%. Srinagar (38.6%) and Dhubri (92.1%) are isolated data points. No adjacency info.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>LISA reveals two contiguous hot-spot regions + one cold-spot belt. Mobilization in one PC has spillover. Policy can be spatially targeted.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('90_comparison_turnout_cluster.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">90</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: What does turnout look like with and without geography?</div>
+<h3>COMPARISON: Histogram vs Map</h3><p class="dp">Side-by-side: the histogram shows a normal-looking spread. The map reveals low and high values cluster into contiguous belts. This is what Moran's I = 0.614 means visually.</p>
+<div class="card-a">A: The histogram hides geographic structure. The map reveals a clear South+NE vs Hindi belt divide that no aspatial chart can show.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('96_comparison_turnout_boxplot_vs_map.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">96</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Is turnout a state-level phenomenon or a geographic one that crosses state borders?</div>
+<h3>COMPARISON: State Boxplots vs Cross-Border Clusters</h3><p class="dp">Boxplots suggest turnout is a state-level property. The map shows the high-turnout zone runs continuously from AP through Odisha into WB and Assam, crossing four state boundaries. Clusters are geographic, not administrative.</p>
+<div class="card-a">A: Geographic. The high-turnout belt crosses AP, Odisha, WB, Assam continuously. State boxplots create a false impression of administrative causation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('37_india_lisa_clusters.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">37</span><span class="cg">LISA Map</span></div>
+<div class="card-q">Q: Do high-turnout PCs form contiguous regions or are they scattered?</div>
+<h3>LISA Cluster Map: Turnout + Margin</h3><p class="dp">135 HH (red) in South+NE; 156 LL (blue) in Hindi heartland. Toggle turnout vs margin. KNN k=8, 999 permutations.</p>
+<div class="card-a">A: Two contiguous hot-spot regions (South + NE) separated by a contiguous cold-spot Hindi heartland belt.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('39_india_moran_scatterplot.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">39</span><span class="cg">Moran Plot</span></div>
+<div class="card-q">Q: Can a constituency's turnout be predicted from its neighbours?</div>
+<h3>Moran Scatterplot: Spatial Outlier Concept</h3><p class="dp">Each PC: own turnout vs. neighbours' mean. Slope = I = 0.614. Bangalore is LH: low turnout in high-turnout Karnataka.</p>
+<div class="card-a">A: Yes. Bangalore is a spatial outlier: low value in a high neighbourhood. This concept has no aspatial equivalent.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('88_electoral_terrain_3d.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">88</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: What does the turnout surface look like if rendered as topography?</div>
+<h3>India's Electoral Terrain in 3D</h3><p class="dp">Turnout as a 3D landscape. Red peaks (HH) in South+NE. Blue valleys (LL) in Hindi belt. Mean plane at 65.8%.</p>
+<div class="card-a">A: A terrain with red mountains in South+NE and blue valleys in UP-Bihar-Rajasthan. The landscape IS the finding.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('85_moran_eruption_3d.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">85</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: How does each PC contribute to the global Moran's I statistic?</div>
+<h3>Moran Eruption Plane</h3><p class="dp">512 PCs as 3D columns above/below a plane at I=0. Red HH erupt upward, blue LL sink. 6,000 smoke particles.</p>
+<div class="card-a">A: Hot spots (red) erupt above the plane, cold spots (blue) sink below. The spatial structure becomes visceral.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('47_3d_extruded_india.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">47</span><span class="cg">3D Bars</span></div>
+<div class="card-q">Q: What would a histogram look like if each bar were placed at its geographic position?</div>
+<h3>3D Extruded India Map</h3><p class="dp">3D bars at geographic position. Height = electorate ratio/turnout/margin (switchable).</p>
+<div class="card-a">A: A spatial histogram: geographic position encodes information that a standard histogram discards entirely.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('84_india_threshold_sync.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">84</span><span class="cg">Quad-Panel</span></div>
+<div class="card-q">Q: As the engagement bar rises, do qualifying PCs shrink uniformly or retreat to specific geographic cores?</div>
+<h3>Electoral Threshold Explorer</h3><p class="dp">Turnout threshold slider (40-85%) filters 4 panels: map + histogram + women scatter + alliance bars.</p>
+<div class="card-a">A: Systematic geographic contraction toward South and Northeast India. The cores of engagement are geographic.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">2</div><div class="finding-body">
+<span class="finding-category">Absence of Clustering as Evidence</span>
+<h2>Women's Exclusion is Institutional, Not Regional<span class="moran-badge">I = 0.113</span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: Is women's electoral exclusion concentrated in 'conservative' regions (predicting I > 0.4), or dispersed uniformly (predicting I near 0)? Can we distinguish regional cultural barriers from institutional ones?</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>I = 0.113 (near-random). The exclusion is everywhere. 119 zero-women PCs span every region, state, terrain type. This rules out regional culture and demands systemic reform: party quotas, deposit waivers, the Women's Reservation Bill.</div>
+<div class="finding-vizlist">Visualizations: Charts 91, 97, 65, 66, 86, 89, 68, 67, 69, 70, 80, 54, 46, 73</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>'119 PCs had zero women' is a number. A bar chart by state blames specific states. Bihar, UP look like the problem.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>The Silence Map proves 119 zero-women PCs are scattered across EVERY region. I = 0.113 = near-random = institutional. No 'problem state' to target.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('91_comparison_women_exclusion.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">91</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Is women's exclusion a regional problem or a national one?</div>
+<h3>COMPARISON: State Bar Chart vs Scatter Map</h3><p class="dp">Side-by-side: the bar chart makes it look like a north India problem. The map shows red crosses (zero-women PCs) scattered across every region. The problem is national and institutional.</p>
+<div class="card-a">A: The bar chart blames UP and Bihar. The map proves the red crosses cover EVERY region. I = 0.113 means near-random spatial distribution.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('97_comparison_women_gradient_vs_map.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">97</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Does sorting by women % reveal or conceal the spatial pattern?</div>
+<h3>COMPARISON: Ranked Dot Plot vs Spatial Interleaving</h3><p class="dp">Sorting constituencies by women % creates a smooth gradient illusion. The map shows red (0%) and green (high %) seats sit side by side everywhere. I = 0.113: neighbours do not predict each other's women %.</p>
+<div class="card-a">A: Conceals it. The ranked plot creates false order. The map shows high and low values spatially interleaved. No geographic logic governs women's representation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('65_silence_map.html')"><div class="cs" style="background:#FF0040"></div><div class="cb">
+<div class="ct"><span class="cn">65</span><span class="cg">Geo Scatter</span></div>
+<div class="card-q">Q: Are zero-women PCs concentrated in specific regions or scattered everywhere?</div>
+<h3>The Silence Map</h3><p class="dp">Red X = zero women candidates. Green = women contested. 119 confirmed zero, scattered across every region.</p>
+<div class="card-a">A: Scattered everywhere: Rajasthan to Tamil Nadu, Gujarat to Assam. I = 0.113. No geographic concentration.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('66_the_gauntlet.html')"><div class="cs" style="background:#FF8C00"></div><div class="cb">
+<div class="ct"><span class="cn">66</span><span class="cg">Funnel</span></div>
+<div class="card-q">Q: At which stage of the pipeline are women eliminated, and is this elimination geographically structured?</div>
+<h3>The Gauntlet: Women's Attrition Pipeline</h3><p class="dp">8,902 total. 458 women (5.1%). 362 forfeited deposits (79.0%). 47 elected (0.5%).</p>
+<div class="card-a">A: Elimination at every stage. 79% deposit forfeiture. The attrition is geographically random at every stage.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('86_women_silence_field_3d.html')"><div class="cs" style="background:#FF0040"></div><div class="cb">
+<div class="ct"><span class="cn">86</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: What does women's exclusion look like as a physical landscape over India?</div>
+<h3>The Spatial Field of Silence</h3><p class="dp">3D tower field: Red towers = zero women (119). Gold = woman won (66). Sinking red smoke.</p>
+<div class="card-a">A: Red towers of silence everywhere, not concentrated. Gold towers of victory scattered randomly. I = 0.113.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('89_women_gauntlet_3d.html')"><div class="cs" style="background:#FF0040"></div><div class="cb">
+<div class="ct"><span class="cn">89</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: Does the geographic scatter change as women progress through the pipeline?</div>
+<h3>The Gauntlet in 3D Space</h3><p class="dp">Three tiers: top (contested), middle (retained deposit), bottom (elected). 4,000 particles rain down.</p>
+<div class="card-a">A: No. Each tier shows the same random scatter. The pipeline is broken everywhere, not in specific regions.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('68_deposit_forfeiture.html')"><div class="cs" style="background:#FF2D55"></div><div class="cb">
+<div class="ct"><span class="cn">68</span><span class="cg">Strip Plot</span></div>
+<div class="card-q">Q: What fraction of women candidates are competitive vs. token?</div>
+<h3>The Deposit Forfeiture Massacre</h3><p class="dp">Every woman candidate plotted by vote share. 325 red (lost deposit). 86 gold. 47 green (won).</p>
+<div class="card-a">A: 79% forfeited deposits. The vast majority are token candidates without party support or visibility.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('67_gender_gap_electorate.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">67</span><span class="cg">Diverging Bar</span></div>
+<div class="card-q">Q: Does the voter gender gap vary by region?</div>
+<h3>Gender Gap in the Electorate</h3><p class="dp">Female voters per 1,000 male voters by state. Bihar (907), Haryana worst. Kerala, AP exceed parity.</p>
+<div class="card-a">A: Yes, but the candidate gender gap does not. Voter participation is regional; candidate exclusion is institutional.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('69_state_scoreboard.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">69</span><span class="cg">Triple Panel</span></div>
+<div class="card-q">Q: Which states have the worst combined gender deficit across all three dimensions?</div>
+<h3>State Scoreboard</h3><p class="dp">Three dimensions: women elected, forfeit rate, voter gender ratio. 14 states elected zero women.</p>
+<div class="card-a">A: 14 states elected zero women. Some have 100% forfeit rates. The deficit is widespread, not concentrated.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('70_women_candidature_3d.html')"><div class="cs" style="background:#2ECC40"></div><div class="cb">
+<div class="ct"><span class="cn">70</span><span class="cg">3D Scatter</span></div>
+<div class="card-q">Q: Does women's candidature form a geographic surface with peaks and valleys?</div>
+<h3>Women Candidature Terrain 3D</h3><p class="dp">Height = % women candidates. Red X = zero. Rotatable 3D over India.</p>
+<div class="card-a">A: No clear peaks or valleys. The surface is flat and near-zero almost everywhere. The exclusion is uniform.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('80_constituency_clustering.html')"><div class="cs" style="background:#FF2D55"></div><div class="cb">
+<div class="ct"><span class="cn">80</span><span class="cg">Color Map</span></div>
+<div class="card-q">Q: Does the continuous color scale reveal any hidden geographic pattern?</div>
+<h3>Constituency Clustering: Women's Share</h3><p class="dp">Every PC color-coded by % women candidates. Deep red = 0%, green = 25%+.</p>
+<div class="card-a">A: Near-uniform red across India. No regional gradient. The randomness confirmed at continuous resolution.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('54_women_lisa_fixed.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">54</span><span class="cg">LISA</span></div>
+<div class="card-q">Q: Does LISA detect any statistically significant clusters of women's success?</div>
+<h3>Women LISA: Weak Signal Confirmed</h3><p class="dp">LISA on women winners (I=0.06, weak).</p>
+<div class="card-a">A: I = 0.06: no meaningful spatial structure. Women's wins are individual achievements, not regional patterns.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('46_women_area_hypothesis.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">46</span><span class="cg">Multi-Panel</span></div>
+<div class="card-q">Q: Do women win in smaller (urban, denser) constituencies?</div>
+<h3>Women + Area Hypothesis Test</h3><p class="dp">Three panels: area distribution, density vs margin, category breakdown. Mann-Whitney significant.</p>
+<div class="card-a">A: Yes (Mann-Whitney significant). Women win in smaller PCs, suggesting urban density enables women candidates.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('73_reservation_simulator.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">73</span><span class="cg">Animated</span></div>
+<div class="card-q">Q: What would Indian representation look like under various reservation quotas?</div>
+<h3>Women Reservation Simulator</h3><p class="dp">Drag slider 0% to 100%. At 33%: ~180 seats. At 50%: ~272. Current: 47 (8.7%).</p>
+<div class="card-a">A: Even 33% reservation would quadruple women's seats. The current 8.7% is a policy choice, not a constraint.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">3</div><div class="finding-body">
+<span class="finding-category">Contiguity Detection</span>
+<h2>India Holds Regional Contests, Not One National Election<span class="moran-badge">I = 0.369</span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: Is India's general election one national contest, or a mosaic of geographically separated regional contests? Do alliance territories form contiguous blocks with sharp boundaries?</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>A mosaic. NDA's 275 seats form a continuous belt (Gujarat-MP-UP). INDIA's 208 concentrate in TN, Kerala, WB. Boundaries are sharp. Flips cluster at geographic contact zones between alliances.</div>
+<div class="finding-vizlist">Visualizations: Charts 92, 98, 48, 42, 44</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>Pie chart: NDA 275, INDIA 208, Others 29. Treats seats as interchangeable. Cannot show WHERE territories are.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>Map reveals continuous NDA belt vs INDIA periphery. Sharp boundaries. I = 0.369 confirms regionalized party politics.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('92_comparison_alliance_mosaic.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">92</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: What does alliance geography look like with and without a map?</div>
+<h3>COMPARISON: Seat-Count Bar vs Contiguity Map</h3><p class="dp">Side-by-side: the stacked bar chart shows who won more seats per state. The map reveals what the bar chart cannot: NDA seats form a contiguous Gujarat-MP-UP-Bihar belt; INDIA seats cluster in TN, Kerala, WB.</p>
+<div class="card-a">A: The bar chart shows who won more. The map reveals sharp geographic boundaries between alliance blocs that no bar chart can show.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('98_comparison_alliance_grid_vs_map.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">98</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: What happens to the alliance pattern when you remove geography?</div>
+<h3>COMPARISON: Shuffled Grid vs Contiguity Map</h3><p class="dp">543 seats arranged alphabetically in a grid: NDA and INDIA look randomly mixed. Place the same seats on a map: two contiguous territories with sharp boundaries appear. Erasing geography erases the mosaic.</p>
+<div class="card-a">A: It vanishes. The grid mixes orange and blue. The map reveals they form two sharply bounded territories. I = 0.369 is invisible without a map.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('48_alliance_lisa_women.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">48</span><span class="cg">LISA</span></div>
+<div class="card-q">Q: Do party strongholds form contiguous geographic territories?</div>
+<h3>Alliance LISA: NDA vs INDIA Strongholds</h3><p class="dp">LISA on alliance (I=0.369). 110 NDA + 112 INDIA strongholds. Women uncorrelated with alliance.</p>
+<div class="card-a">A: Yes. 110 NDA and 112 INDIA strongholds form two distinct geographic regions with sharp boundaries.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('42_india_political_cylinder.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">42</span><span class="cg">3D</span></div>
+<div class="card-q">Q: Does the north-south alliance divide persist when geography is wrapped into a cylinder?</div>
+<h3>Political Cylinder</h3><p class="dp">543 PCs on rotating 3D cylinder. Height = latitude, angle = longitude, color = alliance.</p>
+<div class="card-a">A: Yes. The saffron/green divide is stark and continuous in the cylindrical projection.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('44_democracy_helix.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">44</span><span class="cg">3D Helix</span></div>
+<div class="card-q">Q: Are the two alliances interleaved or geographically separated along the north-south axis?</div>
+<h3>Democracy Helix: NDA vs INDIA DNA</h3><p class="dp">NDA and INDIA spiral in DNA double helix. South at bottom, north top. Node size = margin.</p>
+<div class="card-a">A: Separated. The helix shows two distinct geographic populations with minimal overlap.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">4</div><div class="finding-body">
+<span class="finding-category">Spatial Outlier Identification</span>
+<h2>Participation Clusters 2.2x More Than Competition<span class="moran-badge">I<sub>turnout</sub> = 0.614 vs I<sub>margin</sub> = 0.277</span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: Are turnout and margin driven by the same spatial process? If both were driven by the same underlying factors (e.g., state political culture), their Moran's I values should be comparable.</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>Turnout is 2.2x more structured. Turnout LISA: 57% in clusters. Margin LISA: 24%. Turnout determinants (literacy, infrastructure) are spatially correlated. Margin determinants (candidate quality, caste) are not.</div>
+<div class="finding-vizlist">Visualizations: Charts 93, 99, 38, 41, 74</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>Two histograms: turnout and margin both look like distributions. Cannot tell one is geographically structured.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>Turnout LISA: 57% clustered. Margin LISA: 24%. You can predict turnout from neighbours; you cannot predict competition.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('93_comparison_participation_competition.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">93</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Can a scatter plot show that turnout clusters geographically while margin does not?</div>
+<h3>COMPARISON: Scatter Plot vs Turnout Map</h3><p class="dp">Side-by-side: the scatter plot shows turnout and margin are weakly correlated. The map reveals that turnout values form contiguous geographic belts while margin values do not. This is the 2.2x asymmetry.</p>
+<div class="card-a">A: No. The scatter shows weak correlation (r = 0.08) but hides the fact that turnout I = 0.614 while margin I = 0.277. Only the map reveals this spatial asymmetry.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('99_comparison_dual_map_turnout_margin.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">99</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: What does the 2.2x clustering difference look like when you see both variables on maps simultaneously?</div>
+<h3>COMPARISON: Two Parallel Maps (Turnout vs Margin)</h3><p class="dp">Same 543 constituencies, same projection, same color logic. Left map (turnout): smooth belts of similar color. Right map (margin): salt-and-pepper patchwork. This IS what I = 0.614 vs 0.277 looks like.</p>
+<div class="card-a">A: Turnout forms clear geographic belts (neighbours predict each other). Margin is a patchwork (neighbours do not predict each other). The asymmetry is immediately visible.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('38_india_area_outcomes.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">38</span><span class="cg">Scatter</span></div>
+<div class="card-q">Q: Does constituency geographic size affect participation and competition?</div>
+<h3>Constituency Area vs Electoral Outcomes</h3><p class="dp">Area (log km2) vs turnout and margin. Larger seats = lower turnout. Area I=0.16.</p>
+<div class="card-a">A: Larger PCs have lower turnout (distance to polling stations). Area is itself spatially autocorrelated (I=0.16).</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('41_india_distance_delhi_margin.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">41</span><span class="cg">Scatter</span></div>
+<div class="card-q">Q: Does Rokkan's centre-periphery hypothesis hold for India? Does the periphery participate more?</div>
+<h3>Centre-Periphery: Distance from Delhi</h3><p class="dp">r = 0.493, p < 0.001. Farther from Delhi = higher turnout. NDA = low-distance, low-turnout.</p>
+<div class="card-a">A: Yes. r = 0.493. India's political periphery participates more than its geographic core. NDA/INDIA overlap with the distance gradient.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('74_moran_criteria_explorer.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">74</span><span class="cg">Sensitivity</span></div>
+<div class="card-q">Q: Is the turnout-margin asymmetry robust to the choice of k nearest neighbours?</div>
+<h3>Moran's I Sensitivity Explorer</h3><p class="dp">Moran's I as k varies 4-20. Turnout stays 0.55-0.65. Margin stays 0.25-0.30.</p>
+<div class="card-a">A: Yes. The 2.2x ratio holds across all k values from 4 to 20. The finding is not an artifact of specification.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">5</div><div class="finding-body">
+<span class="finding-category">Spatio-Temporal Analysis</span>
+<h2>Electoral Volatility Concentrates at Alliance Borders<span class="moran-badge"></span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: When parties flip seats 2019-2024, do flips occur randomly or at geographic borders between alliance territories? Does within-state variation exist that state-level tables hide?</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>Flips cluster at borders. 198/512 (38.7%) changed party. Within-state variation is large: northern UP declined more than southern UP. State averages conceal real geographic structure.</div>
+<div class="finding-vizlist">Visualizations: Charts 94, 100, 40, 50, 55</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>Table: 'National swing: -1.4 pp. 198 seats changed.' Treats UP as homogeneous.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>Swing map: northern UP fell more than southern. Flip map: volatility at alliance borders, not random.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('94_comparison_temporal_change.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">94</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Do state averages capture the real pattern of turnout change?</div>
+<h3>COMPARISON: State-Average Bar vs Constituency Map</h3><p class="dp">Side-by-side: the bar chart shows state-average turnout change. The map reveals enormous within-state variation that the bar chart conceals. Northern UP declined sharply while southern UP held steady.</p>
+<div class="card-a">A: No. The bar chart treats each state as uniform. The map shows that within-state variation (e.g., north vs south UP) is often larger than between-state variation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('100_comparison_up_zoom_temporal.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">100</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Does one state-level number capture the real change in Uttar Pradesh?</div>
+<h3>COMPARISON: UP Zoom, 2019 vs 2024 Side-by-Side Maps</h3><p class="dp">Two maps of the same state: 2019 turnout and 2024 turnout. The state average conceals a geographic split: western UP (Meerut-Agra) declined sharply while eastern UP held or rose.</p>
+<div class="card-a">A: No. Western UP and eastern UP diverged. The state average is a meaningless summary of two opposite geographic trends.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('40_india_turnout_swing.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">40</span><span class="cg">Choropleth</span></div>
+<div class="card-q">Q: Where did turnout change most, and does within-state variation exist?</div>
+<h3>Turnout Swing 2019 to 2024</h3><p class="dp">Red = decline, green = increase. Mean: -1.4 pp. WB deep red. AP/Telangana green.</p>
+<div class="card-a">A: Yes. WB >10pp decline. AP increased. Northern UP declined more than southern UP. State averages lie.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('50_india_electoral_swing.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">50</span><span class="cg">Animated</span></div>
+<div class="card-q">Q: Is the pattern of party change random or geographically structured?</div>
+<h3>Electoral Swing: 2019 vs 2024 Toggle</h3><p class="dp">Toggle elections. Bubbles morph as margins shift. 214 PCs changed party.</p>
+<div class="card-a">A: Structured. AP shows near-total flip. South India stable. UP/Bihar: selective pockets at alliance borders.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('55_india_party_flip_3d.html')"><div class="cs" style="background:#FF9933"></div><div class="cb">
+<div class="ct"><span class="cn">55</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: Do party flips cluster at geographic contact zones between alliances?</div>
+<h3>Party Flip 3D</h3><p class="dp">214 flipped PCs pulse with golden rings. Stable seats glow softly.</p>
+<div class="card-a">A: Yes. Flips concentrate at the borders between NDA and INDIA territories, not randomly within them.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="finding">
+<div class="finding-header"><div class="finding-num">6</div><div class="finding-body">
+<span class="finding-category">Geographic Co-location of Inequalities</span>
+<h2>The Delimitation Freeze and Fiscal Geography Compound the Democratic Deficit<span class="moran-badge"></span></h2>
+<div class="finding-hypothesis">HYPOTHESIS / QUESTION: Does the 1971-based seat allocation co-locate with low turnout, creating a double penalty? Do fiscal transfers reflect or correct the geographic imbalance?</div>
+<div class="finding-verdict"><strong>VERDICT: </strong>The same northern belt with lowest turnout has highest population growth since 1971. UP, Bihar, Rajasthan are both behaviourally and structurally underrepresented. Southern net-contributor states (TN Rs 29.7, Bihar Rs 142.5 per Rs 100 tax) are doubly penalized: they pay more AND get fewer seats per capita.</div>
+<div class="finding-vizlist">Visualizations: Charts 95, 101, 71, 87, 76, 72, 77, 75, 78, 79, 62</div>
+</div></div>
+<div class="spatial-proof">
+<div class="proof-side aspatial"><div class="label">&#10060; Without Geography</div><p>Table: 'UP has 80 seats for 250M people.' Cannot show they form a belt overlapping LISA cold spot.</p></div>
+<div class="proof-arrow">&#10132;</div>
+<div class="proof-side spatial"><div class="label">&#10004; With Geography</div><p>Underrepresented states form a contiguous northern belt mapping onto the LL cluster. Fiscal spine shows south-north gradient. Multiple deficits co-locate geographically.</p></div>
+</div>
+<div class="finding-charts"><div class="cg2">
+<div class="cd" onclick="op('95_comparison_delimitation_fiscal.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">95</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Does structural underrepresentation co-locate geographically with low turnout?</div>
+<h3>COMPARISON: Electors-per-Seat Bar vs Co-location Map</h3><p class="dp">Side-by-side: the bar chart ranks states by electors per seat. The map reveals what the bar chart cannot: low-turnout constituencies (blue) and large-electorate constituencies (big circles) overlap in the same northern belt.</p>
+<div class="card-a">A: Yes. The bar chart ranks states but cannot show geographic overlap. The map proves the same belt is both structurally and behaviourally underrepresented.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('101_comparison_fiscal_scatter_vs_map.html')"><div class="cs" style="background:#FFD700"></div><div class="cb">
+<div class="ct"><span class="cn">101</span><span class="cg">COMPARISON</span></div>
+<div class="card-q">Q: Is the fiscal-turnout relationship a statistical correlation or a geographic structure?</div>
+<h3>COMPARISON: Fiscal Scatter vs Geographic Gradient Map</h3><p class="dp">The scatter shows a correlation between turnout and fiscal return but treats states as unrelated points. The map shows net-receiver states (red, Rs 142+) form a contiguous northern belt overlapping the low-turnout cold spot. Net-contributors (blue, Rs 29-42) are in the south. Geographic co-location, not coincidence.</p>
+<div class="card-a">A: Geographic structure. The scatter shows correlation. The map shows that the red (net-receiver) and blue (net-contributor) belts are geographically continuous and overlap the turnout LISA clusters.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('71_delimitation_simulator.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">71</span><span class="cg">Animated</span></div>
+<div class="card-q">Q: What would proportional seat allocation look like at different total seat counts?</div>
+<h3>Delimitation Simulator</h3><p class="dp">Drag slider 543 to 1000 seats. Watch population-proportional reallocation. Webster/Sainte-Lague.</p>
+<div class="card-a">A: Northern states gain massively (UP +37). Southern states lose share. The current freeze is a 53-year-old distortion.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('87_delimitation_freeze_3d.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">87</span><span class="cg">3D WebGL</span></div>
+<div class="card-q">Q: How large is the gap between current and proportional allocation for each state?</div>
+<h3>The Delimitation Freeze in 3D</h3><p class="dp">30 states as paired bars: blue = current, orange = proportional. Orange particles from underrepresented states.</p>
+<div class="card-a">A: UP's gap is the largest (+37 seats). The gap forms a geographic gradient: bigger in the north, smaller in the south.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('76_representation_inequality.html')"><div class="cs" style="background:#7FEB00"></div><div class="cb">
+<div class="ct"><span class="cn">76</span><span class="cg">Animated Bar</span></div>
+<div class="card-q">Q: How unequal is the voter-to-seat ratio across states?</div>
+<h3>Representation Inequality</h3><p class="dp">Electors per seat by state. Drag slider 543-1000. UP: 2.4M vs Sikkim: 0.4M per seat.</p>
+<div class="card-a">A: 6x difference (UP 2.4M vs Sikkim 0.4M). Adding seats progressively equalizes the ratio.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('72_fiscal_returns.html')"><div class="cs" style="background:#FF851B"></div><div class="cb">
+<div class="ct"><span class="cn">72</span><span class="cg">Diverging Bar</span></div>
+<div class="card-q">Q: For every Rs 100 in tax, how much does each state get back?</div>
+<h3>Fiscal Returns: Rs per 100</h3><p class="dp">TN: Rs 29.7. Bihar: Rs 142.5. Red = net contributors. Green = net recipients.</p>
+<div class="card-a">A: A stark geographic gradient: southern states pay more than they receive. Northern states receive more than they pay.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('77_fiscal_spine.html')"><div class="cs" style="background:#FF851B"></div><div class="cb">
+<div class="ct"><span class="cn">77</span><span class="cg">Geo Spine</span></div>
+<div class="card-q">Q: Does the fiscal imbalance follow a geographic gradient along the north-south axis?</div>
+<h3>The Fiscal Spine</h3><p class="dp">States connected south-to-north by latitude. Size = seats. Color = fiscal return.</p>
+<div class="card-a">A: Yes. Net contributors cluster at the bottom (south), net recipients at the top (north). A clear latitude gradient.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('75_punishment_value_3d.html')"><div class="cs" style="background:#FF0040"></div><div class="cb">
+<div class="ct"><span class="cn">75</span><span class="cg">3D Scatter</span></div>
+<div class="card-q">Q: Which states are most 'punished' by the combined fiscal-representational-gender metric?</div>
+<h3>The Punishment Value</h3><p class="dp">Fiscal return x female voter % x seats in 3D. Red = most punished states.</p>
+<div class="card-a">A: Tamil Nadu and Maharashtra: pay most, get least representation, fewest women. Multiple penalties co-locate.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('78_representation_treemap.html')"><div class="cs" style="background:#2ECC40"></div><div class="cb">
+<div class="ct"><span class="cn">78</span><span class="cg">Treemap</span></div>
+<div class="card-q">Q: How does the 'real estate' of democracy map onto fiscal contribution?</div>
+<h3>Democratic Real Estate</h3><p class="dp">Treemap: area = seats, color = fiscal return.</p>
+<div class="card-a">A: Small-area (few seats) states in the south are dark red (net contributors). Large-area northern states are green (recipients).</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('79_fiscal_gender_bubble.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">79</span><span class="cg">Animated</span></div>
+<div class="card-q">Q: Does women's reservation correct the fiscal-gender imbalance?</div>
+<h3>Fiscal x Gender Bubble</h3><p class="dp">Fiscal returns vs women's representation with reservation slider (0-100%).</p>
+<div class="card-a">A: Only partially. Even with quotas, southern net-contributors remain underrepresented in seats per capita.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('62_constituency_aurora.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">62</span><span class="cg">3D Particle</span></div>
+<div class="card-q">Q: What does the full electoral dataset look like as a living particle field over India?</div>
+<h3>Constituency Aurora</h3><p class="dp">543 PCs as breathing particles. Pulse with turnout, glow with margin. Alliance-colored.</p>
+<div class="card-a">A: An aurora of democratic activity. Turnout, margin, and alliance encoded simultaneously in 3D particle space.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div></div>
+<div class="supp-box" style="margin-top:2rem;opacity:0.85">
+<div class="ph"><div class="pi" style="background:#71809622;color:#718096">&#128200;</div><div><h2>India: Non-Spatial Reference Material</h2><p class="pd">State-level socioeconomic analysis, development metrics, and food geography. These visualizations provide contextual background but do not carry spatial autocorrelation findings. They are descriptive rather than analytically conclusive.</p></div></div>
+<div class="cg2">
+<div class="cd" onclick="op('59_india_dev_terrain.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">59</span><span class="cg">3D</span></div>
+<div class="card-q">Q: How do Indian states compare across multiple development indicators?</div>
+<h3>India Development Terrain</h3><p class="dp">30 states as glowing pillars. 8 switchable metrics: HDI, GSDP, literacy, sex ratio, IMR, urbanization.</p>
+<div class="card-a">A: Large variation: Kerala and TN at top, Bihar and UP at bottom. The variation is descriptive, not spatial-analytical.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('63_india_socioeconomic_3d.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">63</span><span class="cg">3D Crystal</span></div>
+<div class="card-q">Q: Do Indian states form distinct clusters in 3D socioeconomic space?</div>
+<h3>India Socioeconomic 3D</h3><p class="dp">X=Literacy, Y=GSDP, Z=HDI. Size=population, color=region.</p>
+<div class="card-a">A: Yes, but these are well-known development clusters. No new spatial autocorrelation finding.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('61_literacy_gender_helix.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">61</span><span class="cg">3D Helix</span></div>
+<div class="card-q">Q: Is there a structural relationship between literacy and gender ratio?</div>
+<h3>Literacy-Gender DNA Helix</h3><p class="dp">Two strands: literacy (cyan) and sex ratio (magenta). States ordered by HDI.</p>
+<div class="card-a">A: Yes: higher literacy correlates with better sex ratio. But this is a known relationship, not a spatial finding.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('64_gender_development_3d.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">64</span><span class="cg">3D Scatter</span></div>
+<div class="card-q">Q: How do gender and development metrics co-vary across states?</div>
+<h3>Gender-Development Nexus 3D</h3><p class="dp">X=Sex Ratio, Y=Infant Mortality, Z=Literacy. Kerala vs Haryana in contrast.</p>
+<div class="card-a">A: Kerala and Haryana anchor opposite extremes. Descriptive comparison, not spatial autocorrelation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('60_india_food_geography_3d.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">60</span><span class="cg">3D Orbits</span></div>
+<div class="card-q">Q: Does India's agricultural production have a geographic pattern?</div>
+<h3>India Food Geography 3D</h3><p class="dp">Green diamonds = rice, gold squares = wheat. Height = production.</p>
+<div class="card-a">A: Rice in south/east, wheat in north/west. A well-known agro-climatic division, descriptive.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div>
+</div>
+<div class="tp" id="p-global" style="display:none;flex-direction:column">
+<div class="ph"><div class="pi" style="background:#00D5E022;color:#00D5E0">&#127758;</div><div><h2>Global: Geography Shapes Development</h2><p class="pd">Animated bubble charts, geo-variable scatter plots, and global 3D environments.</p></div></div>
+<h3 class="sub-section-title">Animated Bubble Charts</h3><div class="cg2">
+<div class="cd" onclick="op('01_gdp_vs_life_expectancy.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">01</span></div>
+<div class="card-q">Q: Does the Preston Curve hold across all countries and decades?</div>
+<h3>Wealth vs Health</h3><p class="dp">GDP vs life expectancy, 199 countries, 1990-2023.</p>
+<div class="card-a">A: Yes. The log-linear relationship is robust. But trajectories differ: Bangladesh overperforms, Nigeria underperforms.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('02_fertility_vs_life_expectancy.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">02</span></div>
+<div class="card-q">Q: Is the demographic transition universal?</div>
+<h3>Fertility vs Longevity</h3><p class="dp">Fertility vs life expectancy animated.</p>
+<div class="card-a">A: Yes. All continents converge toward low fertility, high longevity. The transition is staggered by 20-30 years.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('03_child_mortality_vs_gdp.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">03</span></div>
+<div class="card-q">Q: Does wealth reliably reduce child mortality?</div>
+<h3>Child Mortality vs Wealth</h3><p class="dp">Under-5 mortality vs GDP, animated.</p>
+<div class="card-a">A: Yes, but with diminishing returns. The steepest gains are at low income levels.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('04_country_trajectories.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">04</span></div>
+<div class="card-q">Q: Do countries follow the same path through GDP-health space?</div>
+<h3>Country Trajectories</h3><p class="dp">14 key nations traced over decades.</p>
+<div class="card-a">A: No. China leapt, Botswana dipped (HIV), Rwanda recovered. Geography and governance produce divergent routes.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('05_continental_trends.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">05</span></div>
+<div class="card-q">Q: Are continents converging or diverging?</div>
+<h3>Continental Trends</h3><p class="dp">GDP diverging, life expectancy converging, fertility converging.</p>
+<div class="card-a">A: Health converges. Wealth diverges. The world gets healthier together but richer apart.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('06_income_distribution_shift.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">06</span></div>
+<div class="card-q">Q: Is the 'developed vs developing' divide disappearing?</div>
+<h3>Income Distribution Shift</h3><p class="dp">From bimodal to unimodal.</p>
+<div class="card-a">A: Yes. The bimodal distribution of 1990 is becoming unimodal. The two humps are merging.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div>
+<h3 class="sub-section-title">Geo-Variable Scatter Plots</h3><div class="cg2">
+<div class="cd" onclick="op('23_latitude_vs_gdp.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">23</span></div>
+<div class="card-q">Q: Is the latitude-wealth relationship continuous or categorical?</div>
+<h3>Latitude vs GDP (r=0.574)</h3><p class="dp">Continuous gradient equator to poles.</p>
+<div class="card-a">A: Continuous (r=0.574). Singapore and Qatar are outliers. Within Asia, the gradient holds from Indonesia to Japan.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('24_megacity_distance_vs_lifeexp.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">24</span></div>
+<div class="card-q">Q: Does proximity to megacities predict life expectancy?</div>
+<h3>Megacity Distance vs Life Exp</h3><p class="dp">Nepal/Bhutan vs Singapore/HK.</p>
+<div class="card-a">A: Weakly (r=-0.268). Not driven by outliers but a global gradient from remote to connected.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('25_latitude_vs_child_mortality.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">25</span></div>
+<div class="card-q">Q: Does the equatorial penalty extend to child survival?</div>
+<h3>Latitude vs Child Mortality</h3><p class="dp">Low-latitude countries bear highest burden.</p>
+<div class="card-a">A: Yes. The tropical zone concentrates the highest under-5 mortality rates.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('27_landlocked_vs_coastal.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">27</span></div>
+<div class="card-q">Q: Does sea access systematically affect GDP?</div>
+<h3>Sea Access: Landlocked vs Coastal</h3><p class="dp">GDP by sea access and continent.</p>
+<div class="card-a">A: Yes. Landlocked countries face 15-20% higher transport costs and lower GDP.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('26_conflict_vs_development.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">26</span></div>
+<div class="card-q">Q: How much does conflict cost in development terms?</div>
+<h3>Conflict vs Development</h3><p class="dp">UCDP conflict vs GDP and life expectancy.</p>
+<div class="card-a">A: Even moderate conflict costs 10-15 years of life expectancy.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('28_digital_divide_latitude.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">28</span></div>
+<div class="card-q">Q: Does the digital divide follow the development gradient?</div>
+<h3>Digital Divide by Latitude</h3><p class="dp">Internet usage vs latitude by income group.</p>
+<div class="card-a">A: Yes. The latitude-internet relationship parallels the latitude-GDP relationship.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('31_water_stress_latitude.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">31</span></div>
+<div class="card-q">Q: Is water stress geographically concentrated?</div>
+<h3>The Arid Belt</h3><p class="dp">Water withdrawals vs latitude.</p>
+<div class="card-a">A: Yes. The 20-35 degree arid belt concentrates extreme water stress.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('32_physicians_latitude.html')"><div class="cs" style="background:#F39C12"></div><div class="cb">
+<div class="ct"><span class="cn">32</span></div>
+<div class="card-q">Q: Does physician availability follow a latitude gradient?</div>
+<h3>Healthcare by Latitude</h3><p class="dp">Physicians per 1,000 vs latitude.</p>
+<div class="card-a">A: Yes. Fewer doctors near the equator due to brain drain and training gaps.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div>
+<h3 class="sub-section-title">Global 3D Environments</h3><div class="cg2">
+<div class="cd" onclick="op('43_development_globe.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">43</span><span class="cg">3D</span></div>
+<div class="card-q">Q: Does development have a hemispheric pattern?</div>
+<h3>Development Globe</h3><p class="dp">196 countries on rotating sphere.</p>
+<div class="card-a">A: Yes. Northern hemisphere towers over South in GDP mode.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('45_continental_dev_space.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">45</span><span class="cg">3D</span></div>
+<div class="card-q">Q: Do continental clusters persist in 3D?</div>
+<h3>Continental Development Space</h3><p class="dp">196 countries in 3D: GDP x Life Exp x Fertility.</p>
+<div class="card-a">A: Yes. Africa, South Asia, Europe form distinct clusters with no 2D projection loss.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('56_development_spiral.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">56</span><span class="cg">3D</span></div>
+<div class="card-q">Q: Do countries follow spiral trajectories through development space?</div>
+<h3>Development Spiral</h3><p class="dp">Spiral paths through time (1952-2007).</p>
+<div class="card-a">A: Yes. Radius = GDP, height = life expectancy. The spiral reveals acceleration and stagnation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('22_bubble_map_gdp_health.html')"><div class="cs" style="background:#B10DC9"></div><div class="cb">
+<div class="ct"><span class="cn">22</span><span class="cg">3D</span></div>
+<div class="card-q">Q: Does geographic position predict the GDP-health combination?</div>
+<h3>GDP-Health Bubble Map</h3><p class="dp">Geographic bubble map.</p>
+<div class="card-a">A: Broadly yes. But outliers (Singapore, Qatar) break the pattern.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div>
+<div class="tp" id="p-sync" style="display:none;flex-direction:column">
+<div class="ph"><div class="pi" style="background:#00D5E022;color:#00D5E0">&#128260;</div><div><h2>Synchronized Multi-View Dashboards</h2><p class="pd">Four coordinated panels driven by a single timeline.</p></div></div><div class="cg2">
+<div class="cd" onclick="op('81_quad_panel_sync.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">81</span><span class="cg">Quad-Panel</span></div>
+<div class="card-q">Q: Do GDP, fertility, population, and trajectory change in synchrony?</div>
+<h3>Four Lenses on Global Development</h3><p class="dp">Bubble + choropleth + stacked area + trajectory. Slider 1990-2023.</p>
+<div class="card-a">A: Fertility decline lags GDP increase by 5-7 years, visible as phase difference in synchronized panels.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('82_health_environment_sync.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">82</span><span class="cg">Quad-Panel</span></div>
+<div class="card-q">Q: Are health and environment improvements coupled?</div>
+<h3>Health-Environment Nexus</h3><p class="dp">Aridity vs child mortality + environmental health + Preston Curve.</p>
+<div class="card-a">A: Partially. EKC holds for some indicators but not others.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('83_tech_inequality_sync.html')"><div class="cs" style="background:#00D5E0"></div><div class="cb">
+<div class="ct"><span class="cn">83</span><span class="cg">Quad-Panel</span></div>
+<div class="card-q">Q: Does technology reduce or amplify inequality?</div>
+<h3>Technology-Inequality Divergence</h3><p class="dp">Internet + Gini + digital divide + life expectancy.</p>
+<div class="card-a">A: Both. Internet diffusion follows Hagerstrand logistic curves but Gini shows divergent patterns.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div><p style="color:var(--t3);font-size:.75rem;margin-top:.8rem">India Electoral Threshold Explorer (Chart 84) is in the India tab, Finding 1.</p></div>
+<div class="tp" id="p-almanac" style="display:none;flex-direction:column">
+<div class="ph"><div class="pi" style="background:#71809622;color:#718096">&#128218;</div><div><h2>The Almanac: Extended Visual Reference</h2><p class="pd">Descriptive choropleths, animated temporal series, supplementary scatters, and coral/ocean visualizations. Context and reference material with moderate analytical weight.</p></div></div>
+<h3 class="sub-section-title">World Choropleths</h3><div class="cg2">
+<div class="cd" onclick="op('09_urbanization_choropleth.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">09</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Urbanization</h3><p class="dp">Urban population % by country.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('10_slum_population_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">10</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Slum Population</h3><p class="dp">% urban in slums.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('11_extreme_poverty_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">11</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Extreme Poverty</h3><p class="dp">Below $1.90/day.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('12_gini_inequality_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">12</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Gini Inequality</h3><p class="dp">Gini by country.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('13_internet_usage_choropleth.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">13</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Internet Usage</h3><p class="dp">% using internet.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('14_electricity_access_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">14</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Electricity Access</h3><p class="dp">% with electricity.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('15_mobile_subscriptions_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">15</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Mobile Subscriptions</h3><p class="dp">Per 100 people.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('16_gdp_per_capita_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">16</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>GDP Per Capita</h3><p class="dp">PPP choropleth.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('17_trade_openness_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">17</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Trade Openness</h3><p class="dp">Trade as % GDP.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('18_remittances_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">18</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Remittances</h3><p class="dp">As % GDP.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('19_forest_cover_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">19</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Forest Cover</h3><p class="dp">As % land area.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('20_renewable_energy_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">20</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Renewable Energy</h3><p class="dp">Consumption %.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('21_water_stress_map.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">21</span></div>
+<div class="card-q">Q: What is the global distribution of this indicator?</div>
+<h3>Water Stress</h3><p class="dp">Withdrawals as % resources.</p>
+<div class="card-a">A: Descriptive: shows geographic distribution but does not test a spatial hypothesis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div>
+<h3 class="sub-section-title">Animated Temporal</h3><div class="cg2">
+<div class="cd" onclick="op('49_gdp_bar_race.html')"><div class="cs" style="background:#E74C3C"></div><div class="cb">
+<div class="ct"><span class="cn">49</span></div>
+<div class="card-q">Q: Which countries rose fastest in GDP per capita?</div>
+<h3>GDP Bar Race</h3><p class="dp">Top 15 nations, 1992-2022.</p>
+<div class="card-a">A: Ireland, Qatar, Singapore. Temporal ranking, not spatial analysis.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('51_fertility_collapse.html')"><div class="cs" style="background:#E74C3C"></div><div class="cb">
+<div class="ct"><span class="cn">51</span></div>
+<div class="card-q">Q: Is global fertility convergence accelerating?</div>
+<h3>Fertility Collapse</h3><p class="dp">Year-by-year, 1990-2023.</p>
+<div class="card-a">A: Yes. The demographic transition is nearly universal by 2023.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('52_mortality_plunge.html')"><div class="cs" style="background:#E74C3C"></div><div class="cb">
+<div class="ct"><span class="cn">52</span></div>
+<div class="card-q">Q: How fast did child mortality decline regionally?</div>
+<h3>Mortality Plunge</h3><p class="dp">Animated choropleth.</p>
+<div class="card-a">A: Sub-Saharan Africa shows the slowest improvement but is converging.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('53_convergence_race.html')"><div class="cs" style="background:#E74C3C"></div><div class="cb">
+<div class="ct"><span class="cn">53</span></div>
+<div class="card-q">Q: Do health and wealth converge at the same rate?</div>
+<h3>Convergence</h3><p class="dp">Health converging, GDP diverging.</p>
+<div class="card-a">A: No. Health interventions work across income levels; markets do not equalize.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('58_animated_inequality.html')"><div class="cs" style="background:#E74C3C"></div><div class="cb">
+<div class="ct"><span class="cn">58</span></div>
+<div class="card-q">Q: Is global inequality rising or falling?</div>
+<h3>Animated Inequality</h3><p class="dp">Gini 1990-2020.</p>
+<div class="card-a">A: Mixed. Latin America improving, China worsening. Policy choices matter.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div>
+<h3 class="sub-section-title">Supplementary Scatters</h3><div class="cg2">
+<div class="cd" onclick="op('29_fertility_by_climate.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">29</span></div>
+<div class="card-q">Q: Does climate predict fertility?</div>
+<h3>Fertility by Climate</h3><p class="dp">Violin plots across climate zones.</p>
+<div class="card-a">A: Weakly. Tropical zones have widest spread. Not a strong causal finding.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('30_urbanization_vs_renewable.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">30</span></div>
+<div class="card-q">Q: Do urban areas use more renewables?</div>
+<h3>Urban vs Renewables</h3><p class="dp">Counterintuitively negative.</p>
+<div class="card-a">A: No. Urban = more fossil fuels. Rural = more biomass (counted as renewable).</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('33_education_megacity_distance.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">33</span></div>
+<div class="card-q">Q: Does geographic isolation predict education?</div>
+<h3>Education-Connectivity</h3><p class="dp">Completion vs megacity distance.</p>
+<div class="card-a">A: Weakly. Moderate negative correlation.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('34_trade_longitude.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">34</span></div>
+<div class="card-q">Q: Is trade geographically organized by longitude?</div>
+<h3>Trade East-West</h3><p class="dp">Trade vs longitude.</p>
+<div class="card-a">A: Two peaks: Europe (0-30E) and East Asia (100-120E).</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('35_maternal_mortality_forest.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">35</span></div>
+<div class="card-q">Q: Does forest cover predict maternal mortality?</div>
+<h3>Forest vs Maternal Mortality</h3><p class="dp">High forest = rural remoteness.</p>
+<div class="card-a">A: Weakly positive: high forest = rural, poor healthcare access.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('36_remittances_latitude.html')"><div class="cs" style="background:#718096"></div><div class="cb">
+<div class="ct"><span class="cn">36</span></div>
+<div class="card-q">Q: Do remittances follow a latitude gradient?</div>
+<h3>Remittance by Latitude</h3><p class="dp">Low-latitude dependency.</p>
+<div class="card-a">A: Weakly. Reflects South-to-North migration patterns.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div>
+<h3 class="sub-section-title">Corals and Oceans</h3><div class="cg2">
+<div class="cd" onclick="op('07_coral_bleaching_map.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">07</span></div>
+<div class="card-q">Q: Which reef systems face the highest bleaching threat?</div>
+<h3>Reef Bleaching Map</h3><p class="dp">27 reefs. Size = area. Color = threat.</p>
+<div class="card-a">A: Caribbean and Coral Triangle. Concentrated in warm, shallow waters.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('08_ocean_sst_anomaly.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">08</span></div>
+<div class="card-q">Q: Is the pace of ocean warming accelerating?</div>
+<h3>Ocean SST Anomaly</h3><p class="dp">1980-2024. 4 mass bleaching events.</p>
+<div class="card-a">A: Yes. All 4 mass bleaching events occurred after 1998. Accelerating frequency.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+<div class="cd" onclick="op('57_coral_temporal_pulse.html')"><div class="cs" style="background:#FF5872"></div><div class="cb">
+<div class="ct"><span class="cn">57</span></div>
+<div class="card-q">Q: How have bleaching events propagated across reef systems?</div>
+<h3>Coral Temporal Pulse</h3><p class="dp">Animated timeline.</p>
+<div class="card-a">A: From Caribbean to Indo-Pacific. Temporal and spatial diffusion visible.</div>
+<div class="ca">Open chart &rarr;</div></div></div>
+</div></div>
+<div class="sf"><h3>Sources</h3><p><b>ECI</b> <a href="https://results.eci.gov.in/">results.eci.gov.in</a> | <b>DataMeet</b> <a href="https://github.com/datameet">github.com/datameet</a> | <b>ADR/MyNeta</b> | <b>Census 2011</b> | <b>RBI</b> | <b>MoSPI</b> | <b>World Bank</b> <a href="https://data.worldbank.org/">data.worldbank.org</a> | <b>Gapminder</b> | <b>NOAA</b> | <b>UCDP/PRIO</b> | <b>Anselin (1995)</b> | <b>Moran (1950)</b> | <b>Tobler (1970)</b> | <b>Rokkan (1970)</b> | <b style="color:#FFD700">&#128218; <a href="chart_index.html" style="color:#FFD700">Complete Chart Index</a></b> | <b style="color:#00D5E0">&#128279; <a href="sitemap.html" style="color:#00D5E0">Site Index</a></b></p></div>
+</div>
+<div class="ov" id="ov"><button class="xb" onclick="cl()">&#215;</button><iframe id="cf" src=""></iframe></div>
+<script>
+function sw(id){document.querySelectorAll(".tp").forEach(p=>p.style.display="none");document.querySelectorAll(".tb").forEach(b=>b.classList.remove("active"));var p=document.getElementById("p-"+id);if(p){p.style.display="flex";p.style.flexDirection="column"}var b=document.getElementById("b-"+id);if(b)b.classList.add("active")}
+function op(f){document.getElementById("cf").src=f;document.getElementById("ov").classList.add("sh");document.body.style.overflow="hidden"}
+function cl(){document.getElementById("ov").classList.remove("sh");document.getElementById("cf").src="";document.body.style.overflow="auto"}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")cl()});
+</script></body></html>

@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Geography of Women's Power | Spatial Analysis</title>
+<script src="https://cdn.plot.ly/plotly-3.5.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF5;--card:#FFF;--tx:#1A1A1A;--tx2:#4A4A4A;--tx3:#7A8599;
+  --accent:#E65100;--accent2:#00695C;--green:#138808;--saffron:#FF9933;
+  --red:#C62828;--blue:#1A237E;--amber:#FF8F00;--purple:#4A148C;
+  --peacock:#00695C;--lotus:#AD1457;--chakra:#1A237E;
+}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);overflow:hidden;height:100vh;color:var(--tx)}
+
+/* ===== NAV ===== */
+.nav{position:fixed;bottom:0;left:0;right:0;height:54px;background:#FFF;border-top:3px solid var(--saffron);display:flex;align-items:center;justify-content:center;gap:12px;z-index:9999}
+.nav button{border:2px solid var(--saffron);border-radius:8px;padding:8px 22px;cursor:pointer;font:700 15px/1 'Source Sans 3',sans-serif;color:var(--chakra);background:#FFF;transition:all 0.15s}
+.nav button:hover{background:var(--saffron);color:#FFF}
+.nav .ct{font-size:14px;color:#555;min-width:70px;text-align:center;font-weight:600}
+.nav .ib{background:var(--chakra);color:#FFF;border-color:var(--chakra)}
+
+/* ===== INDEX ===== */
+.ixo{position:fixed;top:0;left:0;width:320px;bottom:54px;background:#FFF;z-index:180;transform:translateX(-100%);transition:transform 0.25s;overflow-y:auto;border-right:2px solid var(--saffron);padding:20px 0;box-shadow:4px 0 20px rgba(0,0,0,0.08)}
+.ixo.show{transform:translateX(0)}
+.ixo h2{font-family:'Playfair Display',serif;color:var(--chakra);padding:0 20px 12px;font-size:1.1rem;border-bottom:2px solid var(--saffron);margin-bottom:8px}
+.ix{padding:8px 20px;cursor:pointer;font-size:12px;color:#666;border-left:3px solid transparent;transition:all 0.15s}
+.ix:hover,.ix.act{background:#FFF8F0;color:var(--saffron);border-left-color:var(--saffron)}
+.ix .ixn{font-weight:700;color:var(--accent);margin-right:6px}
+
+/* ===== SLIDES ===== */
+.slide{position:absolute;top:0;left:0;right:0;bottom:54px;display:none;overflow:hidden}
+.slide.active{display:flex}
+.slide::before{content:'';position:absolute;top:0;left:0;right:0;height:12px;z-index:10;background:linear-gradient(to bottom,#FF9933 0%,#FF9933 33.3%,#FFFFFF 33.3%,#FFFFFF 66.6%,#138808 66.6%,#138808 100%)}
+.sl{padding-top:44px !important}
+.slide.hero::before,.slide.dark::before{height:12px}
+
+/* Split layout */
+.sl{width:40%;height:100%;overflow-y:auto;padding:32px 28px 20px;background:var(--card);border-right:1px solid #E8E8E8}
+.sr{width:60%;height:100%;display:flex;align-items:center;justify-content:center;padding:10px;background:var(--bg)}
+.sr iframe{width:calc(60vw - 24px);height:calc(100vh - 78px);border:none;border-radius:10px;background:#FFF;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+.sr .plotbox{width:calc(60vw - 24px);height:calc(100vh - 78px)}
+
+/* Full-width slides */
+.slide.full{flex-direction:column;align-items:center;justify-content:center;padding:24px 60px;text-align:center}
+.slide.hero{background:linear-gradient(135deg,#1A237E 0%,#1B3A5C 35%,#004D40 70%,#1A237E 100%);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 60px}
+.slide.dark{background:#0D1B3E;text-align:left;padding:40px 60px}
+
+/* Hero viz previews */
+.hero-viz{display:flex;gap:12px;justify-content:center;margin-top:12px}
+.hv{width:240px;height:140px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,153,51,0.3);position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.hv iframe{width:100%;height:100%;border:none;pointer-events:none}
+.hv span{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.7);font-size:0.65rem;text-align:center;padding:3px;text-transform:uppercase;letter-spacing:0.1em}
+
+/* ===== TYPOGRAPHY ===== */
+.stitle{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--chakra);line-height:1.2;margin-bottom:12px}
+.hero .stitle{color:#FFF;font-size:3.2rem;margin-bottom:14px;text-shadow:0 2px 30px rgba(255,153,51,0.15);line-height:1.1}
+.dark .stitle{color:#FFF;font-size:2.6rem}
+
+/* Moran badge */
+.mbadge{display:inline-block;background:linear-gradient(90deg,#FFF3E0,#FFF8E1);color:var(--accent);padding:4px 14px;border-radius:14px;font:700 1.2rem/1.4 'Source Sans 3',monospace;margin-bottom:14px;letter-spacing:0.02em;border:1px solid #FFE0B2}
+
+/* Hypothesis boxes */
+.hbox{border-radius:0 8px 8px 0;padding:14px 16px;margin:12px 0}
+.hbox-gen{background:#E0F2F1;border-left:4px solid var(--peacock)}
+.hbox-spec{background:#FFF3E0;border-left:4px solid var(--saffron)}
+.hbox-find{background:#E8F5E9;border-left:4px solid var(--green)}
+.hbox .hl{font-size:1.1rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:4px}
+.hbox-gen .hl{color:var(--peacock)}
+.hbox-spec .hl{color:var(--accent)}
+.hbox-find .hl{color:var(--green)}
+.hbox p{font-size:1.4rem;color:var(--tx);margin:0;line-height:1.5}
+.hbox-gen p{font-style:italic}
+
+/* Body text in left panel */
+.sbody{font-size:1.4rem;color:var(--tx2);line-height:1.6;margin-top:10px}
+.sbody p{margin-bottom:8px}
+.sbody b,.sbody strong{color:var(--tx)}
+
+/* ===== HERO ELEMENTS ===== */
+.hero-sub{font-size:1.15rem;color:rgba(255,255,255,0.6);max-width:700px;margin:0 auto 10px}
+.hero-meta{color:rgba(255,255,255,0.35);font-size:0.85rem;margin-bottom:4px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero-date{display:inline-block;background:var(--saffron);color:#FFF;padding:5px 18px;border-radius:18px;font:700 0.7rem/1.4 'Source Sans 3',sans-serif;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px}
+.hero-stats{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:nowrap}
+.hs{background:rgba(255,255,255,0.06);border:1px solid rgba(255,153,51,0.25);border-radius:10px;padding:12px 16px;text-align:center;min-width:100px}
+.hs b{display:block;font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--saffron);font-weight:900}
+.hs span{font-size:0.6rem;color:rgba(255,255,255,0.45);line-height:1.3;display:block;margin-top:3px}
+
+/* Tricolor bar */
+.tricolor{display:flex;height:4px;width:100%;position:absolute;top:0;left:0}
+.tricolor div{flex:1}
+.tc-s{background:#FF9933}.tc-w{background:#FFF}.tc-g{background:#138808}
+
+/* Timeline */
+.timeline{margin:16px 0;position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--saffron),var(--accent),var(--green))}
+.tl-item{position:relative;margin-bottom:14px;padding-left:12px}
+.tl-item::before{content:'';position:absolute;left:-22px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--accent);border:2px solid #FFF;box-shadow:0 0 0 1px var(--accent)}
+.tl-year{font-weight:700;color:var(--accent);font-size:1.2rem;display:inline-block;width:70px}
+.tl-text{font-size:1.2rem;color:var(--tx2);display:inline}
+
+/* ===== DARK SLIDE ELEMENTS ===== */
+.dark .concs{max-width:700px}
+.dark .cc{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;margin:8px 0;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06)}
+.dark .cc span{background:var(--saffron);color:#FFF;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0;margin-top:2px}
+.dark .cc-t{font-size:1.3rem;color:rgba(255,255,255,0.85);font-weight:600}
+.dark .cc-d{font-size:1.05rem;color:rgba(255,255,255,0.45);margin-top:2px}
+.dark .cc.sf{background:rgba(19,136,8,0.1);border-color:rgba(19,136,8,0.2)}
+.dark .cc.sf span{background:var(--green)}
+
+/* ===== MISC ===== */
+.key-box{background:linear-gradient(90deg,#FFF3E0,#FAFAF5);border-left:4px solid var(--saffron);padding:12px 14px;margin:14px 0;border-radius:0 6px 6px 0}
+.key-box p{font-size:1.4rem;font-weight:600;color:var(--chakra);margin:0}
+
+.mini-tbl{width:100%;border-collapse:collapse;font-size:1.25rem;margin:10px 0}
+.mini-tbl th{background:#1A237E;color:#FFF;padding:5px 8px;text-align:left;font-weight:600}
+.mini-tbl td{padding:5px 8px;border-bottom:1px solid #F0F0F0}
+
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.sc{padding:14px;border-radius:8px;font-size:1.25rem;line-height:1.7}
+.sc.amber{background:#FFFBEB;border:1px solid #FDE68A}
+.sc.green{background:#F0FDF4;border:1px solid #BBF7D0}
+.sc b{display:block;margin-bottom:6px;font-size:0.9rem;color:var(--tx)}
+.red{color:var(--red);font-weight:700}
+.grn{color:var(--green);font-weight:700}
+
+.lisa-leg{font-size:1.15rem;margin:8px 0;line-height:2.2}
+.ll-i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;margin-right:2px;border:1px solid rgba(0,0,0,0.1)}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.cmp>div{padding:14px;border-radius:8px;font-size:1.25rem;line-height:1.7}
+.cmp-l{background:#FFF7ED;border:1px solid #FDE68A}
+.cmp-r{background:#F0FDF4;border:1px solid #BBF7D0}
+</style>
+</head>
+<body>
+
+<!-- ===== INDEX PANEL ===== -->
+<div class="ixo" id="ixo">
+<h2>Slide Index</h2>
+<!-- Populated by JS -->
+</div>
+
+<!-- ===== SLIDES ===== -->
+<div id="slides">
+
+<!-- SLIDE 0: HERO TITLE -->
+<div class="slide hero active" id="sl0">
+<div class="hero-date">April 22, 2026 | 5 days after the bill failed</div>
+<div class="stitle">The Geography of Women's Power</div>
+<p class="hero-sub">A Spatial Analysis of India's Representation Crisis</p>
+<p class="hero-meta">Why the Women's Reservation Bill, Delimitation, and the North-South Divide Cannot Be Understood Without Maps</p>
+<p class="hero-meta" style="margin-top:10px">Vishakha Agrawal | Lab for Spatial Informatics, IIIT Hyderabad | SDS Project</p>
+<div class="hero-stats">
+<div class="hs"><b>298</b><span>Votes for (needed 352)</span></div>
+<div class="hs"><b>850</b><span>Proposed total seats</span></div>
+<div class="hs"><b>33%</b><span>Women's reservation</span></div>
+<div class="hs"><b>53yr</b><span>Since last reallocation</span></div>
+<div class="hs"><b>3.3pp</b><span>South share loss (Bill)</span></div>
+<div class="hs"><b>0pp</b><span>South share loss (Shah)</span></div>
+</div>
+</div>
+
+<!-- SLIDE 1: THE CRISIS -->
+<div class="slide" id="sl1">
+<div class="sl">
+<div class="stitle">Act I: The 27-Year Promise That Failed in 48 Hours</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">The Core Question</div>
+<p>When a resource (parliamentary seats) is redistributed using a formula, do the winners and losers form contiguous geographic belts? And if they do, is the reform fair?</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What Happened</div>
+<p>The 131st Amendment Bill was voted down on April 17, 2026. 298 for, 230 against, 54 short of two-thirds. The Women's Reservation Bill, passed unanimously in 2023, remains unimplemented.</p>
+</div>
+
+<div class="sbody">
+<p>The opposition argued that <strong>women's reservation was the wrapper around a demographic power grab</strong>. The bill proposed expanding Lok Sabha from 543 to 850 seats using the 2011 Census. States that controlled their populations (the South) would lose relative power to states that did not (the Hindi belt).</p>
+<p>P. Chidambaram called the amendment <strong>"mischievous and diabolical."</strong> Sonia Gandhi said <strong>"delimitation, not women's quota, is the real issue."</strong></p>
+<p>This analysis uses <strong>Moran's I</strong> and <strong>LISA cluster maps</strong> to test whether the opposition's claim is spatially defensible.</p>
+</div>
+</div>
+
+<div class="sr" style="padding:20px 30px;flex-direction:column;align-items:flex-start;justify-content:center">
+<div style="width:100%;max-width:420px">
+<div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--accent);margin-bottom:16px">Timeline: 53 Years of Frozen Representation</div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-year">1971</span><span class="tl-text">Last Census used for seat allocation. India's population: 54 crore.</span></div>
+<div class="tl-item"><span class="tl-year">1976</span><span class="tl-text">42nd Amendment freezes seats to incentivize family planning.</span></div>
+<div class="tl-item"><span class="tl-year">1996</span><span class="tl-text">Women's Reservation Bill first introduced. Fails.</span></div>
+<div class="tl-item"><span class="tl-year">2002</span><span class="tl-text">84th Amendment extends freeze until first census after 2026.</span></div>
+<div class="tl-item"><span class="tl-year">Sep 2023</span><span class="tl-text">Nari Shakti Vandan Adhiniyam passed unanimously. Linked to delimitation.</span></div>
+<div class="tl-item"><span class="tl-year">Apr 16</span><span class="tl-text">131st Amendment + Delimitation Bill introduced. 543 to 850 seats.</span></div>
+<div class="tl-item"><span class="tl-year">Apr 17</span><span class="tl-text" style="color:var(--red);font-weight:700">Bill fails: 298 for, 230 against. 54 votes short.</span></div>
+</div>
+
+<div class="key-box">
+<p>The bill mandates population-proportional allocation (Article 81). Shah claimed flat 50% increase. These are mathematically incompatible.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SLIDE 2: TWO SCENARIOS - BILL vs SHAH -->
+<div class="slide" id="sl2">
+<div class="sl">
+<div class="stitle">Act II: Two Incompatible Scenarios</div>
+<div class="mbadge">I(Bill gain%) = +0.363 STRONG | I(Shah gain%) = -0.194 DISPERSED</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When political assurances and statutory formulas produce different spatial distributions of the same resource, does the gap between them cluster geographically?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The bill mandates population-proportional allocation (Article 81). Shah claimed flat 50%. Kerala gets +10% under the bill but Shah promised +50%. For Kerala to get 30 seats proportionally, the house would need 1,087 seats. The bill caps at 850.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The bill's seat gains cluster strongly (I=+0.363). Shah's do not (I=-0.194). The gap between them clusters at I=+0.459 (very strong), favouring the South by ~20 seats over what the bill delivers.</p>
+</div>
+
+<div class="sc-grid">
+<div class="sc amber">
+<b>THE BILL (Article 81)</b>
+TN: 39&rarr;48 (+23%)<br>
+Kerala: 20&rarr;22 (+10%)<br>
+UP: 80&rarr;133 (+66%)<br>
+Bihar: 40&rarr;69 (+73%)<br>
+Rajasthan: 25&rarr;46 (+84%)<br>
+<span class="red">South: 24.1% &rarr; 20.8%</span>
+</div>
+<div class="sc green">
+<b>SHAH'S CLAIM (x 1.5)</b>
+TN: 39&rarr;59 (+51%)<br>
+Kerala: 20&rarr;30 (+50%)<br>
+UP: 80&rarr;120 (+50%)<br>
+Bihar: 40&rarr;60 (+50%)<br>
+Rajasthan: 25&rarr;38 (+52%)<br>
+<span class="grn">South: 24.1% &rarr; 24.1%</span>
+</div>
+</div>
+</div>
+<div class="sr">
+<div id="plotGain" class="plotbox"></div>
+</div>
+</div>
+
+<!-- SLIDE 5: MORAN'S I EVIDENCE TABLE -->
+<div class="slide" id="sl5">
+<div class="sl">
+<div class="stitle">Act III: The Spatial Evidence</div>
+<div class="mbadge">Moran's I: the decision criterion for spatialization</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Given multiple georeferenced variables, which ones exhibit spatial autocorrelation (geographic clustering) and which are spatially random? Moran's I quantifies this automatically, without geographic expertise.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Key Finding: Formula Amplification</div>
+<p>Population growth is moderately clustered (I=+0.17). The proportional allocation formula amplifies this to strong clustering (I=+0.36). Amplification factor: 2.2x. The formula does not just reflect demographics; it concentrates them.</p>
+</div>
+
+<div class="sbody">
+<table class="mini-tbl">
+<tr><th>Variable</th><th>Moran's I</th><th>Signal</th></tr>
+<tr><td>Share change (Bill)</td><td><b>+0.476</b></td><td class="vs">VERY STRONG</td></tr>
+<tr><td>Shah-Bill gap</td><td><b>+0.459</b></td><td class="vs">VERY STRONG</td></tr>
+<tr><td>Tax return ratio</td><td><b>+0.395</b></td><td class="s">STRONG</td></tr>
+<tr><td>Seat gain % (Bill)</td><td><b>+0.363</b></td><td class="s">STRONG</td></tr>
+<tr><td>GDP per capita</td><td><b>+0.346</b></td><td class="s">STRONG</td></tr>
+<tr><td>Pop growth 1971-2011</td><td>+0.166</td><td class="m">MODERATE</td></tr>
+<tr><td>TFR (NFHS-5)</td><td>+0.175</td><td class="m">MODERATE</td></tr>
+<tr><td>Seat gain % (Shah)</td><td><b>-0.194</b></td><td class="d">DISPERSED</td></tr>
+</table>
+<p>I > 0.25 = strong clustering. I near 0 = random. E[I] = -0.03.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="74_moran_criteria_explorer.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 5a: MORAN MAP - Population Growth -->
+<div class="slide" id="sl5a">
+<div class="sl">
+<div class="stitle">Moran Case 1: Population Growth</div>
+<div class="mbadge">I = +0.166 MODERATE | The demographic input</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Is population growth 1971-2011 spatially clustered? If it is, the allocation formula's input already has geographic structure. If not, the formula creates the structure.</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Kerala grew 57%. Rajasthan grew 167%. Delhi grew 310%. After correcting for state reorganizations (Telangana from AP, Jharkhand from Bihar, Chhattisgarh from MP, Uttarakhand from UP), the spatial signal is moderate: I = +0.166.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Population growth is MODERATELY clustered (I=+0.166, not statistically significant at p<0.05). High-growth states do not all neighbor each other. But when this weak signal enters the proportional allocation formula, it emerges as STRONG clustering (I=+0.363). The formula amplifies 2.2x.</p>
+</div>
+</div>
+<div class="sr">
+<div id="plotGrowth" class="plotbox"></div>
+</div>
+</div>
+
+<!-- SLIDE 5b: MORAN MAP - Seat Gain % Bill -->
+<div class="slide" id="sl5b">
+<div class="sl">
+<div class="stitle">Moran Case 2: Seat Gain % (Bill)</div>
+<div class="mbadge">I = +0.363 STRONG | The formula's output</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a formula transforms a weakly clustered input into a resource allocation, does the output cluster more strongly? If so, the formula creates geographic inequality that did not exist at comparable strength in the input.</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The proportional formula (seats = state pop / national pop x 815) converts population into seats. Rajasthan gains 84%, Bihar 73%, UP 66%, while Kerala gains 10% and TN 23%. The gains cluster in a Central-Western belt.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Seat gain % clusters strongly (I=+0.363), more than double the input clustering (I=+0.166). The formula amplifies weak demographic spatial structure by 2.2x. The Central belt (UP, MP, Rajasthan, Bihar) forms a contiguous corridor of above-average gains.</p>
+</div>
+</div>
+<div class="sr">
+<div id="plotGainBill" class="plotbox"></div>
+</div>
+</div>
+
+<!-- SLIDE 5c: MORAN MAP - Share Change -->
+<div class="slide" id="sl5c">
+<div class="sl">
+<div class="stitle">Moran Case 3: Share Change (Bill)</div>
+<div class="mbadge">I = +0.476 VERY STRONG | The strongest signal</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When relative shares (not absolute gains) are computed, does the zero-sum nature of share redistribution amplify spatial clustering even further?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>UP's share rises from 14.7% to 16.4% (+1.63pp). TN's share drops from 7.2% to 5.9% (-1.28pp). Kerala drops from 3.7% to 2.7% (-0.97pp). The share change is the STRONGEST spatial signal in the dataset at I = +0.476.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Share change is zero-sum: every percentage point gained by one state is lost by another. This zero-sum arithmetic concentrates gains and losses into contiguous belts. The red belt (Central: gaining share) and the blue belt (South: losing share) are not just correlated; they are geographic formations.</p>
+</div>
+</div>
+<div class="sr">
+<div id="plotShare" class="plotbox"></div>
+</div>
+</div>
+
+<!-- SLIDE 5d: MORAN MAP - Shah vs Bill Gap -->
+<div class="slide" id="sl5d">
+<div class="sl">
+<div class="stitle">Moran Case 4: The Promise Gap</div>
+<div class="mbadge">I = +0.459 VERY STRONG | Shah promised more than bill delivers</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a political assurance and a statutory formula produce different numbers for the same resource, does the gap between what was promised and what the law delivers cluster geographically?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Shah promised Tamil Nadu 59 seats. The bill gives 48. Gap: +11 seats. Shah promised Kerala 30. Bill gives 22. Gap: +8. Shah promised Bihar 60. Bill gives 69. Gap: -9. The South was promised MORE than the bill delivers. The Central belt was promised LESS.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The gap clusters at I = +0.459 (very strong). On the map: ▼ RED arrows over the South show states that will receive FEWER seats than Shah promised. ▲ GREEN arrows over the Central belt show states that will receive MORE than promised. The political assurance and the legislative mechanism are spatially incompatible.</p>
+</div>
+</div>
+<div class="sr">
+<div id="plotGap" class="plotbox"></div>
+</div>
+</div>
+
+<!-- SLIDE 6: MORAN SCATTER PLOT -->
+<div class="slide" id="sl6">
+<div class="sl">
+<div class="stitle">The Moran Scatter Plot</div>
+<div class="mbadge">Slope = Moran's I = 0.614 (voter turnout)</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>For any georeferenced variable, the Moran scatter plot (standardized value z vs spatial lag Wz) provides a complete spatial diagnostic. The slope equals Moran's I. The quadrants classify each unit as HH, HL, LH, or LL.</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Voter turnout in Lok Sabha 2024 has slope = +0.614 (the strongest spatial signal). Points in the upper-right (HH: high turnout surrounded by high turnout) and lower-left (LL: low surrounded by low) dominate. The spatial structure is statistically significant.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>No geographic knowledge is needed. The slope alone tells the analyst that turnout clusters geographically. The quadrants classify WHERE: HH = South and East, LL = Hindi belt urban areas. This is Anselin's (1995) standard diagnostic.</p>
+</div>
+
+<div class="sbody">
+<p><b>X-axis:</b> Standardized value (z = (x - mean) / std)</p>
+<p><b>Y-axis:</b> Spatial lag (Wz = weighted mean of neighbors)</p>
+<p><b>Slope</b> of regression line = Moran's I</p>
+<div class="lisa-leg">
+<span class="ll-i" style="background:#D32F2F"></span> HH (hot spot)
+<span class="ll-i" style="background:#1565C0"></span> LL (cold spot)
+<span class="ll-i" style="background:#FF8F00"></span> HL (outlier)
+<span class="ll-i" style="background:#7B1FA2"></span> LH (outlier)
+</div>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="39_india_moran_scatterplot.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 7: MORAN ERUPTION 3D -->
+<div class="slide" id="sl7">
+<div class="sl">
+<div class="stitle">Moran's I Eruption: 3D Spatial Statistics</div>
+<div class="mbadge">Each bar = one constituency's contribution to global I</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can local contributions to a global spatial statistic be decomposed and visualized as a 3D landscape, making abstract statistics physically tangible?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Each bar represents one constituency. Height = local Moran's I contribution. Color = LISA quadrant (red HH, blue LL). The 'eruption' shows which constituencies drive the global statistic.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The tallest bars (strongest contributors to spatial autocorrelation) cluster together, forming 'mountain ranges' of spatial structure. The Hindi belt LL cluster and the South-East HH cluster are visible as distinct geographic formations. Rotate and zoom to explore.</p>
+</div>
+
+<div class="sbody">
+<p>This is the spatial statistics analogue of a <b>contribution plot in PCA</b>. It decomposes global Moran's I into per-unit local contributions, revealing which spatial units are driving the overall pattern.</p>
+<p>A flat landscape = no spatial autocorrelation. Tall clustered bars = strong geographic structure. Isolated tall bars = spatial outliers.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="85_moran_eruption_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 8: LISA CLUSTERS - TURNOUT -->
+<div class="slide" id="sl8">
+<div class="sl">
+<div class="stitle">Act IV: Spatial Autocorrelation Revealed</div>
+<div class="mbadge">Turnout Moran's I = 0.614 | 543 constituencies</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>For a georeferenced variable with significant spatial autocorrelation, does a LISA cluster map reveal geographic structure that standard visualizations (histograms, bar charts) cannot show?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Voter turnout in Lok Sabha 2024 has the strongest spatial signal in the dataset (I = 0.614). The histogram shows a roughly normal distribution centered around 63%. It cannot show WHERE the low values are.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The LISA map reveals a contiguous northern belt of low turnout (LL: blue) spanning UP, Bihar, and parts of Rajasthan, invisible in any aspatial chart. A separate HH belt (red) spans the South and East. The structure is not scattered; it is geographic.</p>
+</div>
+
+<div class="sbody">
+<p><b>LISA</b> = Local Indicators of Spatial Association (Anselin, 1995). Each constituency classified as:</p>
+<div class="lisa-leg">
+<span class="ll-i" style="background:#D32F2F"></span> <b>HH</b> High surrounded by High
+<span class="ll-i" style="background:#1565C0"></span> <b>LL</b> Low surrounded by Low
+<span class="ll-i" style="background:#FF8F00"></span> <b>HL</b> High outlier in Low area
+<span class="ll-i" style="background:#7B1FA2"></span> <b>LH</b> Low outlier in High area
+<span class="ll-i" style="background:#BDBDBD"></span> <b>NS</b> Not significant
+</div>
+<p style="margin-top:8px">A policymaker using only a histogram targets the national average. The LISA map reveals that the problem is <em>regional</em>, not national.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="37_india_lisa_clusters.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 9: HISTOGRAM vs LISA COMPARISON -->
+<div class="slide" id="sl9">
+<div class="sl">
+<div class="stitle">Query 1: Bar Chart vs LISA Map</div>
+<div class="mbadge">The same data, two visualizations, two different conclusions</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>For any georeferenced variable with I > 0.25, does replacing the standard bar chart / histogram with a LISA cluster map change the analytical conclusion?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Voter turnout histogram: "Most constituencies have 60-70% turnout. The distribution is roughly normal." LISA map: "Low-turnout constituencies form a contiguous belt from western UP through Bihar."</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The histogram's conclusion is correct but incomplete. The LISA map adds WHERE. This changes the policy prescription from "raise national turnout" to "target the Hindi belt low-turnout corridor." The spatial method changes the conclusion.</p>
+</div>
+
+<div class="key-box">
+<p>This is Query 1 from the generalizable pipeline. The chart on the right shows both views side by side. The histogram (left panel) versus the LISA map (right panel).</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="90_comparison_turnout_cluster.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 10: BOXPLOT vs MAP -->
+<div class="slide" id="sl10">
+<div class="sl">
+<div class="stitle">Query 1b: Boxplot vs Choropleth</div>
+<div class="mbadge">Statistical summary vs geographic distribution</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a boxplot shows the quartiles, median, and outliers of a georeferenced variable, does overlaying the same data on a map reveal structure that the statistical summary hides?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The turnout boxplot shows quartiles (Q1=58%, median=63%, Q3=69%) and some outliers. It cannot show that the bottom quartile forms a contiguous geographic belt while the top quartile forms another.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The map reveals that Q1 (low turnout) constituencies are geographically contiguous in the North, while Q3-Q4 (high turnout) constituencies are contiguous in the South and East. The boxplot treats all Q1 values as equivalent; the map shows they are neighbors.</p>
+</div>
+
+<div class="sbody">
+<p>The boxplot is the most common statistical summary in policy reports. It works well for non-spatial data. For georeferenced data with I > 0.25, it systematically misses the geographic structure that drives the variation.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="96_comparison_turnout_boxplot_vs_map.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 11: ELECTORAL TERRAIN 3D -->
+<div class="slide" id="sl11">
+<div class="sl">
+<div class="stitle">India's Electoral Terrain in 3D</div>
+<div class="mbadge">Height = turnout | Color = party | Geography = topography</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can 3D extrusion transform spatial autocorrelation from an abstract statistic into a physical landscape, making geographic clusters tangible as mountains and valleys?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Each constituency extruded by its turnout percentage. High-turnout regions form plateaus (the South, the East). Low-turnout regions form valleys (the Hindi belt). Color encodes the winning party.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The 3D landscape makes Moran's I = 0.614 physically visible. The Hindi belt valley is a contiguous depression, not a scatter of low points. The South-East plateau is a contiguous elevation. Rotate and zoom to explore the terrain.</p>
+</div>
+
+<div class="sbody">
+<p>This visualization converts <b>abstract autocorrelation</b> into <b>physical geography</b>:</p>
+<p><b>Plateau</b> = contiguous cluster of similar values (HH or LL)</p>
+<p><b>Cliff</b> = sharp boundary between clusters</p>
+<p><b>Isolated peak</b> = spatial outlier (HL)</p>
+<p><b>Isolated valley</b> = spatial outlier (LH)</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="88_electoral_terrain_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 12: WOMEN LISA - CANDIDATURE vs SUCCESS -->
+<div class="slide" id="sl12">
+<div class="sl">
+<div class="stitle">Act V: Women's Political Geography</div>
+<div class="mbadge">Candidature I = +0.30 (clusters) | Success I = +0.04 (random)</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Given two georeferenced variables measuring different stages of the same pipeline, can parallel LISA maps reveal which stage exhibits spatial structure and which does not?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Women's candidature rate clusters spatially (I=+0.30): Chhattisgarh, Maharashtra, MP, Gujarat form an HH belt. Bihar, Jharkhand, WB form an LL belt. But women's election success is spatially random (I=+0.04).</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Geography drives who RUNS but not who WINS. The election process erases spatial structure. Parties nominate women in geographic belts (possibly due to regional party culture), but voter behavior does not follow the same spatial pattern. The pipeline has a spatial filter.</p>
+</div>
+
+<div class="sbody">
+<p>The scatter plot of candidature vs success shows "weak correlation" (r = +0.08). The LISA maps show the deeper truth: <b>spatial structure exists in one but not the other</b>. This distinction is invisible in any aspatial visualization.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="54_women_lisa_fixed.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 13: BAR vs LISA FOR WOMEN -->
+<div class="slide" id="sl13">
+<div class="sl">
+<div class="stitle">Query 2: Ranking vs LISA Map</div>
+<div class="mbadge">Rankings hide geographic contiguity. Maps reveal belts.</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a variable is visualized as a ranked bar chart vs a LISA cluster map, does the spatial visualization change the policy conclusion?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Bar chart: "Chhattisgarh has the highest women's candidature rate. Arunachal has the lowest. Target the bottom 10 states." LISA map: "The entire central-western corridor is a hot spot. The entire east is a cold spot."</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The policy implication changes fundamentally. The bar chart suggests state-level intervention (target individual states). The LISA map suggests belt-level intervention (the problem is regional, driven by shared geographic factors like party culture, urbanization, and social norms that cross state boundaries).</p>
+</div>
+
+<div class="key-box">
+<p>A policymaker using only the bar chart would create 28 separate state plans. The LISA map shows the problem has 3-4 geographic clusters requiring belt-level strategies.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="91_comparison_women_exclusion.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 14: WOMEN GRADIENT vs MAP -->
+<div class="slide" id="sl14">
+<div class="sl">
+<div class="stitle">Query 2b: Gradient Chart vs Spatial Map</div>
+<div class="mbadge">Sorting by value vs mapping by location</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When constituencies are sorted by a variable value (creating a smooth gradient) vs mapped geographically, does the spatial arrangement reveal structure the gradient hides?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The gradient chart sorts constituencies from lowest to highest women's candidature rate. It shows a smooth curve. The map shows the same values geographically, revealing that the low end of the gradient is spatially contiguous (not scattered).</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The gradient's smoothness is deceptive. It implies a continuum from "bad" to "good" states. The map shows the reality: there are two geographic regimes (high-candidature belt and low-candidature belt) with a sharp spatial boundary between them.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="97_comparison_women_gradient_vs_map.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 15: THE SILENCE MAP -->
+<div class="slide" id="sl15">
+<div class="sl">
+<div class="stitle">The Silence Map</div>
+<div class="mbadge">Constituencies with zero or one woman candidate</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Does the geography of ABSENCE (zero values of a participation variable) cluster spatially? If absence clusters, the barriers causing it are structural and geographic, not individual.</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>In 2024, dozens of Lok Sabha constituencies had zero or one woman candidate. These "silent" constituencies are not randomly scattered. They cluster in specific regions, revealing structural barriers aligned with geography.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The silence has a geography. The 33% reservation aims to break this silence. But under population-proportional delimitation, reserved seats go where total seats go (Central belt), not where silence is deepest (parts of North, East). The corrective policy's geography does not match the problem's geography.</p>
+</div>
+
+<div class="sbody">
+<p>This map inverts the usual analysis: instead of mapping where women ARE, it maps <b>where women are NOT</b>. The clustering of absence is as informative as the clustering of presence.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="65_silence_map.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 16: WOMEN CANDIDATURE 3D -->
+<div class="slide" id="sl16">
+<div class="sl">
+<div class="stitle">Women's Candidature: 3D Landscape</div>
+<div class="mbadge">Height = women's candidature rate | I = +0.30</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can 3D extrusion of a moderately clustered variable (I = +0.30) reveal geographic structure that a 2D choropleth obscures through continuous color gradients?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Each constituency extruded by its women's candidature rate. The central-western plateau (Chhattisgarh, Maharashtra, MP) is physically visible as elevated terrain. The eastern valley (Bihar, Jharkhand) is a depression.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The 3D landscape makes moderate clustering (I = +0.30) tangible. The plateau-valley structure is less dramatic than turnout (I = 0.614) but still clearly geographic. The spatial structure of women's candidature is real, not an artifact.</p>
+</div>
+
+<div class="sbody">
+<p>Compare this landscape to the turnout terrain (Slide 11). The women's candidature terrain has <b>lower relief</b> (moderate I vs strong I) but <b>the same geographic axis</b> (central-west high, east low). The two variables share spatial structure.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="70_women_candidature_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 17: WOMEN SILENCE FIELD 3D -->
+<div class="slide" id="sl17">
+<div class="sl">
+<div class="stitle">Women's Silence Field in 3D</div>
+<div class="mbadge">Height = inverse of women's participation</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can the geography of EXCLUSION be made more viscerally comprehensible through 3D visualization than through 2D maps or statistical tables?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Height = inverse of women's participation. The valleys are where women contest. The mountains are where they are absent. The tallest peaks represent the deepest political silence.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The silence is not scattered; it forms geographic mountain ranges. Breaking this silence requires belt-level interventions, not constituency-by-constituency approaches. The 3D view makes the scale of geographic exclusion physically tangible in a way that tables and 2D maps cannot.</p>
+</div>
+
+<div class="sbody">
+<p>This inverted 3D landscape is the visual complement to the Silence Map (Slide 15). Where the 2D map shows dots of absence, the 3D field shows <b>mountains of exclusion</b> and <b>valleys of participation</b>.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="86_women_silence_field_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 18: WOMEN'S GAUNTLET 3D -->
+<div class="slide" id="sl18">
+<div class="sl">
+<div class="stitle">The Gauntlet: Women's Electoral Pipeline</div>
+<div class="mbadge">From candidature (I=+0.30) to success (I=+0.04): spatial filter</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a multi-stage pipeline (nomination to candidature to election) transforms a spatially clustered input into a spatially random output, at which stage does the spatial structure disappear?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Women's candidature rate: I = +0.30 (moderate clustering). Women's election success: I = +0.04 (spatially random). The pipeline from running to winning erases geographic structure. The gauntlet is not geographic; it is political.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The 3D gauntlet shows the pipeline at each stage. The first stage (candidature) has clear geographic plateaus. The last stage (election) is flat. The spatial filter between stages is the finding: parties nominate women in geographic belts, but voters do not elect them in geographic belts.</p>
+</div>
+
+<div class="sbody">
+<p><b>Policy implication:</b> Reservation (33%) addresses the candidature stage by guaranteeing women's presence. But since election success is already spatially random, the reservation's geographic distribution (driven by delimitation) determines WHERE women enter Parliament, not WHETHER they win.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="89_women_gauntlet_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 19: DELIMITATION FREEZE 3D -->
+<div class="slide" id="sl19">
+<div class="sl">
+<div class="stitle">Act VI: 53 Years Frozen</div>
+<div class="mbadge">Seats frozen since 1971 | Population grew unevenly</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a resource allocation is frozen for decades while the underlying variable (population) changes unevenly across geography, does the resulting mismatch cluster spatially?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The 42nd Amendment (1976) froze Lok Sabha seats at the 1971 Census. The 84th Amendment (2001) extended the freeze to 2026. In 53 years, UP grew from 8.8 crore to 20 crore while Kerala grew from 2.1 to 3.3 crore. The mismatch is geographic.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The voters-per-seat distortion clusters strongly. UP constituencies average 25 lakh voters; Kerala constituencies average 17 lakh. The distortion is not random: it follows the demographic transition belt. States that completed the transition early (South) are over-represented per capita.</p>
+</div>
+
+<div class="sbody">
+<p>The freeze was designed to <b>incentivize family planning</b>. It succeeded: TFR dropped from 5.2 (1971) to 2.0 (2021). But it created a geographic equity problem: states that responded fastest to the incentive now face diluted representation.</p>
+<p><b>The delimitation bill would correct this</b>, but the correction itself creates geographic winners and losers (I = +0.476 on share change).</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="87_delimitation_freeze_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 20: 3D EXTRUDED INDIA -->
+<div class="slide" id="sl20">
+<div class="sl">
+<div class="stitle">India Extruded: Population as Topography</div>
+<div class="mbadge">Height = variable value | Plateaus = clusters</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can 3D extrusion of any georeferenced variable convert abstract spatial autocorrelation into physical topography, making it possible to "see" Moran's I?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>India's states extruded by an electoral variable. Contiguous clusters appear as plateaus. Sharp boundaries appear as cliffs. Spatial outliers appear as isolated peaks or valleys. The topography IS the spatial structure.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The 3D view reveals that India's electoral geography is not a smooth gradient but a landscape of discrete plateaus separated by cliffs. The Hindi belt, the South, the Northeast form distinct topographic regions. This is spatial autocorrelation made physical.</p>
+</div>
+
+<div class="sbody">
+<p>Rotate and zoom to explore. The questions to ask:</p>
+<p><b>Where are the plateaus?</b> (contiguous HH or LL clusters)</p>
+<p><b>Where are the cliffs?</b> (boundaries between regimes)</p>
+<p><b>Are there isolated peaks?</b> (spatial outliers: HL or LH)</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="47_3d_extruded_india.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 21: REPRESENTATION TREEMAP -->
+<div class="slide" id="sl21">
+<div class="sl">
+<div class="stitle">Representation Treemap</div>
+<div class="mbadge">Area = seats | Color = region | Before vs After delimitation</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can a treemap visualization show how proportional redistribution changes the relative weight of units, making share shifts visible as changes in visual area?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Each rectangle represents a state. Area proportional to seats. Under delimitation, UP's rectangle grows from 14.7% to 16.4% of total area. Tamil Nadu's shrinks from 7.2% to 5.9%. The visual change in rectangle size IS the political power shift.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The treemap is aspatial (no geography). But when colored by region, the pattern emerges: Central and West rectangles grow while South rectangles shrink. The treemap cannot show that these growing/shrinking groups are geographic neighbors. Only the map can show contiguity.</p>
+</div>
+
+<div class="sbody">
+<p>This is a deliberate <b>aspatial visualization</b> included for comparison. It shows WHAT changes (shares) but not WHERE (geography). Compare this to the LISA maps that show both.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="78_representation_treemap.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 22: REPRESENTATION INEQUALITY (LORENZ) -->
+<div class="slide" id="sl22">
+<div class="sl">
+<div class="stitle">Representation Inequality</div>
+<div class="mbadge">Lorenz curve: how unequal is seat distribution?</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can inequality metrics (Lorenz curve, Gini coefficient) quantify how far a resource allocation deviates from proportionality, and does the deviation have a geographic axis?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The Lorenz curve of voters-per-seat shows the current allocation's inequality. Under delimitation, the curve moves closer to the equality line (proportionality improves). But the states that "lose" from this correction are geographically contiguous (South).</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The Lorenz curve shows inequality without geography. When the states are mapped, the inequality has a spatial axis: the South is "over-represented" per capita (fewer voters per seat) and the Central belt is "under-represented." The Gini coefficient of representation drops with delimitation, but the geographic distribution of the correction is not neutral.</p>
+</div>
+
+<div class="sbody">
+<p><b>The equity paradox:</b> Delimitation makes representation MORE equal nationally (lower Gini) while making the GEOGRAPHIC distribution of change highly unequal (I = +0.476). National equality and spatial neutrality are competing objectives.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="76_representation_inequality.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 23: INDIA MULTI-METRIC EXPLORER -->
+<div class="slide" id="sl23">
+<div class="sl">
+<div class="stitle">Multi-Metric Electoral Explorer</div>
+<div class="mbadge">Interactive: toggle variables, thresholds, and spatial views</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When multiple georeferenced variables are visualized through synchronized panels, can users discover spatial correlations that single-variable maps cannot reveal?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Four synchronized panels showing turnout, margin, women's candidature, and other electoral variables simultaneously. Toggle thresholds and watch how spatial patterns align or diverge across variables.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The multi-metric view reveals that turnout, women's candidature, and fiscal indicators share a common geographic axis. The "Hindi belt low" pattern repeats across multiple variables. This shared spatial structure is invisible when variables are analyzed in separate charts.</p>
+</div>
+
+<div class="sbody">
+<p>This explorer allows <b>real-time spatial hypothesis testing</b>. Set a threshold on one variable and observe how the highlighted regions align with patterns in the other panels. When two variables highlight the same geographic belt, they share spatial structure.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="84_india_threshold_sync.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 24: FISCAL RETURNS -->
+<div class="slide" id="sl24">
+<div class="sl">
+<div class="stitle">Act VII: The Fiscal Paradox</div>
+<div class="mbadge">Tax return ratio I = +0.395 STRONG</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When fiscal transfers between subnational units are georeferenced, do net contributors and net recipients form contiguous geographic belts rather than being randomly distributed?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>For every Rs 100 contributed in tax, Bihar receives Rs 922 back. UP receives Rs 333. Maharashtra receives Rs 7.7. Karnataka receives Rs 13.9. The fiscal transfer ratio clusters strongly (I = +0.395).</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Net fiscal contributors (Maharashtra, Karnataka, TN, Gujarat) form one contiguous belt. Net recipients (Bihar, UP, MP, Jharkhand) form another. The fiscal axis and the delimitation axis are the same geographic axis. States gaining seats are the same states receiving fiscal transfers.</p>
+</div>
+
+<div class="sbody">
+<p>The South's argument: "We controlled our populations, we contribute more fiscally, and now we lose political representation." The data supports this: all three variables (population control, fiscal contribution, seat share loss) cluster on the <b>same geographic axis</b>.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="72_fiscal_returns.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 25: FISCAL SPINE CHART -->
+<div class="slide" id="sl25">
+<div class="sl">
+<div class="stitle">The Fiscal Spine</div>
+<div class="mbadge">Contributors on left, recipients on right</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can a diverging bar chart (spine chart) reveal the asymmetry in fiscal flows, and does the ordering of states along this spine follow a geographic pattern?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>States ordered by net fiscal position. Contributors extend left, recipients extend right. The spine is NOT randomly ordered: contributors are predominantly Southern/Western, recipients are predominantly Central/Eastern.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The spine chart is aspatial but reveals the asymmetry: a few large contributors (Maharashtra, TN, Karnataka, Gujarat) fund many recipients. When mapped, this asymmetry has a North-South axis. The spine's ordering is a proxy for latitude.</p>
+</div>
+
+<div class="sbody">
+<p>This chart shows the <b>scale</b> of the asymmetry. The map (next slide) shows the <b>geography</b>. Together they make the case that fiscal federalism in India has a spatial structure, not just a state-by-state pattern.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="77_fiscal_spine.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 26: FISCAL-GENDER BUBBLE -->
+<div class="slide" id="sl26">
+<div class="sl">
+<div class="stitle">Fiscal, Gender, and Representation</div>
+<div class="mbadge">Three inequalities in one visualization</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When three georeferenced inequality dimensions (fiscal contribution, gender representation, and political power) are plotted together, do they align on the same geographic axis or diverge?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>X-axis: fiscal position. Y-axis: women's representation. Bubble size: seats gained under delimitation. Color: region. Do states that contribute more fiscally also have lower women's representation and lose seats?</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The three dimensions partially align: the South contributes fiscally AND loses seat share, but has moderate women's participation. The Central belt receives fiscally AND gains seats, with mixed women's outcomes. The alignment is partial, not total, but the geographic axis is consistent.</p>
+</div>
+
+<div class="sbody">
+<p>This bubble chart combines fiscal, gender, and delimitation data in one view. The bubbles' positions, sizes, and colors tell a multi-dimensional story that would require three separate charts without this integration.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="79_fiscal_gender_bubble.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 27: FISCAL SCATTER vs MAP -->
+<div class="slide" id="sl27">
+<div class="sl">
+<div class="stitle">Query 3: Scatter Plot vs Spatial Map</div>
+<div class="mbadge">Correlation vs geographic structure</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When two correlated variables are plotted as a scatter (aspatial) vs overlaid on a map (spatial), does the map reveal that the correlation has a geographic axis?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Scatter: fiscal transfer ratio vs seats gained shows positive correlation. Map: both variables mapped simultaneously show the correlation runs along a North-South axis. The scatter shows r; the map shows WHERE r comes from.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The scatter plot says "higher fiscal dependence correlates with more seat gains." The map says "this correlation is geographic: one contiguous belt gains both, another contiguous belt loses both." A policy debate using only the scatter misses the spatial structure that drives the correlation.</p>
+</div>
+
+<div class="key-box">
+<p>Query 3 from the generalizable pipeline. After spatial confounding adjustment, the residuals still cluster at I = +0.31. The fiscal-political coupling is not explained away by any single confounding variable.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="101_comparison_fiscal_scatter_vs_map.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 28: PUNISHMENT VALUE 3D -->
+<div class="slide" id="sl28">
+<div class="sl">
+<div class="stitle">The "Punishment" for Population Control</div>
+<div class="mbadge">3D surface: demographic success vs political cost</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a policy incentive (family planning) is linked to a resource (seats), and the incentive succeeds unevenly across geography, does the resulting "punishment" for compliance cluster spatially?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>States that reduced TFR below replacement (Kerala 1.8, TN 1.8) lose relative seat share. States with high TFR (Bihar 3.0, UP 2.4) gain. The 3D surface plots demographic success on one axis and political cost on another.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The "punishment" is not random; it clusters geographically (the South). States that responded earliest to the family planning incentive are now punished with reduced political weight. The incentive design created a time bomb: success = future loss of representation.</p>
+</div>
+
+<div class="sbody">
+<p>This is the moral core of the delimitation debate. The 1976 freeze was a <b>promise</b>: "control your population and your representation will be protected." The 2026 bill <b>breaks that promise</b> for exactly the states that kept it. The 3D surface shows the shape of this broken promise.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="75_punishment_value_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 3: DELIMITATION SIMULATOR -->
+<div class="slide" id="sl3">
+<div class="sl">
+<div class="stitle">The Delimitation Simulator</div>
+<div class="mbadge">Interactive: adjust total seats and see state-by-state impact</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a resource pool is expanded and redistributed proportionally, which units gain relative share and which lose? Does the gain/loss pattern form geographic belts?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Expanding Lok Sabha from 543 to 815 using 2011 Census proportional allocation. The simulator shows how each state's seats and share change as the total is adjusted.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The share change (in percentage points) has Moran's I = +0.476, the strongest spatial signal in the entire dataset. The power shift is not just correlated with demographics; it IS geographic structure.</p>
+</div>
+
+<div class="sbody">
+<p><strong>Interact with the simulator</strong> on the right. Adjust the total house size and observe how seats redistribute. Key insight: even small changes in total seats produce geographically structured share shifts.</p>
+<p>The "50% for all" claim obscures this: Rajasthan gains 84%, Bihar 73%, UP 66%, while Kerala gains only 10% and Tamil Nadu 23%.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="71_delimitation_simulator.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 4: DELIMITATION-FISCAL COMPARISON -->
+<div class="slide" id="sl4">
+<div class="sl">
+<div class="stitle">Delimitation Meets Fiscal Reality</div>
+<div class="mbadge">Tax ratio I = +0.395 | Seat gain I = +0.363 | Same axis</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When two georeferenced variables (political power gain and fiscal dependence) are positively correlated, does their coupling cluster geographically, forming belts of compounding advantage?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>States gaining the most seats under the bill are also the states that receive the most per rupee of tax contributed. Bihar (Rs 922/100) gains 29 seats. Maharashtra (Rs 8/100) gains 27 despite 10x the GDP.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The fiscal-political coupling forms a contiguous belt from Bihar through UP, MP, to Rajasthan. These states simultaneously gain political power AND receive fiscal subsidies from the South and West. The bar chart shows correlation. The map shows it is geographic.</p>
+</div>
+
+<div class="key-box">
+<p>Without the map, one sees "some states benefit doubly." With the map, one sees "a contiguous corridor benefits doubly." This is the difference between a correlation and a geographic structure.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="95_comparison_delimitation_fiscal.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 29: RESERVATION SIMULATOR -->
+<div class="slide" id="sl29">
+<div class="sl">
+<div class="stitle">Act VIII: Where Do Reserved Seats Go?</div>
+<div class="mbadge">Interactive: simulate reservation distribution by region</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a corrective policy (quota) is allocated proportionally to a redistributed base (delimited seats), does the corrective policy's geographic footprint align with the geography of the problem it aims to solve?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>The 33% women's reservation allocates ~270 reserved seats. Under the bill, Central India gets 66 (most) despite 12.5% women already elected. The South gets 56 despite lower success (8.5%). The North, with the lowest women's election rate (6.8%), gets only 23.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The reservation formula allocates by TOTAL SEATS, not by EXCLUSION. The geographic distribution of the corrective does not match the geography of the problem. States where women are most excluded do not necessarily receive the most reserved seats.</p>
+</div>
+
+<div class="sbody">
+<table class="mini-tbl">
+<tr><th>Region</th><th>Reserved (Bill)</th><th>% Women Now</th><th>Match?</th></tr>
+<tr><td>Central</td><td><b>66</b></td><td>12.5%</td><td class="m">Moderate need, most seats</td></tr>
+<tr><td>East</td><td>59</td><td>17.1%</td><td class="d">Least need, many seats</td></tr>
+<tr><td>South</td><td>56</td><td>8.5%</td><td class="s">High need, fewer seats</td></tr>
+<tr><td>West</td><td>54</td><td>12.9%</td><td class="m">Moderate match</td></tr>
+<tr><td>North</td><td>23</td><td>6.8%</td><td class="vs">Highest need, fewest seats</td></tr>
+<tr><td>NE</td><td>11</td><td>12.0%</td><td class="m">Moderate match</td></tr>
+</table>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="73_reservation_simulator.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 30: ALLIANCE LISA & WOMEN -->
+<div class="slide" id="sl30">
+<div class="sl">
+<div class="stitle">Party Alliances and Women's Candidature</div>
+<div class="mbadge">Do party alliance patterns align with women's spatial geography?</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a political variable (party alliance) and a social variable (women's candidature) are both georeferenced, do their spatial patterns align, suggesting that party culture drives gender outcomes?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>NDA-dominated regions and women's candidature patterns are compared through LISA analysis. The question: do parties in certain geographic belts systematically nominate more or fewer women, and does this explain the spatial clustering of candidature?</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Party alliance patterns have their own spatial structure. When overlaid with women's candidature LISA, the alignment is partial: some party-dominated belts correspond to high women's candidature, others do not. The spatial structure of women's representation is not fully explained by party geography.</p>
+</div>
+
+<div class="sbody">
+<p>This visualization tests whether <b>party culture</b> or <b>regional culture</b> drives women's candidature. If party culture dominates, the LISA clusters would align with party strongholds. If regional culture dominates, the clusters would cross party boundaries.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="48_alliance_lisa_women.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 31: DEPOSIT FORFEITURE -->
+<div class="slide" id="sl31">
+<div class="sl">
+<div class="stitle">The Cost of Contesting: Deposit Forfeiture</div>
+<div class="mbadge">Women who lose their deposit: a geographic pattern?</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When candidates fail to secure a minimum vote share (forfeit their deposit), does the geography of forfeiture cluster spatially, and does it differ between men and women candidates?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>In India, candidates forfeiting deposits (less than 1/6 of votes) lose their Rs 25,000. Women candidates forfeit at higher rates in certain regions. This chart examines whether the financial punishment of contesting clusters geographically.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Deposit forfeiture patterns reveal the "viability floor" for women's candidature. In regions where women routinely forfeit, parties have no incentive to nominate them. This creates a self-reinforcing geographic trap: low viability leads to low nomination leads to low viability. The spatial structure of forfeiture predicts the spatial structure of silence.</p>
+</div>
+
+<div class="sbody">
+<p>The reservation bill would break this cycle by <b>guaranteeing</b> women's candidature in reserved seats. But the geographic distribution of reserved seats (driven by delimitation) determines where this cycle-breaking occurs. If reserved seats cluster in already-viable regions, the cycle persists elsewhere.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="68_deposit_forfeiture.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 32: CONSTITUENCY CLUSTERING -->
+<div class="slide" id="sl32">
+<div class="sl">
+<div class="stitle">Act IX: Spatial vs Non-Spatial Clustering</div>
+<div class="mbadge">k-Means ignores geography. LISA respects it.</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When a standard clustering algorithm (k-Means) and a spatial clustering method (LISA) are applied to the same georeferenced data, do they produce different groupings? Which is more policy-relevant?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>k-Means clusters constituencies by electoral variables (turnout, margin, women's candidature) without considering geography. LISA clusters them by spatial autocorrelation. The k-Means clusters are scattered across the map; the LISA clusters form contiguous belts.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>k-Means groups constituencies with similar VALUES regardless of location. LISA groups constituencies with similar values AND adjacent locations. For policy (which requires contiguous administrative zones), LISA clusters are actionable. k-Means clusters are not, because a policy cannot target scattered constituencies without geographic coherence.</p>
+</div>
+
+<div class="sbody">
+<p>This is the key methodological argument: <b>aspatial clustering creates groups that cannot be administered</b>. Spatial clustering creates groups that can. The choice of method determines whether the analysis is academically interesting or policy-relevant.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="80_constituency_clustering.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 33: DUAL MAP - TURNOUT vs MARGIN -->
+<div class="slide" id="sl33">
+<div class="sl">
+<div class="stitle">Dual Map: Turnout vs Victory Margin</div>
+<div class="mbadge">Two variables, one geography. Do the patterns align?</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When two georeferenced variables are displayed on synchronized side-by-side maps, can visual comparison of their spatial patterns reveal correlations that scatter plots quantify but cannot localize?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Left map: voter turnout by constituency. Right map: victory margin by constituency. Where turnout is low (Hindi belt), are margins also different? The dual map lets the viewer compare spatial patterns directly, constituency by constituency.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>The dual map reveals spatial co-occurrence that the scatter plot flattens. Regions of low turnout AND high margin (safe seats with disengaged voters) cluster in specific geographic areas. Regions of high turnout AND low margin (competitive, engaged) cluster in others. The co-occurrence IS the geographic finding.</p>
+</div>
+
+<div class="sbody">
+<p>A scatter plot of turnout vs margin shows a cloud of points with moderate correlation. The dual map shows that the correlation has a <b>geographic address</b>. This is the difference between "these variables correlate" and "these variables correlate HERE."</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="99_comparison_dual_map_turnout_margin.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 34: CONSTITUENCY AURORA -->
+<div class="slide" id="sl34">
+<div class="sl">
+<div class="stitle">Constituency Aurora</div>
+<div class="mbadge">Every constituency as a point of light in multi-dimensional space</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can dimensionality reduction (projecting multi-variable constituency data into 2D/3D) reveal natural groupings that correspond to geographic regions, even when geography is not an input variable?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Dataset</div>
+<p>Each constituency plotted in a reduced-dimension space based on its electoral characteristics (turnout, margin, women's candidature, etc.). Color encodes region. If geographic regions emerge as clusters WITHOUT geography being an input, the electoral variables have a spatial axis.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">Spatial Finding</div>
+<p>Regional colors cluster in the aurora. The South (pink/red) separates from the Hindi belt (orange/yellow) in the reduced space. This means electoral characteristics alone, without any geographic input, are sufficient to predict region. Geography is embedded in the data.</p>
+</div>
+
+<div class="sbody">
+<p>This is the strongest possible argument for spatialization: <b>even when you remove geography, it comes back</b>. Electoral variables carry geographic information. If geography is already in the data, spatial analysis is not optional; it is necessary for valid inference.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="62_constituency_aurora.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 35: WHY MAPS BEAT BAR CHARTS -->
+<div class="slide" id="sl35">
+<div class="sl">
+<div class="stitle">Act X: Why Maps Beat Bar Charts</div>
+<div class="mbadge">10+ aspatial charts vs 4 LISA maps + 6 Moran's I values</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">The Epistemic Argument</div>
+<p>Spatial analysis does not just add maps. It automates geographic pattern detection, quantifies it with a single statistic (Moran's I), and localizes it (LISA). The value is epistemic, not aesthetic.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What This Analysis Proved</div>
+<p>Every finding in this presentation (formula amplification, Bill-Shah incompatibility, fiscal coupling, reservation mismatch, punishment for population control) was detected by Moran's I and localized by LISA. None were visible in bar charts alone.</p>
+</div>
+
+<div class="sbody">
+<div class="cmp">
+<div class="cmp-l">
+<b>WITHOUT SPATIAL METHODS</b><br>
+10+ separate bar charts<br>
+Manual comparison across charts<br>
+Geographic expertise required<br>
+Must manually notice belts<br>
+No quantitative clustering measure<br>
+Conclusions depend on prior knowledge<br>
+<b>Not reproducible</b>
+</div>
+<div class="cmp-r">
+<b>WITH SPATIAL METHODS</b><br>
+4 LISA maps<br>
+6 Moran's I values<br>
+No geographic expertise needed<br>
+Statistics detect clusters automatically<br>
+Quantitative: I = +0.476 vs I = -0.194<br>
+Pattern detection is automated<br>
+<b>Fully reproducible</b>
+</div>
+</div>
+<p style="margin-top:8px;font-style:italic;color:var(--accent)"><b>Moran's I = +0.476</b> tells an analyst, without any knowledge of Indian geography, that the proposed reform has a spatial axis of inequality. A LISA map then shows exactly where that axis runs.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="62_constituency_aurora.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 36: 3D POLITICAL CYLINDER -->
+<div class="slide" id="sl36">
+<div class="sl">
+<div class="stitle">3D Showcase: The Political Cylinder</div>
+<div class="mbadge">India's electoral geography wrapped into a 3D cylinder</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can unconventional 3D projections (cylinder, helix, surface) reveal spatial patterns that flat maps distort through projection artifacts?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Visualization</div>
+<p>India's constituencies wrapped onto a cylinder. Latitude maps to height, longitude to angle. Color encodes the winning party. The cylindrical projection eliminates the edge distortion of flat maps, making East-West patterns visible.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What It Shows</div>
+<p>Party dominance has a clear latitudinal gradient on the cylinder. The North (top) is predominantly one color. The South (bottom) is another. The transition zone is visible as a color boundary. Rotate to explore.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="42_india_political_cylinder.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 37: PARTY FLIP 3D -->
+<div class="slide" id="sl37">
+<div class="sl">
+<div class="stitle">3D Showcase: Party Flip Animation</div>
+<div class="mbadge">Watch constituencies change party allegiance in 3D space</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Can animating political transitions in 3D space reveal whether party realignment follows geographic contiguity (spreading like a wave) or occurs as scattered individual switches?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Visualization</div>
+<p>Each constituency represented in 3D. Color encodes party. Animation shows how party allegiance shifts across electoral cycles. If flips spread from neighbors (spatial contagion), the animation shows a wave. If flips are scattered, the animation shows random color changes.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What It Shows</div>
+<p>Party transitions are not random. They follow geographic contiguity: a constituency is more likely to flip if its neighbors have already flipped. Political change has spatial autocorrelation. This is electoral contagion, and it clusters.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="55_india_party_flip_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 38: ELECTORAL SWING -->
+<div class="slide" id="sl38">
+<div class="sl">
+<div class="stitle">3D Showcase: Electoral Swing Animation</div>
+<div class="mbadge">The spatial wave of electoral change</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>Does electoral swing (change in vote share between elections) exhibit spatial autocorrelation, and can animated visualization make the geographic wave of change visible?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Visualization</div>
+<p>Each constituency animated by its swing between elections. Positive swing (gaining vote share) in one color, negative in another. The animation reveals whether swing is a national tide (uniform) or a geographic wave (spatially structured).</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What It Shows</div>
+<p>Electoral swing is spatially structured. Regions swing together, not as individual constituencies. This confirms that Indian elections are fought in geographic theaters, not in 543 independent contests. The spatial structure of swing mirrors the spatial structure of turnout, reinforcing the central finding.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="50_india_electoral_swing.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 39: SOCIOECONOMIC 3D -->
+<div class="slide" id="sl39">
+<div class="sl">
+<div class="stitle">3D Showcase: India's Socioeconomic Landscape</div>
+<div class="mbadge">Electoral variables mapped onto a socioeconomic terrain</div>
+
+<div class="hbox hbox-gen">
+<div class="hl">Generalized Hypothesis</div>
+<p>When socioeconomic variables are visualized as a 3D terrain and electoral variables are overlaid as color, does the terrain's topography predict the electoral patterns?</p>
+</div>
+
+<div class="hbox hbox-spec">
+<div class="hl">This Visualization</div>
+<p>Height encodes a socioeconomic index (GDP, literacy, health). Color encodes an electoral variable (turnout, margin, women's candidature). If the terrain predicts the color, socioeconomic geography drives electoral geography.</p>
+</div>
+
+<div class="hbox hbox-find">
+<div class="hl">What It Shows</div>
+<p>The socioeconomic terrain and electoral patterns are correlated but not identical. High-development plateaus (South, West) tend toward higher turnout and women's candidature. Low-development valleys (Central, East) tend toward lower participation. But there are exceptions: the spatial relationship is strong but not deterministic.</p>
+</div>
+</div>
+<div class="sr">
+<iframe data-src="63_india_socioeconomic_3d.html" ></iframe>
+</div>
+</div>
+
+<!-- SLIDE 40: CONCLUSIONS -->
+<div class="slide dark" id="sl40">
+<div class="stitle" style="font-size:2.2rem;margin-bottom:24px">Conclusions</div>
+<div style="color:rgba(255,255,255,0.45);font-size:0.95rem;margin-bottom:20px">Five findings from spatial analysis, all invisible without maps. Presented April 22, 2026, five days after the 131st Amendment Bill failed.</div>
+
+<div class="concs">
+<div class="cc">
+<span>1</span>
+<div><div class="cc-t">Bill vs Shah: mathematically incompatible</div>
+<div class="cc-d">Shah's per-state numbers = current x 1.5 exactly. The bill mandates population-proportional (Article 81). The gap clusters geographically at I = +0.459. The South is promised ~20 more seats than the bill would deliver.</div></div>
+</div>
+
+<div class="cc">
+<span>2</span>
+<div><div class="cc-t">The allocation formula amplifies spatial structure 2.2x</div>
+<div class="cc-d">Population growth is moderately clustered (I = +0.17). The proportional seat formula amplifies this to strong clustering (I = +0.36). The formula creates geographic belts that did not exist at comparable strength in the input data.</div></div>
+</div>
+
+<div class="cc">
+<span>3</span>
+<div><div class="cc-t">Fiscal-political coupling runs along the same geographic axis</div>
+<div class="cc-d">Tax return ratio I = +0.395. States gaining seats AND receiving fiscal transfers form a contiguous belt from Bihar through UP, MP, to Rajasthan. The South contributes fiscally and loses political weight simultaneously.</div></div>
+</div>
+
+<div class="cc">
+<span>4</span>
+<div><div class="cc-t">Women's reservation does not match the geography of exclusion</div>
+<div class="cc-d">Central gets 66 reserved seats (most) despite 12.5% women already elected. The North, with 6.8% women elected (highest need), gets only 23. The formula allocates by total seats, not by exclusion.</div></div>
+</div>
+
+<div class="cc sf">
+<span>5</span>
+<div><div class="cc-t">None of these findings are visible without spatial analysis</div>
+<div class="cc-d">Moran's I and LISA maps replace 10+ bar charts and manual geographic expertise with 4 maps and 6 statistics. The method is generalizable to any georeferenced resource allocation debate.</div></div>
+</div>
+</div>
+
+<div class="src" style="margin-top:20px;font-size:0.65rem;color:rgba(255,255,255,0.25)">
+Sources: PRS India annexure Table 1 (Delimitation Bill 2026) | PIB official transcript (Shah, April 16-17 2026) | Census 2011 & 1971 (corrected for state reorganizations) | ECI Statistical Reports 2024 | NFHS-5 | Finance Commission 14th/15th Reports<br>
+Methods: Moran's I (Moran 1950), LISA (Anselin 1995), queen contiguity weights | All computations reproducible via pipeline.py<br>
+Vishakha Agrawal | Lab for Spatial Informatics, IIIT Hyderabad | SDS Project, April 2026
+</div>
+</div>
+
+</div>
+
+<!-- ===== NAV ===== -->
+<div class="nav">
+<button class="ib" onclick="toggleIdx()">&#9776; Index</button>
+<button onclick="prev()">&#9664; Prev</button>
+<span class="ct" id="ct">1 / 2</span>
+<button onclick="next()">Next &#9654;</button>
+</div>
+
+<script>
+let cur=0;
+const allSlides=document.querySelectorAll('.slide');
+const N=allSlides.length;
+
+// Build index
+const ixo=document.getElementById('ixo');
+const titles=[];
+allSlides.forEach((s,i)=>{
+  const t=s.querySelector('.stitle');
+  const txt=t?t.textContent.trim().substring(0,55):'Slide '+(i+1);
+  titles.push(txt);
+  const d=document.createElement('div');
+  d.className='ix';
+  d.innerHTML='<span class="ixn">'+(i+1)+'</span>'+txt;
+  d.onclick=()=>go(i);
+  ixo.appendChild(d);
+});
+
+function go(n){
+  if(n<0||n>=N)return;
+  allSlides.forEach(s=>s.classList.remove('active'));
+  allSlides[n].classList.add('active');
+  cur=n;
+  document.getElementById('ct').textContent=(cur+1)+' / '+N;
+  document.querySelectorAll('.ix').forEach((x,i)=>x.classList.toggle('act',i===n));
+  // Deferred iframe loading: set src from data-src on first visit
+  allSlides[n].querySelectorAll('iframe[data-src]').forEach(f=>{if(!f.src||!f.src.includes('.html'))f.src=f.getAttribute('data-src');});
+  // Preload next slide's iframes
+  if(n+1<N){allSlides[n+1].querySelectorAll('iframe[data-src]').forEach(f=>{if(!f.src||!f.src.includes('.html'))f.src=f.getAttribute('data-src');});}
+  document.getElementById('ixo').classList.remove('show');
+}
+function next(){go(cur+1)}
+function prev(){go(cur-1)}
+function toggleIdx(){document.getElementById('ixo').classList.toggle('show')}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')next();
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='Escape')document.getElementById('ixo').classList.remove('show');
+  if(e.key==='Home')go(0);
+});
+
+// ===== PHASE 2: Gain comparison chart =====
+const kl=["AP","Asm","Bih","Chg","Del","Guj","Har","Jkd","Kar","Ker","MP","Mah","Odi","Pun","Raj","TN","Tel","UP","Ukd","WB"];
+const kp=[32,50,73,55,57,54,70,57,46,10,66,56,33,46,84,23,41,66,40,45];
+const ks=[52,50,50,55,57,50,50,50,50,50,52,50,52,54,52,51,53,50,60,50];
+if(document.getElementById("plotGain")){
+  Plotly.newPlot("plotGain",[
+    {x:kl,y:kp,type:"bar",name:"Bill (pop-proportional)",marker:{color:"#B33A2C"},hovertemplate:"%{x}: +%{y}%<extra>Bill</extra>"},
+    {x:kl,y:ks,type:"bar",name:"Shah (flat 50%)",marker:{color:"#4CAF50"},hovertemplate:"%{x}: +%{y}%<extra>Shah</extra>"}
+  ],{
+    barmode:"group",paper_bgcolor:"#F2F3F5",plot_bgcolor:"#FFF",
+    xaxis:{tickfont:{size:11,family:"Source Sans 3"},tickangle:0},
+    yaxis:{title:{text:"Seat Gain %",font:{size:12}},gridcolor:"#EEE",range:[0,92]},
+    legend:{x:0.5,xanchor:"center",y:1.08,orientation:"h",font:{size:11,family:"Source Sans 3"}},
+    margin:{t:40,b:30,l:45,r:15},
+    annotations:[
+      {x:"Ker",y:10,text:"Kerala<br>+10%",showarrow:true,arrowhead:2,ax:0,ay:-40,font:{size:9,color:"#B33A2C"}},
+      {x:"Raj",y:84,text:"Rajasthan<br>+84%",showarrow:true,arrowhead:2,ax:0,ay:-30,font:{size:9,color:"#B33A2C"}}
+    ]
+  },{responsive:true});
+}
+
+// ===== MORAN VARIABLE MAPS =====
+const ST=["AP","Aru","Asm","Bih","Chg","Del","Goa","Guj","Har","HP","J&K","Jkd","Kar","Ker","MP","Mah","Man","Meg","Miz","Nag","Odi","Pun","Raj","Sik","TN","Tel","Tri","UP","Ukd","WB"];
+const LAT=[15.9,28.2,26.2,25.1,21.3,28.7,15.4,22.3,29.1,31.1,33.8,23.6,15.3,10.9,22.9,19.8,24.7,25.5,23.2,26.2,20.9,31.2,27.0,27.5,11.1,18.1,23.9,26.8,30.1,22.9];
+const LON=[79.7,94.7,92.9,85.3,81.6,77.1,74.0,71.2,76.1,77.2,76.6,85.3,75.7,76.3,78.7,75.3,93.9,91.4,92.8,94.6,84.0,75.3,74.2,88.5,78.7,79.0,91.9,80.9,79.0,87.9];
+const CURR=[25,2,14,40,11,7,2,26,10,4,5,14,28,20,29,48,2,2,1,1,21,13,25,1,39,17,2,80,5,42];
+const PRS=[33,2,21,69,17,11,2,40,17,5,8,22,41,22,48,75,2,2,1,1,28,19,46,1,48,24,2,133,7,61];
+const SHAH=[38,2,21,60,17,11,2,39,15,6,8,21,42,30,44,72,3,3,2,2,32,20,38,2,59,26,3,120,8,63];
+const GROWTH=[94,198,114,143,137,310,88,126,154,97,178,143,108,57,137,123,164,200,233,285,92,105,167,186,75,94,131,93,93,106];
+const REG=["S","NE","NE","E","C","N","W","W","N","N","N","E","S","S","C","W","NE","NE","NE","NE","E","N","W","NE","S","S","NE","C","N","E"];
+const RC={"S":"#AD1457","C":"#FF9933","E":"#138808","W":"#1A237E","N":"#6A1B9A","NE":"#00695C"};
+const pbg="#FAFAF5";const pw="#FFF";const grd="#EEE";
+// Filter to states with 5+ seats
+const fi=[];const ST2=["AP","Aru","Asm","Bih","Chg","Del","Goa","Guj","Har","HP","J&K","Jkd","Kar","Ker","MP","Mah","Man","Meg","Miz","Nag","Odi","Pun","Raj","Sik","TN","Tel","Tri","UP","Ukd","WB"];
+for(let i=0;i<CURR.length;i++){if(CURR[i]>=5)fi.push(i);}
+
+// Geo layout shared config
+const GEO={domain:{x:[0.30,1],y:[0.02,0.98]},projection:{type:"natural earth"},lonaxis:{range:[65,100]},lataxis:{range:[5,38]},showland:true,landcolor:"#F5F5F5",countrycolor:"#CCC",showocean:true,oceancolor:"#E8F2FA",showcoastlines:true,coastlinecolor:"#BBB",showcountries:true,showframe:false,bgcolor:pbg};
+// Green-Yellow-Red colorscale
+const GYR=[[0,"#138808"],[0.3,"#66BB6A"],[0.5,"#FFD54F"],[0.7,"#FF9933"],[1,"#AD1457"]];
+const RYG=[[0,"#C62828"],[0.3,"#FF9800"],[0.5,"#FDD835"],[0.65,"#66BB6A"],[1,"#2E7D32"]];
+// Arrow helper: split indices into up/down traces
+function arrowGeo(idxs,vals,labels,valName,cscale,cmin,cmax,sizeScale){
+  const up=idxs.filter(i=>vals[i]>=0);
+  const dn=idxs.filter(i=>vals[i]<0);
+  const traces=[];
+  if(up.length>0) traces.push({type:"scattergeo",lat:up.map(i=>LAT[i]),lon:up.map(i=>LON[i]),mode:"markers+text",text:up.map(i=>labels[i]),textposition:"top center",textfont:{size:7,color:"#333",family:"Source Sans 3"},marker:{symbol:"triangle-up",size:up.map(i=>Math.max(14,Math.abs(vals[i])*sizeScale*1.5)),color:up.map(i=>vals[i]),colorscale:cscale,cmin:cmin,cmax:cmax,showscale:true,colorbar:{title:valName,len:0.45,x:0.98,thickness:10,tickfont:{size:8}},line:{width:1.5,color:"rgba(0,0,0,0.25)"},opacity:0.88},geo:"geo",showlegend:false,hovertemplate:"%{text}: "+(vals[0]>=0?"+":"")+"%{marker.color:.1f}"+valName+"<extra></extra>"});
+  if(dn.length>0) traces.push({type:"scattergeo",lat:dn.map(i=>LAT[i]),lon:dn.map(i=>LON[i]),mode:"markers+text",text:dn.map(i=>labels[i]),textposition:"top center",textfont:{size:7,color:"#333",family:"Source Sans 3"},marker:{symbol:"triangle-down",size:dn.map(i=>Math.max(14,Math.abs(vals[i])*sizeScale*1.5)),color:dn.map(i=>vals[i]),colorscale:cscale,cmin:cmin,cmax:cmax,showscale:false,line:{width:1.5,color:"rgba(0,0,0,0.25)"},opacity:0.88},geo:"geo",showlegend:false,hovertemplate:"%{text}: %{marker.color:.1f}"+valName+"<extra></extra>"});
+  return traces;
+}
+
+// Chart 1: Population Growth - all up arrows, green(low)→red(high)
+if(document.getElementById("plotGrowth")){
+  const si=[...fi].sort((a,b)=>GROWTH[a]-GROWTH[b]);
+  const labs=si.map(i=>ST2[i]);const vals=si.map(i=>GROWTH[i]);const cols=si.map(i=>RC[REG[i]]);
+  const gLabels={};fi.forEach(i=>{gLabels[i]=ST2[i]+" +"+GROWTH[i]+"%";});
+  const gVals={};fi.forEach(i=>{gVals[i]=GROWTH[i];});
+  Plotly.newPlot("plotGrowth",[
+    {y:labs,x:vals,type:"bar",orientation:"h",marker:{color:cols},text:vals.map(v=>v+"%"),textposition:"outside",textfont:{size:9},xaxis:"x",yaxis:"y",showlegend:false,hovertemplate:"%{y}: %{x}%<extra></extra>"},
+    ...arrowGeo(fi,GROWTH,ST2.map((s,i)=>s+" +"+GROWTH[i]+"%"),"%",GYR,50,250,0.1)
+  ],{
+    xaxis:{domain:[0,0.27],title:"Growth %",gridcolor:"#EEE",range:[0,340]},yaxis:{domain:[0,1],tickfont:{size:9}},
+    geo:GEO,paper_bgcolor:pbg,margin:{t:35,b:35,l:50,r:10},
+    title:{text:"<b>Population Growth 1971-2011</b> | I = +0.166 | ▲ size = growth %",font:{size:12}},
+    shapes:[{type:"line",x0:120,x1:120,y0:-0.5,y1:fi.length-0.5,line:{color:"#B33A2C",width:1.5,dash:"dash"},xref:"x",yref:"y"}]
+  },{responsive:true});
+}
+
+// Chart 2: Seat Gain % - all up arrows, green(near 50%)→red(far from 50%)
+const GP=CURR.map((c,i)=>c>0?Math.round((PRS[i]-c)/c*100):0);
+if(document.getElementById("plotGainBill")){
+  const si=[...fi].sort((a,b)=>GP[a]-GP[b]);
+  const labs=si.map(i=>ST2[i]);const vals=si.map(i=>GP[i]);
+  const cols=si.map(i=>GP[i]>55?"#C62828":GP[i]>45?"#FF9800":GP[i]>25?"#FDD835":"#2E7D32");
+  Plotly.newPlot("plotGainBill",[
+    {y:labs,x:vals,type:"bar",orientation:"h",marker:{color:cols},text:vals.map(v=>"+"+v+"%"),textposition:"outside",textfont:{size:9},xaxis:"x",yaxis:"y",showlegend:false,hovertemplate:"%{y}: +%{x}%<extra></extra>"},
+    ...arrowGeo(fi,GP,ST2.map((s,i)=>s+" +"+GP[i]+"%"),"%",GYR,0,85,0.28)
+  ],{
+    xaxis:{domain:[0,0.27],title:"Gain %",gridcolor:"#EEE",range:[0,95]},yaxis:{domain:[0,1],tickfont:{size:9}},
+    geo:GEO,paper_bgcolor:pbg,margin:{t:35,b:35,l:50,r:10},
+    title:{text:'<b>Seat Gain %</b> | I = +0.363 | Green 50% line = Shah\'s claim',font:{size:12}},
+    shapes:[{type:"line",x0:50,x1:50,y0:-0.5,y1:fi.length-0.5,line:{color:"#4CAF50",width:2.5,dash:"dash"},xref:"x",yref:"y"}]
+  },{responsive:true});
+}
+
+// Chart 3: Share Change - UP arrows(red, gaining) + DOWN arrows(blue, losing)
+const TC=CURR.reduce((a,b)=>a+b,0);const TP=PRS.reduce((a,b)=>a+b,0);
+const SC=CURR.map((c,i)=>{const cs=c/TC*100;const ps=PRS[i]/TP*100;return Math.round((ps-cs)*100)/100;});
+if(document.getElementById("plotShare")){
+  const si=[...fi].sort((a,b)=>SC[a]-SC[b]);
+  const labs=si.map(i=>ST2[i]);const vals=si.map(i=>SC[i]);
+  const cols=si.map(i=>SC[i]>0.1?"#C62828":SC[i]<-0.1?"#1565C0":"#999");
+  Plotly.newPlot("plotShare",[
+    {y:labs,x:vals,type:"bar",orientation:"h",marker:{color:cols},text:vals.map(v=>(v>0?"+":"")+v+"pp"),textposition:"outside",textfont:{size:9},xaxis:"x",yaxis:"y",showlegend:false,hovertemplate:"%{y}: %{x}pp<extra></extra>"},
+    ...arrowGeo(fi,SC,ST2.map((s,i)=>s+(SC[i]>0?" +":"")+SC[i]+"pp"),"pp",[[0,"#1565C0"],[0.4,"#64B5F6"],[0.48,"#FFF9C4"],[0.52,"#FFF9C4"],[0.6,"#EF9A9A"],[1,"#C62828"]],-1.5,1.8,14)
+  ],{
+    xaxis:{domain:[0,0.27],title:"Share Change (pp)",gridcolor:"#EEE",zeroline:true,zerolinecolor:"#333",zerolinewidth:2,range:[-1.6,2.0]},yaxis:{domain:[0,1],tickfont:{size:9}},
+    geo:GEO,paper_bgcolor:pbg,margin:{t:35,b:35,l:50,r:10},
+    title:{text:"<b>Share Change</b> | I = +0.476 STRONGEST | ▲ red = gaining | ▼ blue = losing",font:{size:12,color:"#B33A2C"}}
+  },{responsive:true});
+}
+
+// Chart 4: Promise Gap - Semantics: Bill delivers LESS than Shah promised (South) = ▼ RED
+// Bill delivers MORE than Shah promised (Central) = ▲ GREEN
+const GAP=CURR.map((c,i)=>SHAH[i]-PRS[i]); // Shah minus Bill (positive = over-promised)
+const OUTCOME=GAP.map(g=>-g); // Bill minus Shah (positive = bill exceeds promise = good)
+if(document.getElementById("plotGap")){
+  const si=[...fi].sort((a,b)=>GAP[a]-GAP[b]);
+  const labs=si.map(i=>ST2[i]);const vals=si.map(i=>GAP[i]);
+  // Bar colors: positive gap (over-promised) = RED, negative (under-promised) = GREEN
+  const cols=si.map(i=>GAP[i]>0?"#C62828":GAP[i]<0?"#2E7D32":"#999");
+  Plotly.newPlot("plotGap",[
+    {y:labs,x:vals,type:"bar",orientation:"h",marker:{color:cols},text:vals.map(v=>(v>0?"+":"")+v),textposition:"outside",textfont:{size:9},xaxis:"x",yaxis:"y",showlegend:false,hovertemplate:"%{y}: Shah promised %{x} more than bill delivers<extra></extra>"},
+    // Map arrows use OUTCOME (Bill-Shah): positive=bill exceeds=▲GREEN, negative=bill falls short=▼RED
+    ...arrowGeo(fi,OUTCOME,ST2.map((s,i)=>{const g=GAP[i];return s+(g>0?" promised +"+g+" more":" gets +"+Math.abs(g)+" bonus");}),
+      "",[[0,"#C62828"],[0.4,"#FF8A65"],[0.5,"#FFF9C4"],[0.6,"#81C784"],[1,"#2E7D32"]],-12,10,3)
+  ],{
+    xaxis:{domain:[0,0.27],title:"Shah minus Bill (seats)",gridcolor:"#EEE",zeroline:true,zerolinecolor:"#333",zerolinewidth:2,range:[-12,14]},yaxis:{domain:[0,1],tickfont:{size:9}},
+    geo:GEO,paper_bgcolor:pbg,margin:{t:35,b:35,l:50,r:10},
+    title:{text:"<b>Promise Gap</b> | I = +0.459 | ▼ red = will get LESS than promised | ▲ green = gets MORE",font:{size:11}}
+  },{responsive:true});
+}
+
+go(0);
+</script>
+</body></html>

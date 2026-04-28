@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="author" content="Vishakha Agrawal"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Development Globe</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#06080F;overflow-x:hidden;font-family:'Segoe UI',sans-serif}
+canvas{display:block;height:92vh;width:100%}
+#info{position:fixed;top:16px;left:50%;transform:translateX(-50%);color:#F0F3F8;text-align:center;z-index:10;pointer-events:none}
+#info h1{font-size:1.4rem;font-weight:700;margin-bottom:4px}
+#info p{font-size:.8rem;color:#A0AEC0}
+#tooltip{position:fixed;display:none;background:rgba(13,17,23,.95);border:1px solid #30363d;border-radius:8px;padding:10px 14px;color:#F0F3F8;font-size:.8rem;line-height:1.5;pointer-events:none;z-index:100;max-width:280px}
+#legend{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:16px;z-index:10}
+.leg{display:flex;align-items:center;gap:5px;color:#A0AEC0;font-size:.75rem}
+.leg span{width:12px;height:12px;border-radius:50%;display:inline-block}
+#metric{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px}
+#metric button{background:#161B26;border:1px solid #30363d;color:#A0AEC0;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.8rem}
+#metric button.active{background:#00D5E0;color:#06080F;border-color:#00D5E0}
+</style>
+</head><body>
+<!--BACKLINK-START-->
+<div id="atlasBacklink" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,11,19,.92);backdrop-filter:blur(6px);border-bottom:1px solid #1a2233;padding:6px 16px;display:flex;align-items:center;gap:10px;font-family:'Source Sans 3',system-ui,sans-serif;font-size:.76rem;transition:transform .3s ease">
+<a href="index.html" style="color:#00D5E0;text-decoration:none;font-weight:600;white-space:nowrap">&#9664; Atlas</a>
+<span style="color:#1a2233">|</span>
+<a href="sitemap.html#chart-43" style="color:#94A3B8;text-decoration:none;white-space:nowrap">Site Index</a>
+<span style="color:#1a2233">|</span>
+<a href="chart_index.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap">Chart Index</a>
+<span style="flex:1"></span>
+<span style="color:#B088F9;font-weight:600;white-space:nowrap">#43</span>
+<span style="color:#64748B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:250px">Development Globe</span>
+<span style="flex:1"></span>
+<a href="42_india_political_cylinder.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap" title="Previous chart">&larr; Prev</a>
+<a href="44_democracy_helix.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap" title="Next chart">Next &rarr;</a>
+<button onclick="document.getElementById('atlasBacklink').style.transform='translateY(-100%)'" style="background:none;border:none;color:#4a5568;cursor:pointer;font-size:.9rem;padding:0 2px" title="Hide bar">&times;</button>
+</div>
+<div style="height:32px"></div>
+<!--BACKLINK-END-->
+<div id="info"><h1>Development Globe</h1>
+<p>196 countries on a rotating sphere. Bar height = selected metric. Color = continent. Drag to rotate, scroll to zoom.</p></div>
+<div id="metric">
+<button class="active" onclick="setMetric('g')">GDP per Capita</button>
+<button onclick="setMetric('l')">Life Expectancy</button>
+<button onclick="setMetric('f')">Fertility Rate</button>
+</div>
+<div id="tooltip"></div>
+<div id="legend">
+<div class="leg"><span style="background:#00D5E0"></span>Africa</div>
+<div class="leg"><span style="background:#FFE700"></span>Americas</div>
+<div class="leg"><span style="background:#FF5872"></span>Asia</div>
+<div class="leg"><span style="background:#7FEB00"></span>Europe</div>
+<div class="leg"><span style="background:#aaa"></span>Other</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const DATA=[{"n":"Aruba","c":"Other","la":12.5,"lo":-70.0,"g":41965.0,"l":76.4,"p":107359.0,"f":1.6},{"n":"Afghanistan","c":"Other","la":34.5,"lo":69.2,"g":1984.0,"l":66.0,"p":41454761.0,"f":4.8},{"n":"Angola","c":"Other","la":-8.8,"lo":13.2,"g":8788.0,"l":64.6,"p":36749906.0,"f":5.1},{"n":"Albania","c":"Other","la":41.3,"lo":19.8,"g":20481.0,"l":79.6,"p":2414095.0,"f":1.3},{"n":"Andorra","c":"Other","la":42.5,"lo":1.5,"g":64631.0,"l":84.0,"p":80856.0,"f":1.1},{"n":"United Arab Emirates","c":"Other","la":24.5,"lo":54.4,"g":70240.0,"l":82.9,"p":10483751.0,"f":1.2},{"n":"Argentina","c":"Other","la":-34.6,"lo":-58.4,"g":27230.0,"l":77.4,"p":45538401.0,"f":1.5},{"n":"Armenia","c":"Other","la":40.2,"lo":44.5,"g":19403.0,"l":77.5,"p":2964300.0,"f":1.9},{"n":"Antigua and Barbuda","c":"Other","la":17.1,"lo":-61.8,"g":28474.0,"l":77.6,"p":93316.0,"f":1.6},{"n":"Australia","c":"Other","la":-35.3,"lo":149.1,"g":60685.0,"l":83.1,"p":26659922.0,"f":1.5},{"n":"Austria","c":"Other","la":48.2,"lo":16.4,"g":64536.0,"l":81.5,"p":9131761.0,"f":1.3},{"n":"Azerbaijan","c":"Other","la":40.4,"lo":49.9,"g":21311.0,"l":74.4,"p":10153958.0,"f":1.6},{"n":"Burundi","c":"Other","la":-3.4,"lo":29.4,"g":1036.0,"l":63.7,"p":13689450.0,"f":4.9},{"n":"Belgium","c":"Other","la":50.8,"lo":4.4,"g":63095.0,"l":82.4,"p":11779946.0,"f":1.5},{"n":"Benin","c":"Other","la":6.5,"lo":2.6,"g":3721.0,"l":60.8,"p":14111034.0,"f":4.6},{"n":"Burkina Faso","c":"Other","la":12.4,"lo":-1.5,"g":2486.0,"l":61.1,"p":23025776.0,"f":4.2},{"n":"Bangladesh","c":"Other","la":23.7,"lo":90.4,"g":8242.0,"l":74.7,"p":171466990.0,"f":2.2},{"n":"Bulgaria","c":"Other","la":42.7,"lo":23.3,"g":33074.0,"l":75.7,"p":6446596.0,"f":1.8},{"n":"Bahrain","c":"Other","la":26.2,"lo":50.5,"g":57820.0,"l":81.3,"p":1577059.0,"f":1.8},{"n":"Bahamas, The","c":"Other","la":25.1,"lo":-77.3,"g":35221.0,"l":74.6,"p":399440.0,"f":1.4},{"n":"Bosnia and Herzegovina","c":"Other","la":43.9,"lo":18.4,"g":19805.0,"l":77.8,"p":3185073.0,"f":1.5},{"n":"Belarus","c":"Other","la":54.0,"lo":27.6,"g":27782.0,"l":74.2,"p":9178298.0,"f":1.2},{"n":"Belize","c":"Other","la":17.3,"lo":-88.8,"g":12371.0,"l":73.6,"p":411106.0,"f":2.0},{"n":"Bermuda","c":"Other","la":32.3,"lo":-64.7,"g":103052.0,"l":82.3,"p":64698.0,"f":1.4},{"n":"Bolivia","c":"Other","la":-14.0,"lo":-66.2,"g":11616.0,"l":68.6,"p":12244159.0,"f":2.5},{"n":"Brazil","c":"Other","la":-15.8,"lo":-47.9,"g":19080.0,"l":75.8,"p":211140729.0,"f":1.6},{"n":"Barbados","c":"Other","la":13.1,"lo":-59.6,"g":21319.0,"l":76.2,"p":282336.0,"f":1.7},{"n":"Brunei Darussalam","c":"Other","la":4.9,"lo":114.9,"g":76617.0,"l":75.3,"p":458949.0,"f":1.7},{"n":"Bhutan","c":"Other","la":27.6,"lo":89.6,"g":14610.0,"l":73.0,"p":786385.0,"f":1.5},{"n":"Botswana","c":"Other","la":-24.7,"lo":25.9,"g":18932.0,"l":69.2,"p":2480244.0,"f":2.7},{"n":"Central African Republic","c":"Other","la":5.6,"lo":21.6,"g":1133.0,"l":57.4,"p":5152421.0,"f":6.0},{"n":"Canada","c":"Other","la":45.4,"lo":-75.7,"g":57517.0,"l":81.6,"p":40083484.0,"f":1.3},{"n":"Switzerland","c":"Other","la":46.9,"lo":7.4,"g":82295.0,"l":84.1,"p":8888822.0,"f":1.3},{"n":"Chile","c":"Other","la":-33.5,"lo":-70.6,"g":29564.0,"l":81.2,"p":19658835.0,"f":1.2},{"n":"China","c":"Other","la":40.0,"lo":116.3,"g":22687.0,"l":78.0,"p":1410710000.0,"f":1.0},{"n":"Cote d'Ivoire","c":"Other","la":5.3,"lo":-4.0,"g":6521.0,"l":61.9,"p":31165654.0,"f":4.3},{"n":"Cameroon","c":"Other","la":3.9,"lo":11.5,"g":4875.0,"l":63.7,"p":28372687.0,"f":4.3},{"n":"Congo, Dem. Rep.","c":"Other","la":-4.3,"lo":15.3,"g":1559.0,"l":61.9,"p":105789731.0,"f":6.1},{"n":"Congo, Rep.","c":"Other","la":-4.3,"lo":15.3,"g":6172.0,"l":65.8,"p":6182885.0,"f":4.2},{"n":"Colombia","c":"Other","la":4.6,"lo":-74.1,"g":18383.0,"l":77.7,"p":52321152.0,"f":1.6},{"n":"Comoros","c":"Other","la":-11.7,"lo":43.2,"g":3434.0,"l":66.8,"p":850387.0,"f":3.9},{"n":"Cabo Verde","c":"Other","la":14.9,"lo":-23.5,"g":9228.0,"l":76.1,"p":522331.0,"f":1.5},{"n":"Costa Rica","c":"Other","la":9.6,"lo":-84.0,"g":25980.0,"l":80.8,"p":5105525.0,"f":1.3},{"n":"Cayman Islands","c":"Other","la":19.3,"lo":-81.4,"g":79676.0,"l":80.4,"p":73038.0,"f":1.5},{"n":"Cyprus","c":"Other","la":35.2,"lo":33.4,"g":51454.0,"l":81.6,"p":1344976.0,"f":1.4},{"n":"Czechia","c":"Other","la":50.1,"lo":14.4,"g":47558.0,"l":79.9,"p":10864042.0,"f":1.4},{"n":"Germany","c":"Other","la":52.5,"lo":13.4,"g":63039.0,"l":80.5,"p":83287273.0,"f":1.4},{"n":"Djibouti","c":"Other","la":11.6,"lo":43.1,"g":6511.0,"l":66.0,"p":1152944.0,"f":2.6},{"n":"Dominica","c":"Other","la":15.3,"lo":-61.4,"g":18278.0,"l":71.1,"p":66510.0,"f":1.5},{"n":"Denmark","c":"Other","la":55.7,"lo":12.6,"g":69379.0,"l":81.9,"p":5946952.0,"f":1.5},{"n":"Dominican Republic","c":"Other","la":18.5,"lo":-69.9,"g":23282.0,"l":73.7,"p":11331265.0,"f":2.2},{"n":"Algeria","c":"Other","la":36.7,"lo":3.1,"g":15159.0,"l":76.3,"p":46164219.0,"f":2.8},{"n":"Ecuador","c":"Other","la":-0.2,"lo":-78.5,"g":14343.0,"l":77.4,"p":17980083.0,"f":1.8},{"n":"Egypt, Arab Rep.","c":"Other","la":30.1,"lo":31.2,"g":16691.0,"l":71.6,"p":114535772.0,"f":2.8},{"n":"Spain","c":"Other","la":40.4,"lo":-3.7,"g":47323.0,"l":83.9,"p":48352528.0,"f":1.1},{"n":"Estonia","c":"Other","la":59.4,"lo":24.8,"g":41289.0,"l":78.5,"p":1370286.0,"f":1.3},{"n":"Ethiopia","c":"Other","la":9.0,"lo":38.7,"g":2758.0,"l":67.3,"p":128691692.0,"f":4.0},{"n":"Finland","c":"Other","la":60.2,"lo":25.0,"g":56251.0,"l":81.7,"p":5583911.0,"f":1.3},{"n":"Fiji","c":"Other","la":-18.1,"lo":178.4,"g":13195.0,"l":67.3,"p":924145.0,"f":2.3},{"n":"France","c":"Other","la":48.9,"lo":2.4,"g":54297.0,"l":82.9,"p":68372286.0,"f":1.7},{"n":"Faroe Islands","c":"Other","la":61.9,"lo":-6.9,"g":71807.0,"l":83.1,"p":54414.0,"f":1.9},{"n":"Micronesia, Fed. Sts.","c":"Other","la":6.9,"lo":158.2,"g":3815.0,"l":67.2,"p":112630.0,"f":2.7},{"n":"Gabon","c":"Other","la":0.4,"lo":9.5,"g":18701.0,"l":68.3,"p":2484789.0,"f":3.6},{"n":"United Kingdom","c":"Other","la":51.5,"lo":-0.1,"g":52593.0,"l":81.2,"p":68492000.0,"f":1.6},{"n":"Georgia","c":"Other","la":41.7,"lo":44.8,"g":22591.0,"l":74.5,"p":3715483.0,"f":1.8},{"n":"Ghana","c":"Other","la":5.6,"lo":-0.2,"g":6809.0,"l":65.5,"p":33787914.0,"f":3.4},{"n":"Guinea","c":"Other","la":9.5,"lo":-13.7,"g":3905.0,"l":60.7,"p":14405468.0,"f":4.2},{"n":"Gambia, The","c":"Other","la":13.4,"lo":-16.6,"g":2964.0,"l":65.9,"p":2697845.0,"f":4.0},{"n":"Guinea-Bissau","c":"Other","la":11.8,"lo":-15.2,"g":2694.0,"l":64.1,"p":2153339.0,"f":3.8},{"n":"Equatorial Guinea","c":"Other","la":3.8,"lo":8.8,"g":15688.0,"l":63.7,"p":1847549.0,"f":4.1},{"n":"Greece","c":"Other","la":38.0,"lo":23.7,"g":36701.0,"l":81.5,"p":10407351.0,"f":1.3},{"n":"Grenada","c":"Other","la":12.1,"lo":-61.7,"g":17093.0,"l":75.2,"p":117081.0,"f":1.5},{"n":"Greenland","c":"Other","la":64.2,"lo":-51.7,"g":71038.0,"l":71.5,"p":56865.0,"f":1.8},{"n":"Guatemala","c":"Other","la":14.6,"lo":-90.5,"g":12385.0,"l":72.6,"p":18124838.0,"f":2.3},{"n":"Guyana","c":"Other","la":6.8,"lo":-58.2,"g":49312.0,"l":70.2,"p":826353.0,"f":2.4},{"n":"Hong Kong SAR, China","c":"Other","la":22.4,"lo":114.1,"g":64435.0,"l":85.2,"p":7536100.0,"f":0.8},{"n":"Honduras","c":"Other","la":15.1,"lo":-87.5,"g":6468.0,"l":72.9,"p":10644851.0,"f":2.5},{"n":"Croatia","c":"Other","la":45.8,"lo":16.0,"g":41320.0,"l":78.5,"p":3859686.0,"f":1.5},{"n":"Haiti","c":"Other","la":18.5,"lo":-72.3,"g":2966.0,"l":64.9,"p":11637398.0,"f":2.7},{"n":"Hungary","c":"Other","la":47.5,"lo":19.0,"g":40333.0,"l":76.8,"p":9592186.0,"f":1.5},{"n":"Indonesia","c":"Other","la":-6.2,"lo":106.8,"g":13890.0,"l":71.1,"p":281190067.0,"f":2.1},{"n":"India","c":"Other","la":28.6,"lo":77.2,"g":9302.0,"l":72.0,"p":1438069596.0,"f":2.0},{"n":"Ireland","c":"Other","la":53.3,"lo":-6.3,"g":117862.0,"l":82.9,"p":5311538.0,"f":1.5},{"n":"Iran, Islamic Rep.","c":"Other","la":35.7,"lo":51.4,"g":17045.0,"l":77.7,"p":90608707.0,"f":1.7},{"n":"Iraq","c":"Other","la":33.3,"lo":44.4,"g":13202.0,"l":72.3,"p":45074049.0,"f":3.2},{"n":"Iceland","c":"Other","la":64.1,"lo":-21.9,"g":68118.0,"l":82.6,"p":385663.0,"f":1.6},{"n":"Israel","c":"Other","la":31.8,"lo":35.2,"g":47527.0,"l":83.2,"p":9849000.0,"f":2.9},{"n":"Italy","c":"Other","la":41.9,"lo":12.5,"g":52870.0,"l":83.7,"p":58984216.0,"f":1.2},{"n":"Jamaica","c":"Other","la":18.0,"lo":-76.8,"g":11399.0,"l":71.5,"p":2839786.0,"f":1.4},{"n":"Jordan","c":"Other","la":31.9,"lo":35.9,"g":9381.0,"l":77.8,"p":11439213.0,"f":2.6},{"n":"Japan","c":"Other","la":35.7,"lo":139.8,"g":45859.0,"l":84.0,"p":124516650.0,"f":1.2},{"n":"Kazakhstan","c":"Other","la":51.2,"lo":71.4,"g":34703.0,"l":74.4,"p":20330104.0,"f":3.0},{"n":"Kenya","c":"Other","la":-1.3,"lo":36.8,"g":5692.0,"l":63.6,"p":55339003.0,"f":3.2},{"n":"Kyrgyz Republic","c":"Other","la":42.9,"lo":74.6,"g":6576.0,"l":72.2,"p":7099750.0,"f":2.7},{"n":"Cambodia","c":"Other","la":11.6,"lo":104.9,"g":6695.0,"l":70.7,"p":17423880.0,"f":2.6},{"n":"Kiribati","c":"Other","la":1.3,"lo":173.0,"g":3141.0,"l":66.5,"p":132530.0,"f":3.1},{"n":"St. Kitts and Nevis","c":"Other","la":17.3,"lo":-62.7,"g":30617.0,"l":72.1,"p":46758.0,"f":1.5},{"n":"Korea, Rep.","c":"Other","la":37.5,"lo":127.0,"g":54029.0,"l":83.4,"p":51712619.0,"f":0.7},{"n":"Kuwait","c":"Other","la":29.4,"lo":48.0,"g":47777.0,"l":83.2,"p":4853420.0,"f":1.5},{"n":"Lao PDR","c":"Other","la":18.6,"lo":102.2,"g":8372.0,"l":69.0,"p":7664993.0,"f":2.4},{"n":"Lebanon","c":"Other","la":33.9,"lo":35.5,"g":11330.0,"l":77.8,"p":5773493.0,"f":2.2},{"n":"Liberia","c":"Other","la":6.3,"lo":-10.8,"g":1617.0,"l":62.2,"p":5493031.0,"f":4.0},{"n":"Libya","c":"Other","la":32.9,"lo":13.1,"g":12477.0,"l":69.3,"p":7305659.0,"f":2.4},{"n":"St. Lucia","c":"Other","la":14.0,"lo":-61.0,"g":23404.0,"l":72.7,"p":179285.0,"f":1.4},{"n":"Sri Lanka","c":"Other","la":6.9,"lo":79.9,"g":13025.0,"l":77.5,"p":22037000.0,"f":2.0},{"n":"Lesotho","c":"Other","la":-29.5,"lo":27.7,"g":2596.0,"l":57.4,"p":2311472.0,"f":2.7},{"n":"Lithuania","c":"Other","la":54.7,"lo":25.3,"g":46160.0,"l":77.0,"p":2871585.0,"f":1.2},{"n":"Luxembourg","c":"Other","la":49.6,"lo":6.1,"g":130049.0,"l":83.4,"p":666430.0,"f":1.2},{"n":"Latvia","c":"Other","la":56.9,"lo":24.1,"g":37278.0,"l":75.7,"p":1883710.0,"f":1.4},{"n":"Macao SAR, China","c":"Other","la":22.2,"lo":113.5,"g":104815.0,"l":83.2,"p":678800.0,"f":0.6},{"n":"Morocco","c":"Other","la":34.0,"lo":-6.9,"g":8915.0,"l":75.3,"p":37712505.0,"f":2.2},{"n":"Moldova","c":"Other","la":47.0,"lo":28.8,"g":15990.0,"l":71.2,"p":2457783.0,"f":1.7},{"n":"Madagascar","c":"Other","la":-20.5,"lo":45.7,"g":1629.0,"l":63.6,"p":31195932.0,"f":4.0},{"n":"Maldives","c":"Other","la":4.2,"lo":73.5,"g":22333.0,"l":81.0,"p":525994.0,"f":1.6},{"n":"Mexico","c":"Other","la":19.4,"lo":-99.1,"g":21917.0,"l":75.1,"p":129739759.0,"f":1.9},{"n":"Marshall Islands","c":"Other","la":7.1,"lo":171.1,"g":6802.0,"l":66.9,"p":38827.0,"f":2.9},{"n":"North Macedonia","c":"Other","la":42.0,"lo":21.4,"g":23455.0,"l":75.3,"p":1827816.0,"f":1.5},{"n":"Mali","c":"Other","la":13.6,"lo":-7.5,"g":2860.0,"l":60.4,"p":23769127.0,"f":5.6},{"n":"Malta","c":"Other","la":35.9,"lo":14.5,"g":60418.0,"l":83.5,"p":552747.0,"f":1.1},{"n":"Myanmar","c":"Other","la":21.9,"lo":96.0,"g":5364.0,"l":66.9,"p":54133798.0,"f":2.1},{"n":"Montenegro","c":"Other","la":42.5,"lo":19.3,"g":27244.0,"l":77.6,"p":623529.0,"f":1.7},{"n":"Mongolia","c":"Other","la":47.9,"lo":106.9,"g":16223.0,"l":72.1,"p":3481145.0,"f":2.7},{"n":"Mozambique","c":"Other","la":-26.0,"lo":32.6,"g":1512.0,"l":63.6,"p":33635160.0,"f":4.8},{"n":"Mauritania","c":"Other","la":18.2,"lo":-16.0,"g":6276.0,"l":68.5,"p":5022441.0,"f":4.7},{"n":"Mauritius","c":"Other","la":-20.2,"lo":57.5,"g":26635.0,"l":73.4,"p":1248647.0,"f":1.4},{"n":"Malawi","c":"Other","la":-14.0,"lo":33.8,"g":1649.0,"l":67.4,"p":21104482.0,"f":3.6},{"n":"Malaysia","c":"Other","la":3.1,"lo":101.7,"g":32858.0,"l":76.7,"p":35126298.0,"f":1.6},{"n":"Namibia","c":"Other","la":-22.6,"lo":17.1,"g":10138.0,"l":67.4,"p":2963095.0,"f":3.2},{"n":"Niger","c":"Other","la":13.5,"lo":2.1,"g":1690.0,"l":61.2,"p":26159867.0,"f":6.1},{"n":"Nigeria","c":"Other","la":9.1,"lo":7.5,"g":7844.0,"l":54.5,"p":227882945.0,"f":4.5},{"n":"Nicaragua","c":"Other","la":12.1,"lo":-86.3,"g":7497.0,"l":74.9,"p":6823613.0,"f":2.2},{"n":"Netherlands","c":"Other","la":52.4,"lo":4.9,"g":70199.0,"l":81.9,"p":17877117.0,"f":1.4},{"n":"Norway","c":"Other","la":59.9,"lo":10.7,"g":90085.0,"l":83.1,"p":5519601.0,"f":1.4},{"n":"Nepal","c":"Other","la":27.7,"lo":85.3,"g":4861.0,"l":70.4,"p":29694614.0,"f":2.0},{"n":"Nauru","c":"Other","la":-0.5,"lo":166.9,"g":12373.0,"l":62.1,"p":11875.0,"f":3.3},{"n":"New Zealand","c":"Other","la":-41.3,"lo":174.8,"g":49508.0,"l":83.0,"p":5200000.0,"f":1.6},{"n":"Oman","c":"Other","la":23.6,"lo":58.6,"g":37794.0,"l":80.0,"p":5049269.0,"f":2.5},{"n":"Pakistan","c":"Other","la":30.5,"lo":72.8,"g":5419.0,"l":67.6,"p":247504495.0,"f":3.6},{"n":"Panama","c":"Other","la":9.0,"lo":-79.5,"g":35873.0,"l":79.6,"p":4458759.0,"f":2.1},{"n":"Peru","c":"Other","la":-12.1,"lo":-77.0,"g":15328.0,"l":77.7,"p":33845617.0,"f":2.0},{"n":"Philippines","c":"Other","la":14.6,"lo":121.0,"g":9899.0,"l":69.8,"p":114891199.0,"f":1.9},{"n":"Palau","c":"Other","la":7.3,"lo":134.5,"g":16426.0,"l":69.3,"p":17727.0,"f":1.9},{"n":"Papua New Guinea","c":"Other","la":-9.5,"lo":147.2,"g":4206.0,"l":66.1,"p":10389635.0,"f":3.1},{"n":"Poland","c":"Other","la":52.3,"lo":21.0,"g":43673.0,"l":78.5,"p":36687353.0,"f":1.2},{"n":"Puerto Rico (US)","c":"Other","la":18.2,"lo":-66.0,"g":42838.0,"l":81.7,"p":3203792.0,"f":0.9},{"n":"Portugal","c":"Other","la":38.7,"lo":-9.1,"g":41768.0,"l":82.3,"p":10578174.0,"f":1.4},{"n":"Paraguay","c":"Other","la":-25.3,"lo":-57.6,"g":15826.0,"l":73.8,"p":6844146.0,"f":2.4},{"n":"Qatar","c":"Other","la":25.3,"lo":51.5,"g":116564.0,"l":82.4,"p":2656032.0,"f":1.7},{"n":"Romania","c":"Other","la":44.4,"lo":26.1,"g":40117.0,"l":76.6,"p":19061062.0,"f":1.7},{"n":"Russian Federation","c":"Other","la":55.8,"lo":37.6,"g":39887.0,"l":73.3,"p":143826130.0,"f":1.4},{"n":"Rwanda","c":"Other","la":-2.0,"lo":30.1,"g":3063.0,"l":67.8,"p":13954471.0,"f":3.7},{"n":"Saudi Arabia","c":"Other","la":24.7,"lo":46.7,"g":64482.0,"l":78.7,"p":33702731.0,"f":2.3},{"n":"Sudan","c":"Other","la":15.6,"lo":32.5,"g":2181.0,"l":66.3,"p":50042791.0,"f":4.3},{"n":"Senegal","c":"Other","la":14.7,"lo":-17.5,"g":4305.0,"l":68.7,"p":18077573.0,"f":3.8},{"n":"Singapore","c":"Other","la":1.3,"lo":103.8,"g":129555.0,"l":82.9,"p":5917648.0,"f":1.0},{"n":"Solomon Islands","c":"Other","la":-9.4,"lo":159.9,"g":2340.0,"l":70.5,"p":800005.0,"f":3.6},{"n":"Sierra Leone","c":"Other","la":8.5,"lo":-13.2,"g":3035.0,"l":61.8,"p":8460512.0,"f":3.8},{"n":"El Salvador","c":"Other","la":13.7,"lo":-89.2,"g":11425.0,"l":72.1,"p":6309624.0,"f":1.8},{"n":"San Marino","c":"Other","la":43.9,"lo":12.4,"g":70952.0,"l":85.7,"p":33860.0,"f":1.1},{"n":"Somalia, Fed. Rep.","c":"Other","la":2.1,"lo":45.3,"g":1402.0,"l":58.8,"p":18358615.0,"f":6.1},{"n":"Serbia","c":"Other","la":44.8,"lo":20.5,"g":25735.0,"l":76.2,"p":6623183.0,"f":1.6},{"n":"Sao Tome and Principe","c":"Other","la":0.2,"lo":6.6,"g":5541.0,"l":69.7,"p":230871.0,"f":3.6},{"n":"Suriname","c":"Other","la":5.8,"lo":-55.2,"g":19021.0,"l":73.6,"p":628886.0,"f":2.2},{"n":"Slovak Republic","c":"Other","la":48.1,"lo":17.1,"g":39518.0,"l":78.0,"p":5426740.0,"f":1.5},{"n":"Slovenia","c":"Other","la":46.1,"lo":14.5,"g":47977.0,"l":82.0,"p":2120461.0,"f":1.5},{"n":"Sweden","c":"Other","la":59.3,"lo":18.1,"g":62663.0,"l":83.3,"p":10536632.0,"f":1.4},{"n":"Eswatini","c":"Other","la":-26.5,"lo":31.5,"g":10182.0,"l":64.1,"p":1230506.0,"f":2.8},{"n":"Seychelles","c":"Other","la":-4.6,"lo":55.4,"g":28635.0,"l":75.0,"p":119773.0,"f":2.0},{"n":"Syrian Arab Republic","c":"Other","la":33.5,"lo":36.3,"g":4455.0,"l":72.1,"p":23594623.0,"f":2.7},{"n":"Turks and Caicos Islands","c":"Other","la":21.5,"lo":-71.1,"g":31839.0,"l":78.0,"p":46198.0,"f":1.5},{"n":"Chad","c":"Other","la":12.1,"lo":15.0,"g":2433.0,"l":55.1,"p":19319064.0,"f":6.1},{"n":"Togo","c":"Other","la":6.1,"lo":1.2,"g":2842.0,"l":62.7,"p":9304337.0,"f":4.2},{"n":"Thailand","c":"Other","la":13.7,"lo":100.5,"g":21191.0,"l":76.4,"p":71702435.0,"f":1.2},{"n":"Tajikistan","c":"Other","la":38.6,"lo":68.8,"g":4472.0,"l":71.8,"p":10389799.0,"f":3.1},{"n":"Turkmenistan","c":"Other","la":38.0,"lo":58.4,"g":17866.0,"l":70.1,"p":7364438.0,"f":2.7},{"n":"Timor-Leste","c":"Other","la":-8.6,"lo":125.6,"g":4331.0,"l":67.7,"p":1384286.0,"f":2.7},{"n":"Tonga","c":"Other","la":-21.1,"lo":-175.2,"g":7030.0,"l":72.9,"p":104597.0,"f":3.1},{"n":"Trinidad and Tobago","c":"Other","la":10.7,"lo":-61.5,"g":31197.0,"l":73.5,"p":1367510.0,"f":1.5},{"n":"Tunisia","c":"Other","la":36.8,"lo":10.2,"g":12651.0,"l":76.5,"p":12200431.0,"f":1.8},{"n":"Turkiye","c":"Other","la":39.7,"lo":32.4,"g":35069.0,"l":77.2,"p":85325965.0,"f":1.5},{"n":"Tuvalu","c":"Other","la":-8.6,"lo":179.1,"g":5812.0,"l":67.1,"p":9816.0,"f":3.2},{"n":"Tanzania","c":"Other","la":-6.2,"lo":35.7,"g":3621.0,"l":67.0,"p":66617606.0,"f":4.6},{"n":"Uganda","c":"Other","la":0.3,"lo":32.6,"g":2791.0,"l":68.3,"p":48656601.0,"f":4.3},{"n":"Ukraine","c":"Other","la":50.5,"lo":30.5,"g":15917.0,"l":73.4,"p":37732836.0,"f":1.0},{"n":"Uruguay","c":"Other","la":-34.9,"lo":-56.1,"g":31059.0,"l":78.1,"p":3388081.0,"f":1.4},{"n":"United States","c":"Other","la":38.9,"lo":-77.0,"g":74159.0,"l":78.4,"p":336806231.0,"f":1.6},{"n":"Uzbekistan","c":"Other","la":41.3,"lo":69.3,"g":10008.0,"l":72.4,"p":35652307.0,"f":3.5},{"n":"St. Vincent and the Grenadines","c":"Other","la":13.2,"lo":-61.3,"g":17858.0,"l":71.2,"p":101323.0,"f":1.8},{"n":"Virgin Islands (U.S.)","c":"Other","la":18.3,"lo":-64.9,"g":46479.0,"l":80.5,"p":104917.0,"f":2.0},{"n":"Viet Nam","c":"Other","la":21.0,"lo":105.8,"g":13546.0,"l":74.6,"p":100352192.0,"f":1.9},{"n":"Vanuatu","c":"Other","la":-17.7,"lo":168.3,"g":3215.0,"l":71.5,"p":320409.0,"f":3.6},{"n":"Samoa","c":"Other","la":-13.8,"lo":-171.8,"g":7384.0,"l":71.7,"p":216663.0,"f":3.8},{"n":"Kosovo","c":"Other","la":42.6,"lo":20.9,"g":14240.0,"l":78.0,"p":1682668.0,"f":1.5},{"n":"South Africa","c":"Other","la":-25.7,"lo":28.2,"g":13695.0,"l":66.1,"p":63212384.0,"f":2.2},{"n":"Zambia","c":"Other","la":-15.4,"lo":28.3,"g":3673.0,"l":66.3,"p":20723965.0,"f":4.1},{"n":"Zimbabwe","c":"Other","la":-17.8,"lo":31.1,"g":5218.0,"l":62.8,"p":16340822.0,"f":3.7}];
+const CC={"Africa":0x00D5E0,"Americas":0xFFE700,"Asia":0xFF5872,"Europe":0x7FEB00,"Other":0xAAAAAA};
+let scene,camera,renderer,globe,bars=[],raycaster,mouse,tooltip,currentMetric='g';
+const W=window.innerWidth,H=window.innerHeight,R=2;
+
+function latLonToXYZ(lat,lon,r){
+  const phi=(90-lat)*Math.PI/180;
+  const theta=(lon+180)*Math.PI/180;
+  return[-(r)*Math.sin(phi)*Math.cos(theta),(r)*Math.cos(phi),(r)*Math.sin(phi)*Math.sin(theta)];
+}
+
+function getBarHeight(d,metric){
+  if(metric==='g') return Math.log10(Math.max(d.g,100))/5*1.2;
+  if(metric==='l') return d.l/90*1.2;
+  if(metric==='f') return d.f/7*1.2;
+  return 0.3;
+}
+
+function init(){
+  scene=new THREE.Scene();
+  camera=new THREE.PerspectiveCamera(45,W/H,0.1,100);
+  camera.position.set(0,1.5,6);
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0x445566,0.7));
+  const dl=new THREE.DirectionalLight(0xffffff,0.8);dl.position.set(5,3,5);scene.add(dl);
+
+  globe=new THREE.Group();
+
+  // Sphere wireframe
+  const sGeo=new THREE.SphereGeometry(R,48,48);
+  const sMat=new THREE.MeshPhongMaterial({color:0x0D1B2A,transparent:true,opacity:0.6,wireframe:false});
+  globe.add(new THREE.Mesh(sGeo,sMat));
+  // Grid lines
+  const wMat=new THREE.MeshBasicMaterial({color:0x1a2a3a,wireframe:true,transparent:true,opacity:0.2});
+  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R+0.01,24,24),wMat));
+
+  // Country bars
+  DATA.forEach((d,i)=>{
+    const[bx,by,bz]=latLonToXYZ(d.la,d.lo,R);
+    const h=getBarHeight(d,currentMetric);
+    const geo=new THREE.CylinderGeometry(0.02,0.02,h,6);
+    const color=CC[d.c]||0xAAAAAA;
+    const mat=new THREE.MeshPhongMaterial({color,emissive:color,emissiveIntensity:0.2});
+    const bar=new THREE.Mesh(geo,mat);
+
+    // Position and orient
+    const dir=new THREE.Vector3(bx,by,bz).normalize();
+    bar.position.copy(dir.clone().multiplyScalar(R+h/2));
+    bar.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir);
+    bar.userData={...d,idx:i,dir:dir.clone()};
+    globe.add(bar);
+    bars.push(bar);
+  });
+
+  scene.add(globe);
+  raycaster=new THREE.Raycaster();
+  mouse=new THREE.Vector2(-999,-999);
+  tooltip=document.getElementById('tooltip');
+
+  let isDrag=false,prevX=0,prevY=0,autoRot=0.001;
+  document.addEventListener('mousedown',e=>{isDrag=true;prevX=e.clientX;prevY=e.clientY;autoRot=0});
+  document.addEventListener('mouseup',()=>{isDrag=false;autoRot=0.001});
+  document.addEventListener('mousemove',e=>{
+    mouse.x=(e.clientX/window.innerWidth)*2-1;
+    mouse.y=-(e.clientY/window.innerHeight)*2+1;
+    tooltip.style.left=e.clientX+15+'px';tooltip.style.top=e.clientY+15+'px';
+    if(isDrag){
+      globe.rotation.y+=(e.clientX-prevX)*0.005;
+      globe.rotation.x+=(e.clientY-prevY)*0.005;
+      globe.rotation.x=Math.max(-1,Math.min(1,globe.rotation.x));
+      prevX=e.clientX;prevY=e.clientY;
+    }
+  });
+  document.addEventListener('wheel',e=>{camera.position.z=Math.max(3.5,Math.min(15,camera.position.z+e.deltaY*0.005))});
+
+  function animate(){
+    requestAnimationFrame(animate);
+    globe.rotation.y+=autoRot;
+    raycaster.setFromCamera(mouse,camera);
+    const hits=raycaster.intersectObjects(bars);
+    if(hits.length>0){
+      const d=hits[0].object.userData;
+      tooltip.style.display='block';
+      tooltip.innerHTML=`<b>${d.n}</b><br>GDP/cap: $${Math.round(d.g).toLocaleString()}<br>Life exp: ${d.l} yrs<br>Fertility: ${d.f}<br>Pop: ${(d.p/1e6).toFixed(1)}M`;
+    } else tooltip.style.display='none';
+    renderer.render(scene,camera);
+  }
+  animate();
+}
+
+function setMetric(m){
+  currentMetric=m;
+  document.querySelectorAll('#metric button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  bars.forEach(bar=>{
+    const d=bar.userData;
+    const h=getBarHeight(d,m);
+    bar.scale.y=h/getBarHeight(d,'g')*getBarHeight(d,'g')/Math.max(0.01,bar.geometry.parameters.height);
+    // Simpler: just rebuild scale
+    const newH=getBarHeight(d,m);
+    bar.geometry.dispose();
+    bar.geometry=new THREE.CylinderGeometry(0.02,0.02,newH,6);
+    bar.position.copy(d.dir.clone().multiplyScalar(R+newH/2));
+  });
+}
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+init();
+</script>
+
+
+
+
+<!--ATLAS-GUIDE-START-->
+<style>
+.guide{position:relative;z-index:1;background:#080B13;padding:40px 5% 60px;color:#C8D0DA;
+font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif;font-size:.84rem;line-height:1.8;border-top:2px solid #151d2e}
+.guide-inner{max-width:1100px;margin:0 auto}
+.guide h2{color:#00D5E0;font-size:1.2rem;font-weight:700;margin:0 0 4px;font-family:'Playfair Display',Georgia,serif}
+.guide .tagline{color:#FF5872;font-size:.93rem;font-weight:600;margin:0 0 18px;font-style:italic}
+.guide h3{color:#FFD700;font-size:.88rem;font-weight:700;margin:26px 0 6px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #1a2233;padding-bottom:4px}
+.guide p{margin:0 0 11px;color:#B8C4D0;text-align:justify}
+.guide .hl{background:#0f1520;border-left:3px solid #00D5E0;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0}
+.guide .warn{border-left-color:#FF5872}
+.guide .gold{border-left-color:#FFD700}
+.guide b{color:#E8ECF0}.guide em{color:#FFD700;font-style:normal}
+.guide code{background:#1C2333;padding:1px 5px;border-radius:3px;font-size:.76rem;color:#00D5E0}
+.guide .ref{font-size:.76rem;color:#7B8CA3;margin-top:20px;border-top:1px solid #1a2233;padding-top:10px}
+.guide .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+@media(max-width:900px){.guide .two-col{grid-template-columns:1fr}}
+</style>
+<div class="guide"><div class="guide-inner">
+
+<h2>Development Globe: The Planet's Vital Signs on a Rotating Sphere</h2>
+<p class="tagline">196 countries on a spinning globe. Bars extrude proportional to GDP, life expectancy, or fertility. Switch metrics to see how the world's shape changes.</p>
+
+<h3>What You Are Seeing</h3>
+<p>A <b>Three.js WebGL</b> globe with 196 countries represented at their geographic centroids. Each country has a <b>3D bar</b> (extruded cylinder or prism) extending outward from the globe's surface. The height of the bar encodes the selected development metric. Button controls let you switch between <b>GDP per capita</b>, <b>life expectancy</b>, and <b>fertility rate</b>. The globe rotates slowly, and you can drag to reorient. <b>Color</b> encodes continental membership, creating a visual separation between geographic regions.</p>
+
+<h3>Why a Globe? The Distortion Problem</h3>
+<div class="hl">All flat map projections distort either area, shape, distance, or direction. The most commonly used projection, Mercator, dramatically inflates high-latitude areas (Greenland appears larger than Africa, when in reality Africa is 14 times larger). This distortion systematically exaggerates the visual "weight" of wealthy northern nations. The 3D globe <b>eliminates projection distortion entirely</b>: each country appears at its true relative size and position. This is particularly important for development data because the Mercator distortion visually amplifies the countries that are already dominant (Europe, North America, Russia) while shrinking the countries where most of humanity lives and where the most dramatic development changes are occurring (Sub-Saharan Africa, South and Southeast Asia). The globe gives <b>Africa, South Asia, and the Pacific their true visual weight</b>.</div>
+
+<h3>Switching Metrics: How the World's Shape Changes</h3>
+<div class="hl gold">The most powerful feature is switching between metrics and observing how the <b>shape of the globe's surface</b> changes. <b>GDP per capita</b>: tall bars in North America, Western Europe, Japan, Australia, Gulf states. Short bars across Africa and South Asia. The globe looks "spiky" in the north and "smooth" in the south. <b>Life expectancy</b>: the distribution is more uniform. Europe and East Asia still have tall bars, but Africa's bars, while shorter, are less dramatically different than for GDP. The globe's surface is more "even," reflecting the partial health convergence discussed in Chart 05. <b>Fertility</b>: the pattern <em>inverts</em>. Africa's bars are tallest (high fertility), while Europe and East Asia have stumps (below-replacement fertility). The globe looks "spiky" in Africa and "smooth" in the north. Watching the shape invert as you switch from GDP to fertility is a powerful visual demonstration of the <b>demographic-economic paradox</b>: the poorest regions have the most children, and the richest have the fewest.</div>
+
+<h3>The Hemispheric Perspective</h3>
+<p>Rotating the globe to view specific hemispheres reveals patterns invisible on flat maps. The <b>view from above the North Pole</b> shows a ring of wealthy, high-life-expectancy, low-fertility nations surrounding the Arctic. The <b>view from above the South Pole</b> shows a scattering of countries (Australia, New Zealand, Argentina, Chile, South Africa) surrounded by ocean. The <b>equatorial view</b> shows the densest concentration of humanity (India, China, Southeast Asia, West Africa) and the widest range of development outcomes. The globe perspective reveals that development is not just a "north-south" divide but has a <b>hemispheric geometry</b> shaped by continental positions, ocean currents, and historical trade routes.</p>
+
+<h3>Policy Implications</h3>
+<div class="hl warn">The globe visualization forces a confrontation with <b>geographic bias in global governance</b>. International institutions (UN Security Council, G7, IMF, World Bank) are disproportionately governed by high-bar (wealthy) nations that occupy a relatively small portion of the globe's surface. When you rotate to see Africa or South Asia, the mismatch between the number of people living there (approximately 40% of humanity) and their representation in global governance is stark. The bars for GDP and political power do not match the bars for population. The globe also reveals the <b>spatial logic of South-South cooperation</b>: the BRICS nations (Brazil, Russia, India, China, South Africa) are distributed across the globe's surface in a way that creates a network of large developing nations that can bypass the traditional North Atlantic-centered institutions. Their geographic spread is itself a geopolitical resource: they span all major ocean basins and time zones.</div>
+
+<p class="ref"><b>Key references:</b> Snyder, J.P. (1987). <i>Map Projections: A Working Manual</i>. USGS Professional Paper 1395. | Monmonier, M. (2004). <i>Rhumb Lines and Map Wars</i>. University of Chicago Press. | Three.js documentation.</p>
+
+</div></div>
+<!--ATLAS-GUIDE-END-->
+</body></html>

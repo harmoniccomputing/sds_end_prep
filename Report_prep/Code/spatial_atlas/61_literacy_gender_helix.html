@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="author" content="Vishakha Agrawal"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Literacy-Gender DNA Helix</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#06080F;overflow-x:hidden;font-family:'Segoe UI',sans-serif}
+#info{position:fixed;top:12px;left:50%;transform:translateX(-50%);color:#F0F3F8;text-align:center;z-index:10;pointer-events:none;width:92%}
+#info h1{font-size:1.2rem;font-weight:700}#info p{font-size:.72rem;color:#A0AEC0;margin-top:3px}
+#tooltip{position:fixed;display:none;background:rgba(13,17,23,.95);border:1px solid #30363d;border-radius:8px;padding:10px 14px;color:#F0F3F8;font-size:.75rem;line-height:1.5;pointer-events:none;z-index:100;max-width:280px}
+</style>
+</head><body>
+<!--BACKLINK-START-->
+<div id="atlasBacklink" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,11,19,.92);backdrop-filter:blur(6px);border-bottom:1px solid #1a2233;padding:6px 16px;display:flex;align-items:center;gap:10px;font-family:'Source Sans 3',system-ui,sans-serif;font-size:.76rem;transition:transform .3s ease">
+<a href="index.html" style="color:#00D5E0;text-decoration:none;font-weight:600;white-space:nowrap">&#9664; Atlas</a>
+<span style="color:#1a2233">|</span>
+<a href="sitemap.html#chart-61" style="color:#94A3B8;text-decoration:none;white-space:nowrap">Site Index</a>
+<span style="color:#1a2233">|</span>
+<a href="chart_index.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap">Chart Index</a>
+<span style="flex:1"></span>
+<span style="color:#B088F9;font-weight:600;white-space:nowrap">#61</span>
+<span style="color:#64748B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:250px">Literacy-Gender Helix</span>
+<span style="flex:1"></span>
+<a href="60_india_food_geography_3d.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap" title="Previous chart">&larr; Prev</a>
+<a href="62_constituency_aurora.html" style="color:#94A3B8;text-decoration:none;white-space:nowrap" title="Next chart">Next &rarr;</a>
+<button onclick="document.getElementById('atlasBacklink').style.transform='translateY(-100%)'" style="background:none;border:none;color:#4a5568;cursor:pointer;font-size:.9rem;padding:0 2px" title="Hide bar">&times;</button>
+</div>
+<div style="height:32px"></div>
+<!--BACKLINK-END-->
+<div id="info"><h1>The Literacy-Gender Helix</h1>
+<p>Two intertwined strands: Literacy (cyan) and Sex Ratio (magenta) for each Indian state. States are ordered by HDI. Height = position in HDI ranking. Radius reflects the metric value. Bridges connect the same state across strands.</p></div>
+<div id="tooltip"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const D=[{"s":"Andhra Pradesh","la":15.9,"lo":79.7,"p11":49.4,"p24":53.0,"area":160205,"lit":67.4,"sr":993,"gsdp":223,"hdi":0.65,"imr":28,"urb":33.5,"for":23.0,"crop":38,"rice":7.5,"wheat":0.0,"seats":25,"pop_density":330.83,"gsdp_total_b":11819.0,"rice_yield":1.23,"food_prod":7.5},{"s":"Assam","la":26.1,"lo":92.9,"p11":31.2,"p24":36.0,"area":78438,"lit":73.2,"sr":958,"gsdp":107,"hdi":0.61,"imr":32,"urb":14.1,"for":35.0,"crop":33,"rice":5.1,"wheat":0.01,"seats":14,"pop_density":458.96,"gsdp_total_b":3852.0,"rice_yield":1.97,"food_prod":5.11},{"s":"Bihar","la":25.6,"lo":85.1,"p11":104.1,"p24":130.0,"area":94163,"lit":63.8,"sr":918,"gsdp":54,"hdi":0.58,"imr":27,"urb":11.3,"for":7.0,"crop":60,"rice":6.5,"wheat":5.2,"seats":40,"pop_density":1380.58,"gsdp_total_b":7020.0,"rice_yield":1.15,"food_prod":11.7},{"s":"Chhattisgarh","la":21.3,"lo":81.6,"p11":25.5,"p24":30.0,"area":135192,"lit":71.0,"sr":991,"gsdp":130,"hdi":0.61,"imr":38,"urb":23.2,"for":41.0,"crop":35,"rice":6.1,"wheat":0.1,"seats":11,"pop_density":221.91,"gsdp_total_b":3900.0,"rice_yield":1.29,"food_prod":6.2},{"s":"Goa","la":15.4,"lo":74.0,"p11":1.5,"p24":1.6,"area":3702,"lit":87.4,"sr":973,"gsdp":554,"hdi":0.76,"imr":9,"urb":62.2,"for":60.0,"crop":15,"rice":0.1,"wheat":0.0,"seats":2,"pop_density":432.2,"gsdp_total_b":886.4,"rice_yield":1.8,"food_prod":0.1},{"s":"Gujarat","la":22.3,"lo":71.2,"p11":60.4,"p24":70.0,"area":196024,"lit":79.3,"sr":919,"gsdp":272,"hdi":0.67,"imr":25,"urb":42.6,"for":7.5,"crop":45,"rice":1.8,"wheat":2.8,"seats":26,"pop_density":357.1,"gsdp_total_b":19040.0,"rice_yield":0.2,"food_prod":4.6},{"s":"Haryana","la":29.1,"lo":76.1,"p11":25.4,"p24":30.0,"area":44212,"lit":76.6,"sr":879,"gsdp":299,"hdi":0.71,"imr":22,"urb":34.9,"for":3.5,"crop":80,"rice":4.7,"wheat":11.7,"seats":10,"pop_density":678.55,"gsdp_total_b":8970.0,"rice_yield":1.33,"food_prod":16.4},{"s":"Himachal Pradesh","la":31.1,"lo":77.2,"p11":6.9,"p24":7.5,"area":55673,"lit":83.8,"sr":972,"gsdp":232,"hdi":0.72,"imr":18,"urb":10.0,"for":27.0,"crop":10,"rice":0.1,"wheat":0.6,"seats":4,"pop_density":134.72,"gsdp_total_b":1740.0,"rice_yield":0.18,"food_prod":0.7},{"s":"Jharkhand","la":23.6,"lo":85.3,"p11":33.0,"p24":40.0,"area":79716,"lit":67.6,"sr":948,"gsdp":95,"hdi":0.6,"imr":25,"urb":24.0,"for":29.0,"crop":25,"rice":3.5,"wheat":0.3,"seats":14,"pop_density":501.78,"gsdp_total_b":3800.0,"rice_yield":1.76,"food_prod":3.8},{"s":"Karnataka","la":15.3,"lo":75.7,"p11":61.1,"p24":68.0,"area":191791,"lit":75.6,"sr":973,"gsdp":301,"hdi":0.68,"imr":19,"urb":38.7,"for":20.0,"crop":52,"rice":3.0,"wheat":0.3,"seats":28,"pop_density":354.55,"gsdp_total_b":20468.0,"rice_yield":0.3,"food_prod":3.3},{"s":"Kerala","la":10.9,"lo":76.3,"p11":33.4,"p24":35.0,"area":38863,"lit":93.9,"sr":1084,"gsdp":258,"hdi":0.78,"imr":6,"urb":47.7,"for":52.0,"crop":18,"rice":0.5,"wheat":0.0,"seats":20,"pop_density":900.6,"gsdp_total_b":9030.0,"rice_yield":0.71,"food_prod":0.5},{"s":"Madhya Pradesh","la":23.5,"lo":78.6,"p11":72.6,"p24":87.0,"area":308252,"lit":70.6,"sr":931,"gsdp":127,"hdi":0.61,"imr":40,"urb":27.6,"for":25.0,"crop":48,"rice":3.0,"wheat":16.1,"seats":29,"pop_density":282.24,"gsdp_total_b":11049.0,"rice_yield":0.2,"food_prod":19.1},{"s":"Maharashtra","la":19.7,"lo":75.7,"p11":112.4,"p24":128.0,"area":307713,"lit":82.9,"sr":929,"gsdp":260,"hdi":0.69,"imr":16,"urb":45.2,"for":17.0,"crop":50,"rice":2.6,"wheat":1.5,"seats":48,"pop_density":415.97,"gsdp_total_b":33280.0,"rice_yield":0.17,"food_prod":4.1},{"s":"Odisha","la":20.9,"lo":84.0,"p11":42.0,"p24":47.0,"area":155707,"lit":73.5,"sr":979,"gsdp":140,"hdi":0.61,"imr":36,"urb":16.7,"for":33.0,"crop":35,"rice":7.2,"wheat":0.0,"seats":21,"pop_density":301.85,"gsdp_total_b":6580.0,"rice_yield":1.32,"food_prod":7.2},{"s":"Punjab","la":31.2,"lo":75.3,"p11":27.7,"p24":31.0,"area":50362,"lit":76.7,"sr":895,"gsdp":227,"hdi":0.72,"imr":16,"urb":37.5,"for":3.5,"crop":83,"rice":13.3,"wheat":17.1,"seats":13,"pop_density":615.54,"gsdp_total_b":7037.0,"rice_yield":3.18,"food_prod":30.4},{"s":"Rajasthan","la":27.0,"lo":74.2,"p11":68.5,"p24":82.0,"area":342239,"lit":67.1,"sr":928,"gsdp":142,"hdi":0.63,"imr":32,"urb":24.9,"for":5.0,"crop":42,"rice":0.3,"wheat":10.4,"seats":25,"pop_density":239.6,"gsdp_total_b":11644.0,"rice_yield":0.02,"food_prod":10.7},{"s":"Tamil Nadu","la":11.1,"lo":78.7,"p11":72.1,"p24":78.0,"area":130058,"lit":80.3,"sr":996,"gsdp":282,"hdi":0.71,"imr":13,"urb":48.4,"for":20.0,"crop":32,"rice":5.2,"wheat":0.0,"seats":39,"pop_density":599.73,"gsdp_total_b":21996.0,"rice_yield":1.25,"food_prod":5.2},{"s":"Telangana","la":18.1,"lo":79.0,"p11":35.2,"p24":39.0,"area":112077,"lit":66.5,"sr":988,"gsdp":320,"hdi":0.67,"imr":17,"urb":38.9,"for":24.0,"crop":40,"rice":6.9,"wheat":0.0,"seats":17,"pop_density":347.98,"gsdp_total_b":12480.0,"rice_yield":1.54,"food_prod":6.9},{"s":"Uttar Pradesh","la":27.2,"lo":80.9,"p11":199.8,"p24":240.0,"area":243286,"lit":69.7,"sr":912,"gsdp":81,"hdi":0.6,"imr":38,"urb":22.3,"for":6.0,"crop":68,"rice":15.5,"wheat":35.0,"seats":80,"pop_density":986.49,"gsdp_total_b":19440.0,"rice_yield":0.94,"food_prod":50.5},{"s":"Uttarakhand","la":30.1,"lo":79.0,"p11":10.1,"p24":12.0,"area":53483,"lit":79.6,"sr":963,"gsdp":236,"hdi":0.7,"imr":20,"urb":30.6,"for":45.0,"crop":12,"rice":0.6,"wheat":0.8,"seats":5,"pop_density":224.37,"gsdp_total_b":2832.0,"rice_yield":0.93,"food_prod":1.4},{"s":"West Bengal","la":22.6,"lo":87.9,"p11":91.3,"p24":100.0,"area":88752,"lit":77.1,"sr":950,"gsdp":134,"hdi":0.64,"imr":18,"urb":31.9,"for":14.0,"crop":65,"rice":15.0,"wheat":0.9,"seats":42,"pop_density":1126.74,"gsdp_total_b":13400.0,"rice_yield":2.6,"food_prod":15.9},{"s":"NCT OF Delhi","la":28.6,"lo":77.2,"p11":16.8,"p24":22.0,"area":1484,"lit":86.2,"sr":868,"gsdp":432,"hdi":0.75,"imr":10,"urb":97.5,"for":0.5,"crop":0,"rice":0.0,"wheat":0.0,"seats":7,"pop_density":14824.8,"gsdp_total_b":9504.0,"rice_yield":0.0,"food_prod":0.0},{"s":"Jammu and Kashmir","la":33.8,"lo":74.8,"p11":12.5,"p24":14.0,"area":222236,"lit":68.7,"sr":889,"gsdp":118,"hdi":0.68,"imr":17,"urb":27.4,"for":46.0,"crop":8,"rice":0.5,"wheat":0.5,"seats":5,"pop_density":63.0,"gsdp_total_b":1652.0,"rice_yield":0.28,"food_prod":1.0},{"s":"Mizoram","la":23.2,"lo":92.8,"p11":1.1,"p24":1.3,"area":21081,"lit":91.6,"sr":976,"gsdp":168,"hdi":0.7,"imr":4,"urb":52.1,"for":86.0,"crop":3,"rice":0.06,"wheat":0.0,"seats":1,"pop_density":61.67,"gsdp_total_b":218.4,"rice_yield":0.95,"food_prod":0.06},{"s":"Meghalaya","la":25.5,"lo":91.4,"p11":3.0,"p24":3.8,"area":22429,"lit":75.5,"sr":989,"gsdp":105,"hdi":0.66,"imr":32,"urb":20.1,"for":76.0,"crop":8,"rice":0.3,"wheat":0.0,"seats":2,"pop_density":169.42,"gsdp_total_b":399.0,"rice_yield":1.67,"food_prod":0.3},{"s":"Nagaland","la":26.2,"lo":94.6,"p11":2.0,"p24":2.3,"area":16579,"lit":80.1,"sr":931,"gsdp":110,"hdi":0.68,"imr":6,"urb":28.9,"for":75.0,"crop":5,"rice":0.3,"wheat":0.0,"seats":1,"pop_density":138.73,"gsdp_total_b":253.0,"rice_yield":3.62,"food_prod":0.3},{"s":"Tripura","la":23.8,"lo":91.3,"p11":3.7,"p24":4.2,"area":10486,"lit":87.8,"sr":960,"gsdp":142,"hdi":0.67,"imr":16,"urb":26.2,"for":60.0,"crop":22,"rice":0.7,"wheat":0.0,"seats":2,"pop_density":400.53,"gsdp_total_b":596.4,"rice_yield":3.03,"food_prod":0.7},{"s":"Manipur","la":24.8,"lo":94.0,"p11":2.7,"p24":3.2,"area":22327,"lit":79.9,"sr":985,"gsdp":90,"hdi":0.7,"imr":8,"urb":32.5,"for":77.0,"crop":5,"rice":0.4,"wheat":0.0,"seats":2,"pop_density":143.32,"gsdp_total_b":288.0,"rice_yield":3.58,"food_prod":0.4},{"s":"Sikkim","la":27.5,"lo":88.5,"p11":0.6,"p24":0.7,"area":7096,"lit":82.2,"sr":890,"gsdp":440,"hdi":0.72,"imr":7,"urb":25.0,"for":47.0,"crop":5,"rice":0.02,"wheat":0.02,"seats":1,"pop_density":98.65,"gsdp_total_b":308.0,"rice_yield":0.56,"food_prod":0.04},{"s":"Arunachal Pradesh","la":27.1,"lo":93.6,"p11":1.4,"p24":1.7,"area":83743,"lit":66.9,"sr":938,"gsdp":160,"hdi":0.62,"imr":12,"urb":22.9,"for":79.0,"crop":3,"rice":0.2,"wheat":0.0,"seats":2,"pop_density":20.3,"gsdp_total_b":272.0,"rice_yield":0.8,"food_prod":0.2}].sort(function(a,b){return a.hdi-b.hdi});
+let scene,camera,renderer,group,meshes=[],raycaster,mouse,tooltip;
+
+function init(){
+  scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x06080F,0.02);
+  camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,200);
+  camera.position.set(6,4,6);
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+  scene.add(new THREE.AmbientLight(0x334455,0.5));
+  scene.add(new THREE.DirectionalLight(0xffffff,0.6)).position.set(5,10,5);
+  scene.add(new THREE.PointLight(0x00D5E0,0.3,20)).position.set(-3,5,0);
+  scene.add(new THREE.PointLight(0xFF2D78,0.3,20)).position.set(3,5,0);
+
+  group=new THREE.Group();
+  var N=D.length, hR=2, turns=3, H=12;
+
+  // Axis
+  group.add(new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,H+2,8),
+    new THREE.MeshBasicMaterial({color:0x222222})));
+
+  var litPts=[],srPts=[];
+  D.forEach(function(d,i){
+    var t=i/(N-1);var angle=t*turns*Math.PI*2;var y=t*H-H/2;
+    // Literacy strand
+    var rLit=(d.lit-55)/45*hR;
+    var lx=rLit*Math.cos(angle),lz=rLit*Math.sin(angle);
+    litPts.push(new THREE.Vector3(lx,y,lz));
+    var litGeo=new THREE.SphereGeometry(0.08,8,8);
+    var litMat=new THREE.MeshPhongMaterial({color:0x00D5E0,emissive:0x00D5E0,emissiveIntensity:0.3});
+    var litMesh=new THREE.Mesh(litGeo,litMat);
+    litMesh.position.set(lx,y,lz);litMesh.userData={d:d,metric:'Literacy',val:d.lit};
+    group.add(litMesh);meshes.push(litMesh);
+
+    // Sex Ratio strand (opposite side)
+    var rSr=(d.sr-850)/250*hR;
+    var sx=rSr*Math.cos(angle+Math.PI),sz=rSr*Math.sin(angle+Math.PI);
+    srPts.push(new THREE.Vector3(sx,y,sz));
+    var srGeo=new THREE.SphereGeometry(0.08,8,8);
+    var srMat=new THREE.MeshPhongMaterial({color:0xFF2D78,emissive:0xFF2D78,emissiveIntensity:0.3});
+    var srMesh=new THREE.Mesh(srGeo,srMat);
+    srMesh.position.set(sx,y,sz);srMesh.userData={d:d,metric:'Sex Ratio',val:d.sr};
+    group.add(srMesh);meshes.push(srMesh);
+
+    // Bridge
+    var bridgeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(lx,y,lz),new THREE.Vector3(sx,y,sz)]);
+    group.add(new THREE.Line(bridgeGeo,new THREE.LineBasicMaterial({color:0x333333,transparent:true,opacity:0.3})));
+  });
+
+  // Backbone tubes
+  if(litPts.length>2){
+    var litCurve=new THREE.CatmullRomCurve3(litPts);
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(litCurve,N*3,0.015,4,false),
+      new THREE.MeshPhongMaterial({color:0x00D5E0,transparent:true,opacity:0.4})));
+    var srCurve=new THREE.CatmullRomCurve3(srPts);
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(srCurve,N*3,0.015,4,false),
+      new THREE.MeshPhongMaterial({color:0xFF2D78,transparent:true,opacity:0.4})));
+  }
+
+  scene.add(group);
+  raycaster=new THREE.Raycaster();mouse=new THREE.Vector2(-999,-999);
+  tooltip=document.getElementById('tooltip');
+
+  var isDrag=false,prevX=0,prevY=0,autoRot=0.002;
+  document.addEventListener('mousedown',function(e){isDrag=true;prevX=e.clientX;prevY=e.clientY;autoRot=0});
+  document.addEventListener('mouseup',function(){isDrag=false;autoRot=0.002});
+  document.addEventListener('mousemove',function(e){
+    mouse.x=(e.clientX/innerWidth)*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;
+    tooltip.style.left=e.clientX+15+'px';tooltip.style.top=e.clientY+15+'px';
+    if(isDrag){group.rotation.y+=(e.clientX-prevX)*0.005;
+      camera.position.y+=(e.clientY-prevY)*0.03;
+      camera.position.y=Math.max(-8,Math.min(12,camera.position.y));
+      prevX=e.clientX;prevY=e.clientY}
+  });
+  document.addEventListener('wheel',function(e){var d=camera.position.length();
+    camera.position.normalize().multiplyScalar(Math.max(4,Math.min(20,d+e.deltaY*0.01)))});
+
+  (function animate(){
+    requestAnimationFrame(animate);group.rotation.y+=autoRot;
+    camera.lookAt(0,camera.position.y*0.3,0);
+    raycaster.setFromCamera(mouse,camera);
+    var hits=raycaster.intersectObjects(meshes);
+    if(hits.length>0){var u=hits[0].object.userData;
+      tooltip.style.display='block';
+      tooltip.innerHTML='<b>'+u.d.s+'</b><br><span style="color:'+(u.metric==='Literacy'?'#00D5E0':'#FF2D78')+'">'+u.metric+': '+u.val+'</span><br>HDI: '+u.d.hdi+'<br>Literacy: '+u.d.lit+'% | Sex Ratio: '+u.d.sr+'<br>IMR: '+u.d.imr+' | GSDP: INR '+u.d.gsdp+'K';
+    } else tooltip.style.display='none';
+    renderer.render(scene,camera);
+  })();
+}
+addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+init();
+</script>
+
+
+
+<!--ATLAS-GUIDE-START-->
+<style>
+.guide{position:relative;z-index:1;background:#080B13;padding:40px 5% 60px;color:#C8D0DA;
+font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif;font-size:.84rem;line-height:1.8;border-top:2px solid #151d2e}
+.guide-inner{max-width:1100px;margin:0 auto}
+.guide h2{color:#00D5E0;font-size:1.2rem;font-weight:700;margin:0 0 4px;font-family:'Playfair Display',Georgia,serif}
+.guide .tagline{color:#FF5872;font-size:.93rem;font-weight:600;margin:0 0 18px;font-style:italic}
+.guide h3{color:#FFD700;font-size:.88rem;font-weight:700;margin:26px 0 6px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #1a2233;padding-bottom:4px}
+.guide p{margin:0 0 11px;color:#B8C4D0;text-align:justify}
+.guide .hl{background:#0f1520;border-left:3px solid #00D5E0;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0}
+.guide .warn{border-left-color:#FF5872}
+.guide .gold{border-left-color:#FFD700}
+.guide b{color:#E8ECF0}.guide em{color:#FFD700;font-style:normal}
+.guide code{background:#1C2333;padding:1px 5px;border-radius:3px;font-size:.76rem;color:#00D5E0}
+.guide .ref{font-size:.76rem;color:#7B8CA3;margin-top:20px;border-top:1px solid #1a2233;padding-top:10px}
+.guide .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+@media(max-width:900px){.guide .two-col{grid-template-columns:1fr}}
+</style>
+<div class="guide"><div class="guide-inner">
+
+<h2>Literacy-Gender Helix: Two Intertwined Strands of Human Development</h2>
+<p class="tagline">Cyan for literacy, magenta for sex ratio. Where both strands bulge, development flourishes. Where they diverge, structural pathology is exposed.</p>
+
+<h3>What You Are Seeing</h3>
+<p>A <b>Three.js double helix</b> with Indian states arranged along the vertical axis by <b>Human Development Index (HDI)</b>. Two intertwined strands encode: <b>cyan strand = literacy rate</b> (bulging outward = higher literacy) and <b>magenta strand = sex ratio</b> (bulging outward = more balanced, i.e., closer to or above 1,000 females per 1,000 males). The helix rotates, allowing the viewer to see the relative thickness of each strand at each state's position.</p>
+
+<h3>Where the Strands Align: The Kerala Model</h3>
+<div class="hl"><b>Kerala</b> appears at or near the top of the helix (high HDI), with <b>both strands bulging</b>: literacy at 96% and sex ratio at 1,084 (one of the few Indian states where women outnumber men, as in most biologically normal populations). This alignment is not coincidental: <b>female literacy and gender equity are mutually reinforcing</b>. Educated women are more likely to be in the workforce, more likely to have voice in household decisions, more likely to resist sex-selective practices, and more likely to invest in daughters' education. Kerala's social reform movements (starting in the 19th century with leaders like Narayan Guru and Ayyankali) simultaneously attacked caste discrimination and gender discrimination, creating a virtuous cycle that is visible in the helix as twin bulges.</div>
+
+<h3>Where the Strands Diverge: The Haryana Paradox</h3>
+<div class="hl gold"><b>Haryana</b> presents the helix's most instructive divergence: <b>moderate literacy</b> (approximately 76%) but <b>catastrophic sex ratio</b> (879 females per 1,000 males in 2011, among India's worst). This divergence demolishes the simplistic assumption that education automatically produces gender equity. Haryana's economy is relatively prosperous (high GSDP per capita due to proximity to Delhi and industrial development), and its education rates are above the national average. Yet the deep-rooted patriarchal norms of the Jat community (predominant in Haryana), combined with the economics of dowry (marrying a daughter is expensive, making daughters "costly"), have perpetuated sex-selective abortion even among educated, relatively wealthy families. The Haryana case demonstrates that <b>economic development and basic education are necessary but not sufficient for gender equity</b>: cultural transformation, legal enforcement (the PCPNDT Act against sex-selective abortion), and direct policy interventions are required independently.</div>
+
+<h3>Bihar: Both Strands Thin</h3>
+<p><b>Bihar</b> appears near the bottom of the helix (low HDI) with <b>both strands thin</b>: literacy at approximately 62% (India's lowest) and sex ratio at 907 (among the worst). Bihar represents the <b>compounding trap</b>: low literacy reduces economic productivity, which limits investment in girls' education, which perpetuates low sex ratios, which reduces the workforce, which limits economic growth. The geographic clustering of such states (Bihar, Jharkhand, UP, Madhya Pradesh) in north-central India creates a <b>spatial development deficit</b> that affects approximately 500 million people and that no national average can obscure.</p>
+
+<h3>Policy Implications</h3>
+<div class="hl warn">The helix reveals three distinct policy challenges requiring different interventions. For <b>"both strands bulging" states</b> (Kerala, Goa): maintain gains, address emerging challenges (aging, unemployment, non-communicable diseases). For <b>"literacy high, sex ratio low" states</b> (Haryana, Punjab, Delhi): the binding constraint is not education but <b>cultural norms around son preference</b>. Interventions include strict PCPNDT Act enforcement, cash transfer programs conditional on keeping daughters (Beti Bachao Beti Padhao), and public campaigns that revalue daughters. For <b>"both strands thin" states</b> (Bihar, Jharkhand, UP): the priority is <b>basic education infrastructure</b>, particularly for girls, combined with economic development that increases the opportunity cost of early marriage and childbearing. The helix makes clear that <b>there is no single "women's empowerment" policy</b>; the appropriate intervention depends on which strand is thin and why.</div>
+
+<p class="ref"><b>Key references:</b> Dreze, J. & Sen, A. (2013). <i>An Uncertain Glory</i>. Princeton UP. | Bhat, P.N. & Zavier, A.J. (2007). Factors influencing the use of prenatal diagnostic techniques and sex ratio at birth in India. <i>Economic and Political Weekly</i>, 42(24). | Census of India (2011). Sex ratio data.</p>
+
+</div></div>
+<!--ATLAS-GUIDE-END-->
+</body></html>

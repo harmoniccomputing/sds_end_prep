@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Geography of Women's Power: India's Representation Crisis</title>
+<script src="https://cdn.plot.ly/plotly-3.5.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF9F6;--bg2:#FFF;--tx:#1A1A1A;--tx2:#4A4A4A;--tx3:#888;--accent:#B33A2C;--accent2:#2D5F8A;--green:#2E7D4F;--saffron:#FF9933;--border:#DDD;--hh:#D32F2F;--ll:#1565C0;--hl:#FF8F00;--lh:#7B1FA2;--ns:#BDBDBD}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7}
+.ctr{max-width:1100px;margin:0 auto;padding:0 32px}
+header{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#FFF;padding:80px 0 60px;text-align:center;position:relative;overflow:hidden}
+header h1{font-family:'Libre Baskerville',serif;font-size:2.2rem;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em;position:relative;z-index:1}
+header .sub{font-size:1rem;color:rgba(255,255,255,0.65);max-width:700px;margin:0 auto 20px;position:relative;z-index:1}
+header .dl{display:inline-block;background:var(--accent);color:#FFF;padding:6px 16px;border-radius:20px;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;position:relative;z-index:1}
+section{padding:44px 0;border-bottom:1px solid var(--border)}
+h2{font-family:'Libre Baskerville',serif;font-size:1.45rem;color:var(--accent);margin-bottom:18px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3{font-family:'Libre Baskerville',serif;font-size:1.1rem;color:var(--tx);margin:24px 0 10px}
+p{margin-bottom:13px;color:var(--tx2);font-size:0.95rem}
+.qb{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);padding:20px 24px;margin:18px 0;border-radius:0 6px 6px 0}
+.qb .ql{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);font-weight:700;margin-bottom:3px}
+.qb .qt{font-family:'Libre Baskerville',serif;font-size:0.95rem;color:var(--tx);font-style:italic}
+.qb .gl{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent2);font-weight:700;margin-top:10px}
+.qb .gt{font-size:0.85rem;color:var(--tx3);font-style:italic}
+.ab{background:#F0F7ED;border:1px solid #C5DEB8;border-left:4px solid var(--green);padding:18px 22px;margin:18px 0;border-radius:0 6px 6px 0}
+.ab .al{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);font-weight:700;margin-bottom:3px}
+.cc{margin:28px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.ct{background:#1A1A1A;color:#FFF;padding:11px 18px;font-weight:600;font-size:0.85rem}
+.cb{padding:14px}
+.pg{display:grid;grid-template-columns:1fr 36px 1fr;gap:0;margin:20px 0;align-items:stretch}
+.pp{padding:18px;border-radius:6px;font-size:0.9rem}
+.pa{background:#FFF3E0;border:1px solid #FFE0B2}
+.ps{background:#E8F5E9;border:1px solid #C8E6C9}
+.pac{display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--accent)}
+.pl{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:6px}
+.pa .pl{color:#E65100}
+.ps .pl{color:var(--green)}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:20px 0}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.sc .sn{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:var(--accent)}
+.sc .sl{font-size:0.75rem;color:var(--tx3);margin-top:3px}
+.nr{background:linear-gradient(to right,#FFF8E1,var(--bg2));border-left:3px solid var(--saffron);padding:18px 22px;margin:20px 0;border-radius:0 6px 6px 0;font-size:0.9rem}
+.mt{width:100%;border-collapse:collapse;margin:18px 0;font-size:0.85rem}
+.mt th{background:#1A1A1A;color:#FFF;padding:8px 14px;text-align:left;font-weight:600}
+.mt td{padding:8px 14px;border-bottom:1px solid var(--border)}
+.mb{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:700;color:#FFF}
+.mb-s{background:var(--accent)}
+.mb-m{background:var(--hl)}
+.mb-w{background:var(--ns);color:#333}
+.ll{display:flex;gap:14px;margin:10px 0;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:0.75rem}
+.ld{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.15)}
+.tl{position:relative;padding-left:36px;margin:20px 0}
+.tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--accent)}
+.ti{position:relative;margin-bottom:20px}
+.ti::before{content:'';position:absolute;left:-30px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.ti .yr{font-weight:700;color:var(--accent);font-size:0.8rem}
+footer{background:#1A1A1A;color:#777;padding:28px 0;text-align:center;font-size:0.75rem}
+@media(max-width:768px){.pg{grid-template-columns:1fr;gap:10px}.pac{transform:rotate(90deg)}.sg{grid-template-columns:1fr 1fr}}
+</style>
+</head><body>
+
+<header>
+<div class="ctr">
+<div class="dl">April 21, 2026 | 4 days after the bill failed</div>
+<h1>The Geography of Women's Power</h1>
+<p class="sub">A Spatial Analysis of India's Representation Crisis: Why the Women's Reservation Bill, Delimitation, and the North-South Divide Cannot Be Understood Without Maps</p>
+<p style="font-size:0.8rem;color:rgba(255,255,255,0.4);position:relative;z-index:1">Vishakha Agrawal | Lab for Spatial Informatics, IIIT Hyderabad | SDS Project</p>
+</div>
+</header>
+
+<div class="ctr">
+
+<section>
+<h2>Act I: The 27-Year Promise That Failed in 48 Hours</h2>
+<p>On April 17, 2026, the Constitution (131st Amendment) Bill was voted down in the Lok Sabha: 298 in favour, 230 against, falling 54 votes short of the two-thirds majority required. With it collapsed the vehicle for implementing the Women's Reservation Bill (Nari Shakti Vandan Adhiniyam), passed unanimously in September 2023 but linked to a delimitation exercise that has now stalled.</p>
+<p>The opposition argued that women's reservation was the wrapper around a demographic power grab. The bill proposed expanding Lok Sabha from 543 to 850 seats and allocating them using the 2011 Census. States that controlled their populations (the South) would lose relative power to states that did not (the Hindi belt). P. Chidambaram called the amendment "mischievous and diabolical." Sonia Gandhi said "delimitation, not women's quota, is the real issue."</p>
+<p>This analysis examines whether the opposition's claim is spatially defensible, whether the government's assurances match the bill's mechanism, and what this means for women's representation.</p>
+<div class="sg">
+<div class="sc"><div class="sn">298</div><div class="sl">Votes in favour (needed 352)</div></div>
+<div class="sc"><div class="sn">850</div><div class="sl">Proposed total seats</div></div>
+<div class="sc"><div class="sn">33%</div><div class="sl">Women's reservation quota</div></div>
+<div class="sc"><div class="sn">53</div><div class="sl">Years since last seat reallocation</div></div>
+<div class="sc"><div class="sn">3.3pp</div><div class="sl">South's share loss under bill</div></div>
+<div class="sc"><div class="sn">0.0pp</div><div class="sl">South's share loss per Shah</div></div>
+</div>
+</section>
+
+<section>
+<h2>Act II: The Two Incompatible Scenarios</h2>
+<p>There are two sets of numbers circulating. They come from different formulas and produce different outcomes. Understanding which one the bill actually mandates is the central question.</p>
+
+<h3>Scenario A: What the Bill Says (Population-Proportional)</h3>
+<p>The Delimitation Bill (Section 4, Section 8) mandates allocation "on the basis of the latest census figures." Article 81 of the Constitution requires that "the ratio between [seats] and the population of the State is, so far as practicable, the same for all States." PRS India computed the projections using this formula. Result: Tamil Nadu goes from 39 to 48 (+23%), Kerala from 20 to 22 (+10%), while UP goes from 80 to 133 (+66%) and Bihar from 40 to 69 (+73%). The South's share drops from 24.1% to 20.8%, a loss of 3.3 percentage points.</p>
+
+<h3>Scenario B: What Shah Claimed in Parliament (Flat 50%)</h3>
+<p>Home Minister Amit Shah, speaking in the Lok Sabha on April 16-17, gave specific numbers: Tamil Nadu 39 to "around 59," Kerala 20 to 30, Karnataka 28 to 42, the South total from 129 to 195. Every one of these numbers equals current seats x 1.5 (within rounding). Under this formula, every state maintains its current share. The South stays at ~24%.</p>
+
+<div class="nr">
+<strong>The mathematical incompatibility:</strong> Shah's numbers require house sizes of 990 (for TN = 59) to 1,087 (for Kerala = 30) to be population-proportional. The bill caps the house at 850. Shah's numbers and the bill's mechanism cannot both be correct. The Moran's I on the Shah-minus-Bill gap is +0.459 (very strong clustering): the gap itself is geographic, favouring the South by 20+ seats over what the bill would deliver.
+</div>
+
+<div class="qb">
+<div class="ql">Hypothesis / Question</div>
+<div class="qt">When a political assurance and a legislative mechanism produce different spatial distributions of the same resource (seats), does the gap between them cluster geographically?</div>
+<div class="gl">Generalized form</div>
+<div class="gt">For any policy where political promises and statutory formulas diverge, spatial analysis can map where the gap falls hardest. Applications: budget allocation promises vs. formula-based grants, subsidy commitments vs. statutory entitlements.</div>
+</div>
+
+<div class="cc">
+<div class="ct">SCENARIO COMPARISON: Bill (population-proportional) vs Shah (flat 50%) | Size = seats gained, Color = gain %</div>
+<div class="cb"><div id="ch1" style="width:100%;height:560px"></div></div>
+</div>
+
+<div class="ll">
+<div class="li"><div class="ld" style="background:#D32F2F"></div> Gains &gt;60%</div>
+<div class="li"><div class="ld" style="background:#FF9800"></div> Gains 40-60%</div>
+<div class="li"><div class="ld" style="background:#FFF9C4;border-color:#999"></div> Gains 20-40%</div>
+<div class="li"><div class="ld" style="background:#1565C0"></div> Gains &lt;20%</div>
+</div>
+
+<div class="pg">
+<div class="pp pa">
+<div class="pl">&cross; Bill's outcome (population-proportional)</div>
+<p>Gains cluster geographically (I = +0.363). Central belt (UP +66%, Bihar +73%, Rajasthan +84%, MP +66%) forms a contiguous corridor of above-average gains. South (TN +23%, Kerala +10%) forms a belt of below-average gains. The formula converts moderate demographic variation into strong political geographic structure.</p>
+</div>
+<div class="pac">&ne;</div>
+<div class="pp ps">
+<div class="pl">&check; Shah's assurance (flat 50%)</div>
+<p>Gains are spatially unclustered (I = -0.194). Every state gets roughly 50% more seats. No geographic pattern. No belts of winners or losers. The political assurance is, by mathematical design, spatially neutral. But it does not match the bill.</p>
+</div>
+</div>
+
+<div class="ab">
+<div class="al">Spatial finding</div>
+<p><strong>The bill's mechanism clusters gains geographically (I = +0.363). Shah's assurance does not (I = -0.194). These are incompatible.</strong> A bar chart comparing "Shah said X, Bill gives Y" shows individual state discrepancies. The LISA map shows that these discrepancies form a contiguous belt: the South is systematically promised more than the bill would deliver, and the Central belt is systematically promised less. The gap is not random; it has a geographic axis (I = +0.459 on the Shah-minus-Bill gap).</p>
+</div>
+</section>
+
+<section>
+<h2>Act III: The Demographic Question</h2>
+<p>The core argument for population-proportional delimitation is democratic equality: "one person, one vote, one value." States with more people deserve more seats. But the counter-argument is that states were penalized with fewer relative seats precisely because they invested in family planning. Is population growth spatially clustered? And if so, does the allocation formula amplify or dampen that clustering?</p>
+
+<div class="qb">
+<div class="ql">Hypothesis / Question</div>
+<div class="qt">When a weakly spatially clustered input variable (population growth) is transformed by an allocation formula, does the output (seat gain) exhibit stronger, weaker, or equivalent spatial clustering?</div>
+<div class="gl">Generalized form</div>
+<div class="gt">For any formula-based resource allocation (school funding per capita, healthcare budget per district), test whether the formula amplifies or dampens spatial structure in the input variable.</div>
+</div>
+
+<table class="mt">
+<thead><tr><th>Variable</th><th>Moran's I</th><th>Signal</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Population Growth 1971-2011</td><td>+0.166</td><td><span class="mb mb-m">MODERATE</span></td><td>Growth is moderately clustered</td></tr>
+<tr><td>Total Fertility Rate (NFHS-5)</td><td>+0.175</td><td><span class="mb mb-m">MODERATE</span></td><td>Fertility is moderately clustered</td></tr>
+<tr><td>Seat Gain % (Bill mechanism)</td><td><strong>+0.363</strong></td><td><span class="mb mb-s">STRONG</span></td><td>Formula amplifies clustering 2.2x</td></tr>
+<tr><td>Share Change pp (Bill mechanism)</td><td><strong>+0.476</strong></td><td><span class="mb mb-s">VERY STRONG</span></td><td>Political power shift is highly geographic</td></tr>
+</tbody>
+</table>
+
+<div class="cc">
+<div class="ct">FORMULA AMPLIFICATION: Population Growth (I=+0.17, moderate) transforms into Seat Gain % (I=+0.36, strong)</div>
+<div class="cb"><div id="ch2" style="width:100%;height:520px"></div></div>
+</div>
+
+<div class="ab">
+<div class="al">Spatial finding</div>
+<p><strong>Population growth is moderately spatially clustered (I = +0.166). The proportional allocation formula amplifies this to strong clustering (I = +0.363), a 2.2x amplification.</strong> The formula does not just reflect demographic reality; it concentrates it. The bar chart debate asks "is population-based allocation fair?" The spatial analysis asks the deeper question: "does the formula create geographic blocs of winners and losers that did not exist in the input data at comparable strength?" It does.</p>
+</div>
+</section>
+
+<section>
+<h2>Act IV: The Fiscal Paradox</h2>
+<p>Southern states contribute disproportionately to federal tax revenue while receiving less per rupee contributed. Under delimitation, the states that gain the most seats are also the states that contribute the least fiscally and receive the most in transfers. Is this coupling spatial?</p>
+
+<div class="qb">
+<div class="ql">Hypothesis / Question</div>
+<div class="qt">When two georeferenced variables (seat gain and fiscal dependence) are positively correlated, does their coupling cluster geographically, forming belts of states that simultaneously gain political power and receive fiscal transfers?</div>
+<div class="gl">Generalized form</div>
+<div class="gt">For any two coupled resource flows (political representation gain vs. fiscal transfer receipt), test whether the coupling is spatially structured or randomly distributed.</div>
+</div>
+
+<div class="cc">
+<div class="ct">FISCAL-POLITICAL COUPLING: Seat Gain (size) vs Tax Return Ratio (color) | Who gains seats AND receives fiscal transfers?</div>
+<div class="cb"><div id="ch3" style="width:100%;height:520px"></div></div>
+</div>
+
+<div class="ab">
+<div class="al">Spatial finding</div>
+<p><strong>The fiscal-political coupling clusters strongly.</strong> Tax return ratio has I = +0.395 and GDP per capita has I = +0.346. States gaining the most seats (UP, Bihar, MP, Rajasthan) form a contiguous belt that also receives the most per rupee contributed (Bihar: Rs 922 per Rs 100, UP: Rs 333). States gaining the fewest relative seats (TN, Kerala, Karnataka) form a contiguous belt that contributes the most (Maharashtra: Rs 7.7, Karnataka: Rs 13.9). A scatter plot shows this correlation; a map shows it is geographic, not random. The political power shift runs along the same geographic axis as the fiscal transfer flow.</p>
+</div>
+</section>
+
+<section>
+<h2>Act V: Where Will Women's Reserved Seats Actually Go?</h2>
+<p>The Nari Shakti Vandan Adhiniyam reserves one-third of Lok Sabha seats for women. After delimitation, this means approximately 270 reserved seats (under the bill's mechanism) or 268 (under Shah's). But the geographic distribution of these seats differs sharply between the two scenarios.</p>
+
+<div class="qb">
+<div class="ql">Hypothesis / Question</div>
+<div class="qt">When a corrective policy (women's reservation) is allocated proportionally to a redistributed base (delimited seats), does the corrective policy's geographic footprint align with the geography of the problem it aims to solve (women's political exclusion)?</div>
+<div class="gl">Generalized form</div>
+<div class="gt">For any proportionally allocated corrective policy (affirmative action quotas, disability access mandates, scholarship distribution), test whether the geographic distribution matches the geography of need.</div>
+</div>
+
+<div class="cc">
+<div class="ct">WOMEN'S RESERVATION: Current women elected (color) vs Projected reserved seats under bill (size)</div>
+<div class="cb"><div id="ch4" style="width:100%;height:520px"></div></div>
+</div>
+
+<p>Under the bill, the Central belt (UP, MP, Bihar) receives the most reserved seats because it has the most total seats. The South receives fewer. But women's candidature and election patterns differ across these regions:</p>
+
+<table class="mt">
+<thead><tr><th>Region</th><th>Current Seats</th><th>Women Elected 2024</th><th>% Women</th><th>Reserved (Bill)</th><th>Reserved (Shah)</th></tr></thead>
+<tbody>
+<tr><td>South</td><td>129</td><td>11</td><td>8.5%</td><td>56</td><td>65</td></tr>
+<tr><td>Central</td><td>120</td><td>15</td><td>12.5%</td><td>66</td><td>60</td></tr>
+<tr><td>East</td><td>117</td><td>20</td><td>17.1%</td><td>59</td><td>59</td></tr>
+<tr><td>West</td><td>101</td><td>13</td><td>12.9%</td><td>54</td><td>50</td></tr>
+<tr><td>North</td><td>44</td><td>3</td><td>6.8%</td><td>23</td><td>23</td></tr>
+<tr><td>Northeast</td><td>25</td><td>3</td><td>12.0%</td><td>11</td><td>13</td></tr>
+</tbody>
+</table>
+
+<div class="ab">
+<div class="al">Spatial finding</div>
+<p><strong>Under the bill's mechanism, the Central belt gets more reserved seats than the South (66 vs 56), even though the South has a lower women's election rate (8.5% vs 12.5%) and arguably greater need.</strong> The East, which already elects the most women proportionally (17.1%, driven by West Bengal and Odisha), gets 59 reserved seats. The reservation formula allocates by total seats, not by women's exclusion. The North, where women barely contest (6.8% elected), gets only 23. A bar chart of "reserved seats by state" shows numbers. The map shows that the geographic distribution of the corrective policy does not match the geography of the problem.</p>
+</div>
+</section>
+
+<section>
+<h2>Act VI: What This Analysis Would Look Like Without Maps</h2>
+<p>Every finding in this document was produced by Moran's I (a single statistic) and LISA cluster maps (a single visualization type). Without spatial methods, arriving at the same conclusions would require:</p>
+
+<div class="pg">
+<div class="pp pa">
+<div class="pl">&cross; Without spatial methods</div>
+<p><strong>The two-scenario discrepancy:</strong> Two bar charts of state-wise seats (Shah vs Bill), manual comparison of 30 state-pairs, then geographic domain knowledge to notice that the discrepancies cluster in the South. Three charts, manual inspection.</p>
+<p><strong>The formula amplification:</strong> Bar chart of population growth, separate bar chart of seat gains, manual inspection to notice that growth is scattered but gains are belted. Two charts plus geographic expertise.</p>
+<p><strong>The fiscal coupling:</strong> Scatter plot of gains vs tax ratio, separate table of which states gain, manual geographic overlay. Two charts plus a hand-drawn map.</p>
+<p><strong>The reservation mismatch:</strong> Bar chart of reserved seats, separate bar chart of current women elected, side-by-side comparison requiring geographic knowledge. Three charts.</p>
+<p><strong>Total: 10+ separate charts, manual overlay, geographic domain expertise, substantial effort to connect the dots across charts.</strong></p>
+</div>
+<div class="pac">&rArr;</div>
+<div class="pp ps">
+<div class="pl">&check; With spatial methods</div>
+<p><strong>Two-scenario discrepancy:</strong> Moran's I on Shah-minus-Bill gap (I = +0.459). One number tells the analyst the gap is geographic. One LISA map shows where.</p>
+<p><strong>Formula amplification:</strong> Compare I on growth (+0.166) vs I on seat gain (+0.363). The ratio (2.2x) is the finding. Two numbers.</p>
+<p><strong>Fiscal coupling:</strong> Overlay both variables on one map. Both cluster on the same axis. One map.</p>
+<p><strong>Reservation mismatch:</strong> Map reserved seats against current success rate. Mismatch is immediately visible. One map.</p>
+<p><strong>Total: 4 maps, 6 Moran's I values. No geographic expertise required. The statistics detect patterns automatically and the maps show where they are.</strong></p>
+</div>
+</div>
+
+<div class="nr">
+<strong>The value of spatialization is not aesthetic. It is epistemic.</strong> Moran's I = +0.476 on the share change tells an analyst, without any knowledge of Indian geography, that the proposed reform has a spatial axis of inequality. A LISA map then shows exactly where that axis runs. The aspatial approach requires the analyst to already know the geography and manually detect patterns across multiple separate visualizations. The spatial approach automates detection, quantifies it, and localizes it, all in a single framework.
+</div>
+</section>
+
+<section>
+<h2>Sources and References</h2>
+<p style="font-size:0.85rem">PRS India, "The Delimitation Bill, 2026" and "The Constitution (131st Amendment) Bill, 2026," prsindia.org, April 2026. Bill text: "The Delimitation Bill, 2026" (Bill No. 108 of 2026), as introduced in Lok Sabha April 16, 2026. Government of India, PIB, "Union Home Minister replies in Lok Sabha," April 16-17, 2026. Election Commission of India, Statistical Reports, 18th Lok Sabha General Elections, 2024 (Tables 9, 24, 25). Census of India, 2011 and 1971 (state-wise population, corrected for post-1971 state reorganizations). National Family Health Survey (NFHS-5), 2019-21, Ministry of Health and Family Welfare. Finance Commission Reports (14th, 15th), state-wise tax devolution data. Anselin, L. (1995), "Local Indicators of Spatial Association," Geographical Analysis, 27(2), 93-115. Moran, P.A.P. (1950), "Notes on Continuous Stochastic Phenomena," Biometrika, 37(1/2), 17-23. Patel, A. & Sekher, T.V. (2024), "India's Delimitation Challenge," Economic and Political Weekly. Kotasthane, P. & Joshi, S., cited in Carnegie India, on federal bargain proposals. Chakravarty, P. & Dehejia, V., cited in The Wire, "Where Could India's 850 MPs Come From?", April 2026.</p>
+</section>
+</div>
+<footer><div class="ctr">Vishakha Agrawal | Lab for Spatial Informatics, IIIT Hyderabad | SDS Project, April 2026<br><span style="color:#555">Companion to: <em>Spatializing Standard Charts: A Generalizable Method Pipeline</em></span></div></footer>
+
+<script>
+const DATA = [{"state": "Andhra Pradesh", "region": "South", "lat": 15.9, "lon": 79.7, "pop_2011": 49386799, "pop_1971": 2.541, "pop_growth": 94.4, "curr_seats": 25, "prs_seats": 33, "shah_seats": 38, "prs_gain": 8, "shah_gain": 13, "prs_gain_pct": 32.0, "shah_gain_pct": 52.0, "curr_share": 4.66, "prs_share": 4.08, "shah_share": 4.7, "prs_share_delta": -0.58, "shah_share_delta": 0.03, "scenario_gap": 5, "tfr": 1.7, "gdp_pc": 228000, "tax_ret": 46.0, "fiscal_disp": 0.839, "w_elected": 3, "w_contested": 38, "w_rate": 152.0, "w_pct": 12.0, "w_reserved_prs": 11, "w_reserved_shah": 13, "lisa_pop_growth": "LL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "LL", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "HH", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "HH", "lisa_w_pct": "NS"}, {"state": "Arunachal Pradesh", "region": "Northeast", "lat": 28.2, "lon": 94.7, "pop_2011": 1383727, "pop_1971": 0.047, "pop_growth": 194.4, "curr_seats": 2, "prs_seats": 2, "shah_seats": 2, "prs_gain": 0, "shah_gain": 0, "prs_gain_pct": 0.0, "shah_gain_pct": 0.0, "curr_share": 0.37, "prs_share": 0.25, "shah_share": 0.25, "prs_share_delta": -0.13, "shah_share_delta": -0.13, "scenario_gap": 0, "tfr": 1.9, "gdp_pc": 176000, "tax_ret": 0, "fiscal_disp": 1.0, "w_elected": 0, "w_contested": 1, "w_rate": 50.0, "w_pct": 0.0, "w_reserved_prs": 1, "w_reserved_shah": 1, "lisa_pop_growth": "HH", "lisa_prs_gain_pct": "LL", "lisa_shah_gain_pct": "LH", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "LH", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HL", "lisa_w_rate": "NS", "lisa_w_pct": "LL"}, {"state": "Assam", "region": "Northeast", "lat": 26.2, "lon": 92.9, "pop_2011": 31205576, "pop_1971": 1.46, "pop_growth": 113.7, "curr_seats": 14, "prs_seats": 21, "shah_seats": 21, "prs_gain": 7, "shah_gain": 7, "prs_gain_pct": 50.0, "shah_gain_pct": 50.0, "curr_share": 2.61, "prs_share": 2.6, "shah_share": 2.6, "prs_share_delta": -0.01, "shah_share_delta": -0.02, "scenario_gap": 0, "tfr": 1.9, "gdp_pc": 107000, "tax_ret": 354.6, "fiscal_disp": 0, "w_elected": 1, "w_contested": 12, "w_rate": 85.7, "w_pct": 7.1, "w_reserved_prs": 7, "w_reserved_shah": 7, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HL", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "LL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Bihar", "region": "East", "lat": 25.1, "lon": 85.3, "pop_2011": 104099452, "pop_1971": 4.282, "pop_growth": 143.1, "curr_seats": 40, "prs_seats": 69, "shah_seats": 60, "prs_gain": 29, "shah_gain": 20, "prs_gain_pct": 72.5, "shah_gain_pct": 50.0, "curr_share": 7.46, "prs_share": 8.54, "shah_share": 7.42, "prs_share_delta": 1.08, "shah_share_delta": -0.05, "scenario_gap": -9, "tfr": 3.0, "gdp_pc": 54000, "tax_ret": 922.5, "fiscal_disp": 0, "w_elected": 5, "w_contested": 39, "w_rate": 97.5, "w_pct": 12.5, "w_reserved_prs": 23, "w_reserved_shah": 20, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "HH", "lisa_shah_share_delta": "LL", "lisa_scenario_gap": "LL", "lisa_tfr": "HH", "lisa_gdp_pc": "LL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Chhattisgarh", "region": "Central", "lat": 21.3, "lon": 81.6, "pop_2011": 25545198, "pop_1971": 1.078, "pop_growth": 137.0, "curr_seats": 11, "prs_seats": 17, "shah_seats": 17, "prs_gain": 6, "shah_gain": 6, "prs_gain_pct": 54.5, "shah_gain_pct": 54.5, "curr_share": 2.05, "prs_share": 2.1, "shah_share": 2.1, "prs_share_delta": 0.05, "shah_share_delta": 0.05, "scenario_gap": 0, "tfr": 1.8, "gdp_pc": 128000, "tax_ret": 0, "fiscal_disp": 1.0, "w_elected": 3, "w_contested": 29, "w_rate": 263.6, "w_pct": 27.3, "w_reserved_prs": 6, "w_reserved_shah": 6, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "HL", "lisa_w_pct": "NS"}, {"state": "Delhi", "region": "North", "lat": 28.7, "lon": 77.1, "pop_2011": 16787941, "pop_1971": 0.41, "pop_growth": 309.5, "curr_seats": 7, "prs_seats": 11, "shah_seats": 11, "prs_gain": 4, "shah_gain": 4, "prs_gain_pct": 57.1, "shah_gain_pct": 57.1, "curr_share": 1.31, "prs_share": 1.36, "shah_share": 1.36, "prs_share_delta": 0.06, "shah_share_delta": 0.05, "scenario_gap": 0, "tfr": 1.6, "gdp_pc": 398000, "tax_ret": 0, "fiscal_disp": 1.0, "w_elected": 1, "w_contested": 8, "w_rate": 114.3, "w_pct": 14.3, "w_reserved_prs": 4, "w_reserved_shah": 4, "lisa_pop_growth": "HL", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "HL", "lisa_scenario_gap": "NS", "lisa_tfr": "LH", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Goa", "region": "West", "lat": 15.4, "lon": 74.0, "pop_2011": 1458545, "pop_1971": 0.08, "pop_growth": 82.3, "curr_seats": 2, "prs_seats": 2, "shah_seats": 2, "prs_gain": 0, "shah_gain": 0, "prs_gain_pct": 0.0, "shah_gain_pct": 0.0, "curr_share": 0.37, "prs_share": 0.25, "shah_share": 0.25, "prs_share_delta": -0.13, "shah_share_delta": -0.13, "scenario_gap": 0, "tfr": 1.3, "gdp_pc": 547000, "tax_ret": 86.4, "fiscal_disp": 0.6976, "w_elected": 0, "w_contested": 3, "w_rate": 150.0, "w_pct": 0.0, "w_reserved_prs": 1, "w_reserved_shah": 1, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "LH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "LL", "lisa_scenario_gap": "NS", "lisa_tfr": "LL", "lisa_gdp_pc": "HH", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "HL", "lisa_w_pct": "NS"}, {"state": "Gujarat", "region": "West", "lat": 22.3, "lon": 71.2, "pop_2011": 60439692, "pop_1971": 2.67, "pop_growth": 126.4, "curr_seats": 26, "prs_seats": 40, "shah_seats": 39, "prs_gain": 14, "shah_gain": 13, "prs_gain_pct": 53.8, "shah_gain_pct": 50.0, "curr_share": 4.85, "prs_share": 4.95, "shah_share": 4.82, "prs_share_delta": 0.1, "shah_share_delta": -0.03, "scenario_gap": -1, "tfr": 1.9, "gdp_pc": 264000, "tax_ret": 31.3, "fiscal_disp": 0.8904, "w_elected": 4, "w_contested": 19, "w_rate": 73.1, "w_pct": 15.4, "w_reserved_prs": 13, "w_reserved_shah": 13, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Haryana", "region": "North", "lat": 29.1, "lon": 76.1, "pop_2011": 25351462, "pop_1971": 1.0, "pop_growth": 153.5, "curr_seats": 10, "prs_seats": 17, "shah_seats": 15, "prs_gain": 7, "shah_gain": 5, "prs_gain_pct": 70.0, "shah_gain_pct": 50.0, "curr_share": 1.87, "prs_share": 2.1, "shah_share": 1.85, "prs_share_delta": 0.24, "shah_share_delta": -0.01, "scenario_gap": -2, "tfr": 2.1, "gdp_pc": 295000, "tax_ret": 18.6, "fiscal_disp": 0.9349, "w_elected": 0, "w_contested": 7, "w_rate": 70.0, "w_pct": 0.0, "w_reserved_prs": 6, "w_reserved_shah": 5, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Himachal Pradesh", "region": "North", "lat": 31.1, "lon": 77.2, "pop_2011": 6864602, "pop_1971": 0.35, "pop_growth": 96.1, "curr_seats": 4, "prs_seats": 5, "shah_seats": 6, "prs_gain": 1, "shah_gain": 2, "prs_gain_pct": 25.0, "shah_gain_pct": 50.0, "curr_share": 0.75, "prs_share": 0.62, "shah_share": 0.74, "prs_share_delta": -0.13, "shah_share_delta": -0.0, "scenario_gap": 1, "tfr": 1.7, "gdp_pc": 236000, "tax_ret": 174.2, "fiscal_disp": 0.3903, "w_elected": 0, "w_contested": 3, "w_rate": 75.0, "w_pct": 0.0, "w_reserved_prs": 2, "w_reserved_shah": 2, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Jammu & Kashmir", "region": "North", "lat": 33.8, "lon": 76.6, "pop_2011": 12541302, "pop_1971": 0.449, "pop_growth": 179.3, "curr_seats": 5, "prs_seats": 8, "shah_seats": 8, "prs_gain": 3, "shah_gain": 3, "prs_gain_pct": 60.0, "shah_gain_pct": 60.0, "curr_share": 0.93, "prs_share": 0.99, "shah_share": 0.99, "prs_share_delta": 0.06, "shah_share_delta": 0.06, "scenario_gap": 0, "tfr": 1.4, "gdp_pc": 132000, "tax_ret": 0, "fiscal_disp": 1.0, "w_elected": 0, "w_contested": 5, "w_rate": 100.0, "w_pct": 0.0, "w_reserved_prs": 3, "w_reserved_shah": 3, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Jharkhand", "region": "East", "lat": 23.6, "lon": 85.3, "pop_2011": 32988134, "pop_1971": 1.358, "pop_growth": 142.9, "curr_seats": 14, "prs_seats": 22, "shah_seats": 21, "prs_gain": 8, "shah_gain": 7, "prs_gain_pct": 57.1, "shah_gain_pct": 50.0, "curr_share": 2.61, "prs_share": 2.72, "shah_share": 2.6, "prs_share_delta": 0.11, "shah_share_delta": -0.02, "scenario_gap": -1, "tfr": 2.3, "gdp_pc": 96000, "tax_ret": 282.3, "fiscal_disp": 0.012, "w_elected": 1, "w_contested": 11, "w_rate": 78.6, "w_pct": 7.1, "w_reserved_prs": 7, "w_reserved_shah": 7, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "HH", "lisa_gdp_pc": "LL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Karnataka", "region": "South", "lat": 15.3, "lon": 75.7, "pop_2011": 61095297, "pop_1971": 2.93, "pop_growth": 108.5, "curr_seats": 28, "prs_seats": 41, "shah_seats": 42, "prs_gain": 13, "shah_gain": 14, "prs_gain_pct": 46.4, "shah_gain_pct": 50.0, "curr_share": 5.22, "prs_share": 5.07, "shah_share": 5.19, "prs_share_delta": -0.15, "shah_share_delta": -0.03, "scenario_gap": 1, "tfr": 1.7, "gdp_pc": 302000, "tax_ret": 13.9, "fiscal_disp": 0.9514, "w_elected": 2, "w_contested": 21, "w_rate": 75.0, "w_pct": 7.1, "w_reserved_prs": 14, "w_reserved_shah": 14, "lisa_pop_growth": "LL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "HH", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Kerala", "region": "South", "lat": 10.9, "lon": 76.3, "pop_2011": 33406061, "pop_1971": 2.13, "pop_growth": 56.8, "curr_seats": 20, "prs_seats": 22, "shah_seats": 30, "prs_gain": 2, "shah_gain": 10, "prs_gain_pct": 10.0, "shah_gain_pct": 50.0, "curr_share": 3.73, "prs_share": 2.72, "shah_share": 3.71, "prs_share_delta": -1.01, "shah_share_delta": -0.02, "scenario_gap": 8, "tfr": 1.8, "gdp_pc": 271000, "tax_ret": 63.4, "fiscal_disp": 0.7781, "w_elected": 1, "w_contested": 14, "w_rate": 70.0, "w_pct": 5.0, "w_reserved_prs": 7, "w_reserved_shah": 10, "lisa_pop_growth": "LL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "LL", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "HH", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Madhya Pradesh", "region": "Central", "lat": 22.9, "lon": 78.7, "pop_2011": 72626809, "pop_1971": 3.062, "pop_growth": 137.2, "curr_seats": 29, "prs_seats": 48, "shah_seats": 44, "prs_gain": 19, "shah_gain": 15, "prs_gain_pct": 65.5, "shah_gain_pct": 51.7, "curr_share": 5.41, "prs_share": 5.94, "shah_share": 5.44, "prs_share_delta": 0.53, "shah_share_delta": 0.03, "scenario_gap": -4, "tfr": 2.0, "gdp_pc": 130000, "tax_ret": 279.1, "fiscal_disp": 0.0232, "w_elected": 4, "w_contested": 33, "w_rate": 113.8, "w_pct": 13.8, "w_reserved_prs": 16, "w_reserved_shah": 15, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "HH", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "LL", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Maharashtra", "region": "West", "lat": 19.8, "lon": 75.3, "pop_2011": 112374333, "pop_1971": 5.04, "pop_growth": 123.0, "curr_seats": 48, "prs_seats": 75, "shah_seats": 72, "prs_gain": 27, "shah_gain": 24, "prs_gain_pct": 56.2, "shah_gain_pct": 50.0, "curr_share": 8.96, "prs_share": 9.28, "shah_share": 8.9, "prs_share_delta": 0.33, "shah_share_delta": -0.06, "scenario_gap": -3, "tfr": 1.7, "gdp_pc": 280000, "tax_ret": 7.7, "fiscal_disp": 0.973, "w_elected": 5, "w_contested": 32, "w_rate": 66.7, "w_pct": 10.4, "w_reserved_prs": 25, "w_reserved_shah": 24, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Manipur", "region": "Northeast", "lat": 24.7, "lon": 93.9, "pop_2011": 2855794, "pop_1971": 0.11, "pop_growth": 159.6, "curr_seats": 2, "prs_seats": 2, "shah_seats": 3, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 50.0, "curr_share": 0.37, "prs_share": 0.25, "shah_share": 0.37, "prs_share_delta": -0.13, "shah_share_delta": -0.0, "scenario_gap": 1, "tfr": 2.2, "gdp_pc": 100000, "tax_ret": 1484.9, "fiscal_disp": 0, "w_elected": 1, "w_contested": 4, "w_rate": 200.0, "w_pct": 50.0, "w_reserved_prs": 1, "w_reserved_shah": 1, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "LL", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "LL", "lisa_tax_ret": "HH", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "HL"}, {"state": "Meghalaya", "region": "Northeast", "lat": 25.5, "lon": 91.4, "pop_2011": 2966889, "pop_1971": 0.1, "pop_growth": 196.7, "curr_seats": 2, "prs_seats": 2, "shah_seats": 3, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 50.0, "curr_share": 0.37, "prs_share": 0.25, "shah_share": 0.37, "prs_share_delta": -0.13, "shah_share_delta": -0.0, "scenario_gap": 1, "tfr": 2.9, "gdp_pc": 109000, "tax_ret": 464.9, "fiscal_disp": 0, "w_elected": 0, "w_contested": 1, "w_rate": 50.0, "w_pct": 0.0, "w_reserved_prs": 1, "w_reserved_shah": 1, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "LH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "LL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Mizoram", "region": "Northeast", "lat": 23.2, "lon": 92.8, "pop_2011": 1097206, "pop_1971": 0.033, "pop_growth": 232.5, "curr_seats": 1, "prs_seats": 1, "shah_seats": 2, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 100.0, "curr_share": 0.19, "prs_share": 0.12, "shah_share": 0.25, "prs_share_delta": -0.06, "shah_share_delta": 0.06, "scenario_gap": 1, "tfr": 1.9, "gdp_pc": 176000, "tax_ret": 3583.2, "fiscal_disp": 0, "w_elected": 0, "w_contested": 1, "w_rate": 100.0, "w_pct": 0.0, "w_reserved_prs": 0, "w_reserved_shah": 1, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "LL", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "HH", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "LH"}, {"state": "Nagaland", "region": "Northeast", "lat": 26.2, "lon": 94.6, "pop_2011": 1978502, "pop_1971": 0.052, "pop_growth": 280.5, "curr_seats": 1, "prs_seats": 1, "shah_seats": 2, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 100.0, "curr_share": 0.19, "prs_share": 0.12, "shah_share": 0.25, "prs_share_delta": -0.06, "shah_share_delta": 0.06, "scenario_gap": 1, "tfr": 1.7, "gdp_pc": 118000, "tax_ret": 1252.5, "fiscal_disp": 0, "w_elected": 0, "w_contested": 1, "w_rate": 100.0, "w_pct": 0.0, "w_reserved_prs": 0, "w_reserved_shah": 1, "lisa_pop_growth": "HH", "lisa_prs_gain_pct": "LL", "lisa_shah_gain_pct": "HL", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "HL", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "LL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "LH"}, {"state": "Odisha", "region": "East", "lat": 20.9, "lon": 84.0, "pop_2011": 41974218, "pop_1971": 2.19, "pop_growth": 91.7, "curr_seats": 21, "prs_seats": 28, "shah_seats": 32, "prs_gain": 7, "shah_gain": 11, "prs_gain_pct": 33.3, "shah_gain_pct": 52.4, "curr_share": 3.92, "prs_share": 3.47, "shah_share": 3.96, "prs_share_delta": -0.45, "shah_share_delta": 0.04, "scenario_gap": 4, "tfr": 1.8, "gdp_pc": 140000, "tax_ret": 187.3, "fiscal_disp": 0.3444, "w_elected": 5, "w_contested": 21, "w_rate": 100.0, "w_pct": 23.8, "w_reserved_prs": 9, "w_reserved_shah": 11, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Punjab", "region": "North", "lat": 31.2, "lon": 75.3, "pop_2011": 27743338, "pop_1971": 1.35, "pop_growth": 105.5, "curr_seats": 13, "prs_seats": 19, "shah_seats": 20, "prs_gain": 6, "shah_gain": 7, "prs_gain_pct": 46.2, "shah_gain_pct": 53.8, "curr_share": 2.43, "prs_share": 2.35, "shah_share": 2.47, "prs_share_delta": -0.07, "shah_share_delta": 0.05, "scenario_gap": 1, "tfr": 1.6, "gdp_pc": 212000, "tax_ret": 72.9, "fiscal_disp": 0.7449, "w_elected": 1, "w_contested": 11, "w_rate": 84.6, "w_pct": 7.7, "w_reserved_prs": 6, "w_reserved_shah": 7, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Rajasthan", "region": "West", "lat": 27.0, "lon": 74.2, "pop_2011": 68548437, "pop_1971": 2.57, "pop_growth": 166.7, "curr_seats": 25, "prs_seats": 46, "shah_seats": 38, "prs_gain": 21, "shah_gain": 13, "prs_gain_pct": 84.0, "shah_gain_pct": 52.0, "curr_share": 4.66, "prs_share": 5.69, "shah_share": 4.7, "prs_share_delta": 1.03, "shah_share_delta": 0.03, "scenario_gap": -8, "tfr": 2.0, "gdp_pc": 145000, "tax_ret": 154.1, "fiscal_disp": 0.4607, "w_elected": 3, "w_contested": 22, "w_rate": 88.0, "w_pct": 12.0, "w_reserved_prs": 15, "w_reserved_shah": 13, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "HH", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "LL", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Sikkim", "region": "Northeast", "lat": 27.5, "lon": 88.5, "pop_2011": 610577, "pop_1971": 0.021, "pop_growth": 190.8, "curr_seats": 1, "prs_seats": 1, "shah_seats": 2, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 100.0, "curr_share": 0.19, "prs_share": 0.12, "shah_share": 0.25, "prs_share_delta": -0.06, "shah_share_delta": 0.06, "scenario_gap": 1, "tfr": 1.1, "gdp_pc": 429000, "tax_ret": 651.7, "fiscal_disp": 0, "w_elected": 0, "w_contested": 1, "w_rate": 100.0, "w_pct": 0.0, "w_reserved_prs": 0, "w_reserved_shah": 1, "lisa_pop_growth": "HL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "HL", "lisa_scenario_gap": "NS", "lisa_tfr": "LL", "lisa_gdp_pc": "HL", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "LH"}, {"state": "Tamil Nadu", "region": "South", "lat": 11.1, "lon": 78.7, "pop_2011": 72147030, "pop_1971": 4.12, "pop_growth": 75.1, "curr_seats": 39, "prs_seats": 48, "shah_seats": 59, "prs_gain": 9, "shah_gain": 20, "prs_gain_pct": 23.1, "shah_gain_pct": 51.3, "curr_share": 7.28, "prs_share": 5.94, "shah_share": 7.29, "prs_share_delta": -1.34, "shah_share_delta": 0.02, "scenario_gap": 11, "tfr": 1.8, "gdp_pc": 300000, "tax_ret": 29.7, "fiscal_disp": 0.8961, "w_elected": 4, "w_contested": 43, "w_rate": 110.3, "w_pct": 10.3, "w_reserved_prs": 16, "w_reserved_shah": 20, "lisa_pop_growth": "LL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "LL", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "HH", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Telangana", "region": "South", "lat": 18.1, "lon": 79.0, "pop_2011": 35193978, "pop_1971": 1.809, "pop_growth": 94.5, "curr_seats": 17, "prs_seats": 24, "shah_seats": 26, "prs_gain": 7, "shah_gain": 9, "prs_gain_pct": 41.2, "shah_gain_pct": 52.9, "curr_share": 3.17, "prs_share": 2.97, "shah_share": 3.21, "prs_share_delta": -0.2, "shah_share_delta": 0.04, "scenario_gap": 2, "tfr": 1.7, "gdp_pc": 316000, "tax_ret": 49.8, "fiscal_disp": 0.8257, "w_elected": 1, "w_contested": 15, "w_rate": 88.2, "w_pct": 5.9, "w_reserved_prs": 8, "w_reserved_shah": 9, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HH", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Tripura", "region": "Northeast", "lat": 23.9, "lon": 91.9, "pop_2011": 3673917, "pop_1971": 0.16, "pop_growth": 129.6, "curr_seats": 2, "prs_seats": 2, "shah_seats": 3, "prs_gain": 0, "shah_gain": 1, "prs_gain_pct": 0.0, "shah_gain_pct": 50.0, "curr_share": 0.37, "prs_share": 0.25, "shah_share": 0.37, "prs_share_delta": -0.13, "shah_share_delta": -0.0, "scenario_gap": 1, "tfr": 1.5, "gdp_pc": 95000, "tax_ret": 1077.0, "fiscal_disp": 0, "w_elected": 1, "w_contested": 3, "w_rate": 150.0, "w_pct": 50.0, "w_reserved_prs": 1, "w_reserved_shah": 1, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "LL", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "LL", "lisa_tax_ret": "HH", "lisa_fiscal_disp": "LL", "lisa_w_rate": "NS", "lisa_w_pct": "HL"}, {"state": "Uttar Pradesh", "region": "Central", "lat": 26.8, "lon": 80.9, "pop_2011": 199812341, "pop_1971": 10.356, "pop_growth": 92.9, "curr_seats": 80, "prs_seats": 133, "shah_seats": 120, "prs_gain": 53, "shah_gain": 40, "prs_gain_pct": 66.2, "shah_gain_pct": 50.0, "curr_share": 14.93, "prs_share": 16.46, "shah_share": 14.83, "prs_share_delta": 1.54, "shah_share_delta": -0.09, "scenario_gap": -13, "tfr": 2.4, "gdp_pc": 82000, "tax_ret": 333.2, "fiscal_disp": 0, "w_elected": 8, "w_contested": 37, "w_rate": 46.2, "w_pct": 10.0, "w_reserved_prs": 44, "w_reserved_shah": 40, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "HH", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "HH", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "LL", "lisa_tfr": "HH", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}, {"state": "Uttarakhand", "region": "North", "lat": 30.1, "lon": 79.0, "pop_2011": 10086292, "pop_1971": 0.524, "pop_growth": 92.5, "curr_seats": 5, "prs_seats": 7, "shah_seats": 8, "prs_gain": 2, "shah_gain": 3, "prs_gain_pct": 40.0, "shah_gain_pct": 60.0, "curr_share": 0.93, "prs_share": 0.87, "shah_share": 0.99, "prs_share_delta": -0.07, "shah_share_delta": 0.06, "scenario_gap": 1, "tfr": 1.9, "gdp_pc": 234000, "tax_ret": 0, "fiscal_disp": 1.0, "w_elected": 1, "w_contested": 7, "w_rate": 140.0, "w_pct": 20.0, "w_reserved_prs": 2, "w_reserved_shah": 3, "lisa_pop_growth": "LL", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "HL", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "HL", "lisa_w_rate": "HL", "lisa_w_pct": "NS"}, {"state": "West Bengal", "region": "East", "lat": 22.9, "lon": 87.9, "pop_2011": 91276115, "pop_1971": 4.43, "pop_growth": 106.0, "curr_seats": 42, "prs_seats": 61, "shah_seats": 63, "prs_gain": 19, "shah_gain": 21, "prs_gain_pct": 45.2, "shah_gain_pct": 50.0, "curr_share": 7.84, "prs_share": 7.55, "shah_share": 7.79, "prs_share_delta": -0.29, "shah_share_delta": -0.05, "scenario_gap": 2, "tfr": 1.6, "gdp_pc": 135000, "tax_ret": 90.2, "fiscal_disp": 0.6843, "w_elected": 9, "w_contested": 40, "w_rate": 95.2, "w_pct": 21.4, "w_reserved_prs": 20, "w_reserved_shah": 21, "lisa_pop_growth": "NS", "lisa_prs_gain_pct": "NS", "lisa_shah_gain_pct": "NS", "lisa_prs_share_delta": "NS", "lisa_shah_share_delta": "NS", "lisa_scenario_gap": "NS", "lisa_tfr": "NS", "lisa_gdp_pc": "NS", "lisa_tax_ret": "NS", "lisa_fiscal_disp": "NS", "lisa_w_rate": "NS", "lisa_w_pct": "NS"}];
+const MORAN = {"pop_growth": {"I": 0.1655, "label": "Population Growth 1971-2011"}, "prs_gain_pct": {"I": 0.3629, "label": "Seat Gain % (Bill/PRS)"}, "shah_gain_pct": {"I": -0.194, "label": "Seat Gain % (Shah flat 50%)"}, "prs_share_delta": {"I": 0.4756, "label": "Share Change pp (Bill/PRS)"}, "shah_share_delta": {"I": -0.0652, "label": "Share Change pp (Shah)"}, "scenario_gap": {"I": 0.4594, "label": "Shah-minus-Bill Gap (seats)"}, "tfr": {"I": 0.1748, "label": "Total Fertility Rate"}, "gdp_pc": {"I": 0.3457, "label": "GDP per Capita"}, "tax_ret": {"I": 0.3945, "label": "Tax Return Ratio"}, "fiscal_disp": {"I": 0.2898, "label": "Fiscal Disparity Index"}, "w_rate": {"I": -0.0996, "label": "Women Candidature Rate"}, "w_pct": {"I": -0.1868, "label": "% Women Elected"}};
+const TOTALS = {"curr": 536, "prs": 808, "shah": 809};
+const lcm = {"HH":"#D32F2F","LL":"#1565C0","HL":"#FF8F00","LH":"#7B1FA2","NS":"#BDBDBD"};
+const rc = {"South":"#E91E63","Central":"#FF9800","East":"#4CAF50","West":"#2196F3","North":"#9C27B0","Northeast":"#00BCD4"};
+function gc(v,lo,hi){const t=Math.max(0,Math.min(1,(v-lo)/(hi-lo)));if(t<0.25)return"#1565C0";if(t<0.5)return"#FFF9C4";if(t<0.75)return"#FF9800";return"#D32F2F";}
+
+// CH1: Two scenarios side by side
+(function(){
+  const m1={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Bill: ${d.curr_seats}->${d.prs_seats} (+${d.prs_gain_pct}%)<br>Share: ${d.curr_share}%->${d.prs_share}% (${d.prs_share_delta>0?"+":""}${d.prs_share_delta}pp)`),mode:"markers",marker:{size:DATA.map(d=>Math.max(7,Math.abs(d.prs_gain)*2)),color:DATA.map(d=>gc(d.prs_gain_pct,10,85)),line:{width:1,color:"rgba(0,0,0,0.2)"}},type:"scattermap",subplot:"map",hoverinfo:"text",showlegend:false};
+  const m2={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Shah: ${d.curr_seats}->${d.shah_seats} (+${d.shah_gain_pct}%)<br>Share: ${d.curr_share}%->${d.shah_share}% (${d.shah_share_delta>0?"+":""}${d.shah_share_delta}pp)`),mode:"markers",marker:{size:DATA.map(d=>Math.max(7,Math.abs(d.shah_gain)*2)),color:DATA.map(d=>gc(d.shah_gain_pct,10,85)),line:{width:1,color:"rgba(0,0,0,0.2)"}},type:"scattermap",subplot:"map2",hoverinfo:"text",showlegend:false};
+  Plotly.newPlot("ch1",[m1,m2],{map:{domain:{x:[0,0.47],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},map2:{domain:{x:[0.53,1],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},height:560,margin:{t:20,b:50,l:10,r:10},paper_bgcolor:"#FAF9F6",annotations:[{text:"BILL (Article 81): I=+0.36, gains cluster",x:0.23,y:-0.06,xref:"paper",yref:"paper",showarrow:false,font:{size:10,color:"#D32F2F"}},{text:"SHAH (flat 50%): I=-0.19, gains dispersed",x:0.77,y:-0.06,xref:"paper",yref:"paper",showarrow:false,font:{size:10,color:"#888"}}]},{responsive:true});
+})();
+
+// CH2: Pop growth vs Seat gain (formula amplification)
+(function(){
+  const m1={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Pop growth: ${d.pop_growth}%<br>Region: ${d.region}`),mode:"markers",marker:{size:DATA.map(d=>Math.max(8,Math.sqrt(d.curr_seats)*5)),color:DATA.map(d=>d.pop_growth),colorscale:[[0,"#1565C0"],[0.3,"#FFF9C4"],[0.7,"#FF9800"],[1,"#D32F2F"]],cmin:50,cmax:200,line:{width:1,color:"rgba(0,0,0,0.15)"},colorbar:{title:"Growth%",len:0.4,x:-0.02}},type:"scattermap",subplot:"map",hoverinfo:"text",showlegend:false};
+  const m2={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Seat gain: +${d.prs_gain_pct}%<br>LISA: ${d.lisa_prs_gain_pct}`),mode:"markers",marker:{size:DATA.map(d=>Math.max(8,Math.sqrt(d.curr_seats)*5)),color:DATA.map(d=>lcm[d.lisa_prs_gain_pct]||"#BDBDBD"),line:{width:1.5,color:"rgba(0,0,0,0.25)"}},type:"scattermap",subplot:"map2",hoverinfo:"text",showlegend:false};
+  Plotly.newPlot("ch2",[m1,m2],{map:{domain:{x:[0,0.47],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},map2:{domain:{x:[0.53,1],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},height:520,margin:{t:20,b:50,l:10,r:10},paper_bgcolor:"#FAF9F6",annotations:[{text:"Population Growth (I=+0.17, moderate, scattered)",x:0.23,y:-0.06,xref:"paper",yref:"paper",showarrow:false,font:{size:10,color:"#888"}},{text:"Seat Gain % LISA (I=+0.36, strong, belted) - 2.2x amplification",x:0.77,y:-0.06,xref:"paper",yref:"paper",showarrow:false,font:{size:10,color:"#D32F2F"}}]},{responsive:true});
+})();
+
+// CH3: Fiscal coupling
+(function(){
+  const sc={x:DATA.filter(d=>d.tax_ret>0).map(d=>d.tax_ret),y:DATA.filter(d=>d.tax_ret>0).map(d=>d.prs_gain),text:DATA.filter(d=>d.tax_ret>0).map(d=>`<b>${d.state}</b><br>Tax: ${d.tax_ret}/100<br>Gain: +${d.prs_gain}`),mode:"markers+text",textposition:"top right",textfont:{size:6,color:"#666"},marker:{size:12,color:DATA.filter(d=>d.tax_ret>0).map(d=>rc[d.region]||"#999"),line:{width:1.5,color:"#FFF"}},hoverinfo:"text",xaxis:"x",yaxis:"y",showlegend:false};
+  const mp={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Gain: +${d.prs_gain}<br>Tax: ${d.tax_ret}/100<br>GDP/c: ${(d.gdp_pc/1000).toFixed(0)}K`),mode:"markers",marker:{size:DATA.map(d=>Math.max(7,d.prs_gain*1.8)),color:DATA.map(d=>d.tax_ret),colorscale:[[0,"#1B5E20"],[0.05,"#4CAF50"],[0.15,"#FFF9C4"],[0.4,"#FF9800"],[1,"#B71C1C"]],cmin:0,cmax:1000,line:{width:1,color:"rgba(0,0,0,0.15)"},colorbar:{title:"Tax ret<br>per 100",len:0.4}},type:"scattermap",subplot:"map",hoverinfo:"text",showlegend:false};
+  Plotly.newPlot("ch3",[sc,mp],{xaxis:{domain:[0,0.4],title:"Tax Return (per 100 contributed)",type:"log",gridcolor:"#EEE"},yaxis:{domain:[0,1],title:"Seats Gained (Bill)",gridcolor:"#EEE"},map:{domain:{x:[0.45,1],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},height:520,margin:{t:20,b:50,l:50,r:10},paper_bgcolor:"#FAF9F6",annotations:[{text:"Scatter: higher fiscal dependence = more seats gained",x:0.18,y:-0.07,xref:"paper",yref:"paper",showarrow:false,font:{size:9,color:"#888"}},{text:"Map: size=gain, color=fiscal dependence. Belt visible.",x:0.73,y:-0.07,xref:"paper",yref:"paper",showarrow:false,font:{size:9,color:"#888"}}]},{responsive:true});
+})();
+
+// CH4: Women's reservation
+(function(){
+  const srt=[...DATA].filter(d=>d.prs_seats>2).sort((a,b)=>b.w_reserved_prs-a.w_reserved_prs);
+  const bar={x:srt.map(d=>d.state),y:srt.map(d=>d.w_reserved_prs),type:"bar",marker:{color:srt.map(d=>d.w_pct>15?"#4CAF50":d.w_pct>8?"#FFC107":"#F44336")},hovertemplate:"<b>%{x}</b><br>Reserved: %{y}<br>Current women: %{customdata}%<extra></extra>",customdata:srt.map(d=>d.w_pct.toFixed(1)),xaxis:"x",yaxis:"y",showlegend:false};
+  const mp={lat:DATA.map(d=>d.lat),lon:DATA.map(d=>d.lon),text:DATA.map(d=>`<b>${d.state}</b><br>Reserved (Bill): ${d.w_reserved_prs}<br>Currently: ${d.w_elected} women (${d.w_pct}%)<br>Candidature rate: ${d.w_rate}%`),mode:"markers",marker:{size:DATA.map(d=>Math.max(8,d.w_reserved_prs*1.2)),color:DATA.map(d=>d.w_pct),colorscale:[[0,"#B71C1C"],[0.15,"#FF9800"],[0.3,"#FFF9C4"],[0.6,"#4CAF50"],[1,"#1B5E20"]],cmin:0,cmax:25,line:{width:1.5,color:"rgba(0,0,0,0.2)"},colorbar:{title:"Current %<br>women",len:0.4}},type:"scattermap",subplot:"map",hoverinfo:"text",showlegend:false};
+  Plotly.newPlot("ch4",[bar,mp],{xaxis:{domain:[0,0.38],tickangle:-60,tickfont:{size:6}},yaxis:{domain:[0,1],title:"Projected Reserved Seats"},map:{domain:{x:[0.42,1],y:[0,1]},center:{lat:22,lon:80},zoom:3.3,style:"carto-positron"},height:520,margin:{t:20,b:110,l:45,r:10},paper_bgcolor:"#FAF9F6",annotations:[{text:"Bar color: green=already electing women, red=not",x:0.17,y:-0.18,xref:"paper",yref:"paper",showarrow:false,font:{size:8,color:"#888"}},{text:"Map: size=reserved seats, color=current success rate",x:0.73,y:-0.18,xref:"paper",yref:"paper",showarrow:false,font:{size:8,color:"#888"}}]},{responsive:true});
+})();
+</script>
+</body></html>
